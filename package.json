@@ -1,0 +1,46 @@
+{
+  "name": "vue-baidu-map",
+  "version": "1.0.0",
+  "description": "A vue component based on Vue@1.0",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XingzheFE/vue-baidu-map.git"
+  },
+  "keywords": [
+    "vue",
+    "baidu",
+    "map"
+  ],
+  "author": "XingzheFE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XingzheFE/vue-baidu-map/issues"
+  },
+  "homepage": "https://github.com/XingzheFE/vue-baidu-map#readme",
+  "dependencies": {
+    "vue": "1.0.26"
+  },
+  "devDependencies": {
+    "ajv-keywords": "^1.5.1",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-runtime": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0",
+    "babel-preset-stage-2": "^6.0.0",
+    "babel-runtime": "^6.11.6",
+    "css-loader": "^0.23.0",
+    "node-sass": "^3.8.0",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^8.3.0",
+    "vue-style-loader": "^1.0.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.0",
+    "webpack-dev-server": "^2.3.0",
+    "webpack-hot-middleware": "^2.6.0"
+  }
+}

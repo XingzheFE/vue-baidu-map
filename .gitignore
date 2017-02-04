@@ -1,0 +1,8 @@
+.DS_Store
+/node_modules
+.eslintrc.json
+.editorconfig
+npm-debug.log
+.idea/
+/dist
+/build/copy.js
