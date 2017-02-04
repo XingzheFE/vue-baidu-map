@@ -7,6 +7,7 @@
 </template>
 
 <script>
+    // require("style-loader!css-loader?modules!https://at.alicdn.com/t/font_0e5q81gtx83erk9.css");
     import checkMap from "./../utils/checkMap.js";
     import init from "./../utils/init.js";
     import bindEvent from '../utils/bindEvent';
@@ -209,7 +210,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass-loader" scoped>
     @import "../style/_var.scss";
 
     * {
@@ -236,7 +237,8 @@
         height: 100% !important;
     }
 </style>
-<style lang="scss">
+<style lang="sass-loader">
+    @import "../style/icon.scss";
     @import "../style/_var.scss";
 
     /** 右键菜单 */

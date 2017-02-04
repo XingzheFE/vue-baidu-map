@@ -48,7 +48,7 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style lang="css" scoped>
     .component-section {
         z-index: 2;
         width: auto;

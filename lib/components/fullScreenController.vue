@@ -34,9 +34,11 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style lang="css" scoped>
     * {
         box-sizing: border-box;
+        padding: 0;
+        margin:0;
     }
     .controller-section {
         z-index: 2;

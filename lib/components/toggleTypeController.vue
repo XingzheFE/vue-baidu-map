@@ -40,7 +40,7 @@
         }
     }
 </script>
-<style lang="scss" scoped>
+<style lang="css" scoped>
     .controller-section {
         z-index: 2;
         position: absolute;

@@ -45,9 +45,12 @@
         }
     }
 </script>
-<style lang="scss" scoped>
-    $font-color: #4d4d4d;
-
+<style lang="css" scoped>
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin:0;
+    }
     .controller-section {
         z-index: 2;
         position: absolute;
@@ -82,7 +85,7 @@
         cursor: pointer;
         font-size: 20px;
         text-align: center !important;
-        color: $font-color;
+        color: #4d4d4d;
         background: transparent;
     }
 </style>
