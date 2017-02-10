@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Fri Feb 10 2017 22:27:12 GMT+0800 (CST)
+ * Fri Feb 10 2017 23:03:51 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -391,7 +391,7 @@ module.exports = function(it, key){
 
 var anObject       = __webpack_require__(10)
   , IE8_DOM_DEFINE = __webpack_require__(38)
-  , toPrimitive    = __webpack_require__(32)
+  , toPrimitive    = __webpack_require__(31)
   , dP             = Object.defineProperty;
 
 exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProperty(O, P, Attributes){
@@ -412,7 +412,7 @@ exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProp
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = __webpack_require__(80)
-  , defined = __webpack_require__(22);
+  , defined = __webpack_require__(21);
 module.exports = function(it){
   return IObject(defined(it));
 };
@@ -434,7 +434,7 @@ module.exports = __webpack_require__(3) ? function(object, key, value){
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(30)('wks')
+var store      = __webpack_require__(29)('wks')
   , uid        = __webpack_require__(16)
   , Symbol     = __webpack_require__(1).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
@@ -457,7 +457,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _checkMap = __webpack_require__(21);
+var _checkMap = __webpack_require__(20);
 
 var _checkMap2 = _interopRequireDefault(_checkMap);
 
@@ -574,7 +574,7 @@ module.exports = function(it){
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = __webpack_require__(43)
-  , enumBugKeys = __webpack_require__(23);
+  , enumBugKeys = __webpack_require__(22);
 
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
@@ -605,6 +605,395 @@ module.exports = function(key){
 
 /***/ }),
 /* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _checkMap = __webpack_require__(20);
+
+var _checkMap2 = _interopRequireDefault(_checkMap);
+
+var _bindContextMenu = __webpack_require__(18);
+
+var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PROPS = {
+    visible: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: true
+    },
+
+    contextMenu: {
+        required: false,
+        type: Array,
+        twoway: false,
+        default: undefined
+    },
+
+    cid: {
+        required: false,
+        type: String,
+        twoway: false
+    }
+};
+
+exports.default = {
+    props: PROPS,
+    data: function data() {
+        return {
+            componentType: "without declare",
+            created: false,
+            $map: undefined,
+            mapObj: undefined,
+            mapComponentObj: undefined,
+            mapContextMenu: undefined };
+    },
+    created: function created() {
+        if ((0, _checkMap2.default)()) {
+            this.$dispatch("vue-baidu-map-register-component", this);
+        } else {}
+    },
+    ready: function ready() {},
+    detached: function detached() {
+        this.beforeDeleteComponent();
+    },
+    destroyed: function destroyed() {
+        this.beforeDeleteComponent();
+    },
+    watch: {
+        "contextMenu": {
+            handler: function handler(val) {
+                (0, _bindContextMenu2.default)(this, this.mapComponentObj);
+            },
+            deep: true
+        }
+    },
+    methods: {
+        beforeCreateComponent: function beforeCreateComponent() {
+            this.created = true;
+            this.createComponent();
+        },
+        createComponent: function createComponent() {},
+        beforeDeleteComponent: function beforeDeleteComponent() {
+            this.created = false;
+
+            if (this.mapComponentObj) {
+                this.deleteComponent();
+            }
+        },
+        deleteComponent: function deleteComponent() {}
+    },
+    events: {
+        "vue-baidu-map-ready": function vueBaiduMapReady($map) {
+            this.$map = $map;
+            this.mapObj = this.$map.$data.mapObj;
+            if (this.mapObj) {
+                this.beforeCreateComponent();
+            } else {
+                console.error("[vue-baidu-map] mapObj 不存在");
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function ($component, componentObj) {
+    if ($component && $component.contextMenu && $component.contextMenu instanceof Array && $component.$data.mapObj) {
+        if ($component.$data.mapContextMenu && $component.$data.mapContextMenu instanceof BMap.ContextMenu) {
+            if (process.env.NODE_ENV === "development") console.log("修改contextMenu text");
+            $component.contextMenu.map(function (item, index, arr) {
+                var menuItem = $component.$data.mapContextMenu.getItem(index);
+                var text = item.text;
+                if (item.text && menuItem) {
+                    menuItem.setText(text);
+                }
+            });
+        } else {
+            if (process.env.NODE_ENV === "development") console.log("创建contextMenu");
+
+            var contextMenu = $component.contextMenu;
+            var menu = new BMap.ContextMenu();
+            var map = $component.$data.mapObj;
+
+            if ($component.$data.mapContextMenu) {
+                componentObj.removeContextMenu($component.$data.mapContextMenu);
+            }
+
+            for (var i = 0; i < contextMenu.length; i++) {
+                menu.addItem(new BMap.MenuItem(contextMenu[i].text, contextMenu[i].callback));
+            }
+
+            componentObj.addContextMenu(menu);
+            $component.$data.mapContextMenu = menu;
+        }
+    } else {
+        if (process.env.NODE_ENV === "development") console.warn("[vue-baidu-map] contextMenu is not exist!");
+    }
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function ($component, componentObj, eventList) {
+    if (eventList && eventList instanceof Array) {
+        eventList.map(function (item, index, arr) {
+            componentObj.addEventListener(item, function (e) {
+                $component.$emit("b-" + item, e, $component);
+            });
+        });
+    } else {
+        if (process.env.NODE_ENV === "development") console.error("[vue-baidu-map] param eventList must be an Array!");
+    }
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof2 = __webpack_require__(35);
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var checkMap = function checkMap(mapObj) {
+    var result = false;
+    if (window.BMap !== undefined && window.BMap.Map && window.BMap.Map instanceof Function && window.BMap.Size && window.BMap.Size instanceof Function && BMap.Point && BMap.Point instanceof Function && BMap.Polyline && BMap.Polyline instanceof Function && BMap.Marker && BMap.Marker instanceof Function) {
+        if (mapObj !== undefined) {
+            if ((typeof mapObj === "undefined" ? "undefined" : (0, _typeof3.default)(mapObj)) === "object" && mapObj instanceof window.BMap.Map) {
+                result = true;
+            }
+        } else {
+            result = true;
+        }
+    } else {}
+    return result;
+};
+
+exports.default = checkMap;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+// IE 8- don't enum bug keys
+module.exports = (
+  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+).split(',');
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global    = __webpack_require__(1)
+  , core      = __webpack_require__(11)
+  , ctx       = __webpack_require__(77)
+  , hide      = __webpack_require__(7)
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && target[key] !== undefined;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
+            case 1: return new C(a);
+            case 2: return new C(a, b);
+          } return new C(a, b, c);
+        } return C.apply(this, arguments);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+    if(IS_PROTO){
+      (exports.virtual || (exports.virtual = {}))[key] = out;
+      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+    }
+  }
+};
+// type bitmap
+$export.F = 1;   // forced
+$export.G = 2;   // global
+$export.S = 4;   // static
+$export.P = 8;   // proto
+$export.B = 16;  // bind
+$export.W = 32;  // wrap
+$export.U = 64;  // safe
+$export.R = 128; // real proto method for `library` 
+module.exports = $export;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+module.exports = true;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__(5).f
+  , has = __webpack_require__(4)
+  , TAG = __webpack_require__(8)('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(29)('keys')
+  , uid    = __webpack_require__(16);
+module.exports = function(key){
+  return shared[key] || (shared[key] = uid(key));
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1)
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
+  return store[key] || (store[key] = {});
+};
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(13);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global         = __webpack_require__(1)
+  , core           = __webpack_require__(11)
+  , LIBRARY        = __webpack_require__(25)
+  , wksExt         = __webpack_require__(33)
+  , defineProperty = __webpack_require__(5).f;
+module.exports = function(name){
+  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
+  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
+};
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.f = __webpack_require__(8);
+
+/***/ }),
+/* 34 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -790,395 +1179,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _checkMap = __webpack_require__(21);
-
-var _checkMap2 = _interopRequireDefault(_checkMap);
-
-var _bindContextMenu = __webpack_require__(19);
-
-var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PROPS = {
-    visible: {
-        required: false,
-        type: Boolean,
-        twoway: false,
-        default: true
-    },
-
-    contextMenu: {
-        required: false,
-        type: Array,
-        twoway: false,
-        default: undefined
-    },
-
-    cid: {
-        required: false,
-        type: String,
-        twoway: false
-    }
-};
-
-exports.default = {
-    props: PROPS,
-    data: function data() {
-        return {
-            componentType: "without declare",
-            created: false,
-            $map: undefined,
-            mapObj: undefined,
-            mapComponentObj: undefined,
-            mapContextMenu: undefined };
-    },
-    created: function created() {
-        if ((0, _checkMap2.default)()) {
-            this.$dispatch("vue-baidu-map-register-component", this);
-        } else {}
-    },
-    ready: function ready() {},
-    detached: function detached() {
-        this.beforeDeleteComponent();
-    },
-    destroyed: function destroyed() {
-        this.beforeDeleteComponent();
-    },
-    watch: {
-        "contextMenu": {
-            handler: function handler(val) {
-                (0, _bindContextMenu2.default)(this, this.mapComponentObj);
-            },
-            deep: true
-        }
-    },
-    methods: {
-        beforeCreateComponent: function beforeCreateComponent() {
-            this.created = true;
-            this.createComponent();
-        },
-        createComponent: function createComponent() {},
-        beforeDeleteComponent: function beforeDeleteComponent() {
-            this.created = false;
-
-            if (this.mapComponentObj) {
-                this.deleteComponent();
-            }
-        },
-        deleteComponent: function deleteComponent() {}
-    },
-    events: {
-        "vue-baidu-map-ready": function vueBaiduMapReady($map) {
-            this.$map = $map;
-            this.mapObj = this.$map.$data.mapObj;
-            if (this.mapObj) {
-                this.beforeCreateComponent();
-            } else {
-                console.error("[vue-baidu-map] mapObj 不存在");
-            }
-        }
-    }
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function ($component, componentObj) {
-    if ($component && $component.contextMenu && $component.contextMenu instanceof Array && $component.$data.mapObj) {
-        if ($component.$data.mapContextMenu && $component.$data.mapContextMenu instanceof BMap.ContextMenu) {
-            if (process.env.NODE_ENV === "development") console.log("修改contextMenu text");
-            $component.contextMenu.map(function (item, index, arr) {
-                var menuItem = $component.$data.mapContextMenu.getItem(index);
-                var text = item.text;
-                if (item.text && menuItem) {
-                    menuItem.setText(text);
-                }
-            });
-        } else {
-            if (process.env.NODE_ENV === "development") console.log("创建contextMenu");
-
-            var contextMenu = $component.contextMenu;
-            var menu = new BMap.ContextMenu();
-            var map = $component.$data.mapObj;
-
-            if ($component.$data.mapContextMenu) {
-                componentObj.removeContextMenu($component.$data.mapContextMenu);
-            }
-
-            for (var i = 0; i < contextMenu.length; i++) {
-                menu.addItem(new BMap.MenuItem(contextMenu[i].text, contextMenu[i].callback));
-            }
-
-            componentObj.addContextMenu(menu);
-            $component.$data.mapContextMenu = menu;
-        }
-    } else {
-        if (process.env.NODE_ENV === "development") console.warn("[vue-baidu-map] contextMenu is not exist!");
-    }
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function ($component, componentObj, eventList) {
-    if (eventList && eventList instanceof Array) {
-        eventList.map(function (item, index, arr) {
-            componentObj.addEventListener(item, function (e) {
-                $component.$emit("b-" + item, e, $component);
-            });
-        });
-    } else {
-        if (process.env.NODE_ENV === "development") console.error("[vue-baidu-map] param eventList must be an Array!");
-    }
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof2 = __webpack_require__(35);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var checkMap = function checkMap(mapObj) {
-    var result = false;
-    if (window.BMap !== undefined && window.BMap.Map && window.BMap.Map instanceof Function && window.BMap.Size && window.BMap.Size instanceof Function && BMap.Point && BMap.Point instanceof Function && BMap.Polyline && BMap.Polyline instanceof Function && BMap.Marker && BMap.Marker instanceof Function) {
-        if (mapObj !== undefined) {
-            if ((typeof mapObj === "undefined" ? "undefined" : (0, _typeof3.default)(mapObj)) === "object" && mapObj instanceof window.BMap.Map) {
-                result = true;
-            }
-        } else {
-            result = true;
-        }
-    } else {}
-    return result;
-};
-
-exports.default = checkMap;
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function(it){
-  if(it == undefined)throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-// IE 8- don't enum bug keys
-module.exports = (
-  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-).split(',');
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global    = __webpack_require__(1)
-  , core      = __webpack_require__(11)
-  , ctx       = __webpack_require__(77)
-  , hide      = __webpack_require__(7)
-  , PROTOTYPE = 'prototype';
-
-var $export = function(type, name, source){
-  var IS_FORCED = type & $export.F
-    , IS_GLOBAL = type & $export.G
-    , IS_STATIC = type & $export.S
-    , IS_PROTO  = type & $export.P
-    , IS_BIND   = type & $export.B
-    , IS_WRAP   = type & $export.W
-    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-    , expProto  = exports[PROTOTYPE]
-    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-    , key, own, out;
-  if(IS_GLOBAL)source = name;
-  for(key in source){
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if(own && key in exports)continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? ctx(out, global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function(C){
-      var F = function(a, b, c){
-        if(this instanceof C){
-          switch(arguments.length){
-            case 0: return new C;
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if(IS_PROTO){
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
-module.exports = $export;
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-module.exports = true;
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__(5).f
-  , has = __webpack_require__(4)
-  , TAG = __webpack_require__(8)('toStringTag');
-
-module.exports = function(it, tag, stat){
-  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(30)('keys')
-  , uid    = __webpack_require__(16);
-module.exports = function(key){
-  return shared[key] || (shared[key] = uid(key));
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1)
-  , SHARED = '__core-js_shared__'
-  , store  = global[SHARED] || (global[SHARED] = {});
-module.exports = function(key){
-  return store[key] || (store[key] = {});
-};
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil  = Math.ceil
-  , floor = Math.floor;
-module.exports = function(it){
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(13);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function(it, S){
-  if(!isObject(it))return it;
-  var fn, val;
-  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
-  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global         = __webpack_require__(1)
-  , core           = __webpack_require__(11)
-  , LIBRARY        = __webpack_require__(26)
-  , wksExt         = __webpack_require__(34)
-  , defineProperty = __webpack_require__(5).f;
-module.exports = function(name){
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
-};
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__(8);
-
-/***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1241,14 +1241,14 @@ module.exports = !__webpack_require__(3) && !__webpack_require__(12)(function(){
 
 "use strict";
 
-var LIBRARY        = __webpack_require__(26)
-  , $export        = __webpack_require__(24)
+var LIBRARY        = __webpack_require__(25)
+  , $export        = __webpack_require__(23)
   , redefine       = __webpack_require__(44)
   , hide           = __webpack_require__(7)
   , has            = __webpack_require__(4)
-  , Iterators      = __webpack_require__(25)
+  , Iterators      = __webpack_require__(24)
   , $iterCreate    = __webpack_require__(82)
-  , setToStringTag = __webpack_require__(28)
+  , setToStringTag = __webpack_require__(27)
   , getPrototypeOf = __webpack_require__(89)
   , ITERATOR       = __webpack_require__(8)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
@@ -1318,8 +1318,8 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(10)
   , dPs         = __webpack_require__(86)
-  , enumBugKeys = __webpack_require__(23)
-  , IE_PROTO    = __webpack_require__(29)('IE_PROTO')
+  , enumBugKeys = __webpack_require__(22)
+  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
 
@@ -1364,7 +1364,7 @@ module.exports = Object.create || function create(O, Properties){
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
 var $keys      = __webpack_require__(43)
-  , hiddenKeys = __webpack_require__(23).concat('length', 'prototype');
+  , hiddenKeys = __webpack_require__(22).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
   return $keys(O, hiddenKeys);
@@ -1383,7 +1383,7 @@ exports.f = Object.getOwnPropertySymbols;
 var has          = __webpack_require__(4)
   , toIObject    = __webpack_require__(6)
   , arrayIndexOf = __webpack_require__(76)(false)
-  , IE_PROTO     = __webpack_require__(29)('IE_PROTO');
+  , IE_PROTO     = __webpack_require__(28)('IE_PROTO');
 
 module.exports = function(object, names){
   var O      = toIObject(object)
@@ -1409,7 +1409,7 @@ module.exports = __webpack_require__(7);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1427,11 +1427,12 @@ function load(config) {
     var callback = "vue_baidu_map_initialize_callback_fn";
 
     if (window.BMap !== undefined && (0, _typeof3.default)(window.BMap) === "object" && typeof window.BMap.Map === "function") {
-        if (process.env.NODE_ENV === "development") console.log("[vue-baidu-map] BMap 不能重复加载！");
+        console.log("[vue-baidu-map] BMap 不能重复加载");
         return;
     } else {
         window.BMap = undefined;
-        if (process.env.NODE_ENV === "development") console.log("[vue-baidu-map] BMap 不存在！");
+
+        console.log("[vue-baidu-map] BMap 不存在，重新加载");
     }
 
     if (!key || !version) {
@@ -1453,7 +1454,6 @@ function load(config) {
 }
 
 exports.default = load;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
 /* 46 */
@@ -2033,7 +2033,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _checkMap = __webpack_require__(21);
+var _checkMap = __webpack_require__(20);
 
 var _checkMap2 = _interopRequireDefault(_checkMap);
 
@@ -2041,11 +2041,11 @@ var _init = __webpack_require__(55);
 
 var _init2 = _interopRequireDefault(_init);
 
-var _bindEvent = __webpack_require__(20);
+var _bindEvent = __webpack_require__(19);
 
 var _bindEvent2 = _interopRequireDefault(_bindEvent);
 
-var _bindContextMenu = __webpack_require__(19);
+var _bindContextMenu = __webpack_require__(18);
 
 var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
 
@@ -2215,7 +2215,7 @@ exports.default = {
         }
     }
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
 /* 61 */
@@ -2228,7 +2228,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _overlaysMixin = __webpack_require__(18);
+var _overlaysMixin = __webpack_require__(17);
 
 var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
 
@@ -2276,15 +2276,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _overlaysMixin = __webpack_require__(18);
+var _overlaysMixin = __webpack_require__(17);
 
 var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
 
-var _bindEvent = __webpack_require__(20);
+var _bindEvent = __webpack_require__(19);
 
 var _bindEvent2 = _interopRequireDefault(_bindEvent);
 
-var _bindContextMenu = __webpack_require__(19);
+var _bindContextMenu = __webpack_require__(18);
 
 var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
 
@@ -2500,11 +2500,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _overlaysMixin = __webpack_require__(18);
+var _overlaysMixin = __webpack_require__(17);
 
 var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
 
-var _bindEvent = __webpack_require__(20);
+var _bindEvent = __webpack_require__(19);
 
 var _bindEvent2 = _interopRequireDefault(_bindEvent);
 
@@ -2782,7 +2782,7 @@ module.exports = __webpack_require__(11).Symbol;
 
 __webpack_require__(97);
 __webpack_require__(101);
-module.exports = __webpack_require__(34).f('iterator');
+module.exports = __webpack_require__(33).f('iterator');
 
 /***/ }),
 /* 74 */
@@ -2857,7 +2857,7 @@ module.exports = function(fn, that, length){
 // all enumerable object keys, includes symbols
 var getKeys = __webpack_require__(14)
   , gOPS    = __webpack_require__(42)
-  , pIE     = __webpack_require__(27);
+  , pIE     = __webpack_require__(26);
 module.exports = function(it){
   var result     = getKeys(it)
     , getSymbols = gOPS.f;
@@ -2904,7 +2904,7 @@ module.exports = Array.isArray || function isArray(arg){
 
 var create         = __webpack_require__(40)
   , descriptor     = __webpack_require__(15)
-  , setToStringTag = __webpack_require__(28)
+  , setToStringTag = __webpack_require__(27)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -3018,10 +3018,10 @@ module.exports = __webpack_require__(3) ? Object.defineProperties : function def
 /* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE            = __webpack_require__(27)
+var pIE            = __webpack_require__(26)
   , createDesc     = __webpack_require__(15)
   , toIObject      = __webpack_require__(6)
-  , toPrimitive    = __webpack_require__(32)
+  , toPrimitive    = __webpack_require__(31)
   , has            = __webpack_require__(4)
   , IE8_DOM_DEFINE = __webpack_require__(38)
   , gOPD           = Object.getOwnPropertyDescriptor;
@@ -3067,7 +3067,7 @@ module.exports.f = function getOwnPropertyNames(it){
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(4)
   , toObject    = __webpack_require__(93)
-  , IE_PROTO    = __webpack_require__(29)('IE_PROTO')
+  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
 module.exports = Object.getPrototypeOf || function(O){
@@ -3082,8 +3082,8 @@ module.exports = Object.getPrototypeOf || function(O){
 /* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(31)
-  , defined   = __webpack_require__(22);
+var toInteger = __webpack_require__(30)
+  , defined   = __webpack_require__(21);
 // true  -> String#at
 // false -> String#codePointAt
 module.exports = function(TO_STRING){
@@ -3104,7 +3104,7 @@ module.exports = function(TO_STRING){
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(31)
+var toInteger = __webpack_require__(30)
   , max       = Math.max
   , min       = Math.min;
 module.exports = function(index, length){
@@ -3117,7 +3117,7 @@ module.exports = function(index, length){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
-var toInteger = __webpack_require__(31)
+var toInteger = __webpack_require__(30)
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
@@ -3128,7 +3128,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
-var defined = __webpack_require__(22);
+var defined = __webpack_require__(21);
 module.exports = function(it){
   return Object(defined(it));
 };
@@ -3141,7 +3141,7 @@ module.exports = function(it){
 
 var addToUnscopables = __webpack_require__(75)
   , step             = __webpack_require__(83)
-  , Iterators        = __webpack_require__(25)
+  , Iterators        = __webpack_require__(24)
   , toIObject        = __webpack_require__(6);
 
 // 22.1.3.4 Array.prototype.entries()
@@ -3177,7 +3177,7 @@ addToUnscopables('entries');
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__(24);
+var $export = __webpack_require__(23);
 // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
 $export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperty: __webpack_require__(5).f});
 
@@ -3220,22 +3220,22 @@ __webpack_require__(39)(String, 'String', function(iterated){
 var global         = __webpack_require__(1)
   , has            = __webpack_require__(4)
   , DESCRIPTORS    = __webpack_require__(3)
-  , $export        = __webpack_require__(24)
+  , $export        = __webpack_require__(23)
   , redefine       = __webpack_require__(44)
   , META           = __webpack_require__(85).KEY
   , $fails         = __webpack_require__(12)
-  , shared         = __webpack_require__(30)
-  , setToStringTag = __webpack_require__(28)
+  , shared         = __webpack_require__(29)
+  , setToStringTag = __webpack_require__(27)
   , uid            = __webpack_require__(16)
   , wks            = __webpack_require__(8)
-  , wksExt         = __webpack_require__(34)
-  , wksDefine      = __webpack_require__(33)
+  , wksExt         = __webpack_require__(33)
+  , wksDefine      = __webpack_require__(32)
   , keyOf          = __webpack_require__(84)
   , enumKeys       = __webpack_require__(78)
   , isArray        = __webpack_require__(81)
   , anObject       = __webpack_require__(10)
   , toIObject      = __webpack_require__(6)
-  , toPrimitive    = __webpack_require__(32)
+  , toPrimitive    = __webpack_require__(31)
   , createDesc     = __webpack_require__(15)
   , _create        = __webpack_require__(40)
   , gOPNExt        = __webpack_require__(88)
@@ -3365,10 +3365,10 @@ if(!USE_NATIVE){
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f   = $defineProperty;
   __webpack_require__(41).f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__(27).f  = $propertyIsEnumerable;
+  __webpack_require__(26).f  = $propertyIsEnumerable;
   __webpack_require__(42).f = $getOwnPropertySymbols;
 
-  if(DESCRIPTORS && !__webpack_require__(26)){
+  if(DESCRIPTORS && !__webpack_require__(25)){
     redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
   }
 
@@ -3455,13 +3455,13 @@ setToStringTag(global.JSON, 'JSON', true);
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(33)('asyncIterator');
+__webpack_require__(32)('asyncIterator');
 
 /***/ }),
 /* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(33)('observable');
+__webpack_require__(32)('observable');
 
 /***/ }),
 /* 101 */
@@ -3470,7 +3470,7 @@ __webpack_require__(33)('observable');
 __webpack_require__(94);
 var global        = __webpack_require__(1)
   , hide          = __webpack_require__(7)
-  , Iterators     = __webpack_require__(25)
+  , Iterators     = __webpack_require__(24)
   , TO_STRING_TAG = __webpack_require__(8)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
