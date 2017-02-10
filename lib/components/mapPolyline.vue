@@ -17,7 +17,7 @@
     const LINE_CONF = {
         strokeColor: "#32b1fb",
         strokeWeight: 4,
-        strokeOpacity: 0.8
+        strokeOpacity: 1
     };
     const eventList = [
         "click",

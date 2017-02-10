@@ -74,7 +74,7 @@
 </template>
 <script>
     import Loading from '../lib/utils/loadingAnimation.js';
-    import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox } from "../lib";
+    import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib/componentConfig/markerConfig";
 
     export default {
@@ -96,7 +96,6 @@
                 },
                 poltMarker: [
                     {
-                        config: poltMarkerConfig,
                         position: {
                             lng: 118,
                             lat: 31
@@ -104,7 +103,6 @@
                         visible: true
                     },
                     {
-                        config: poltMarkerConfig,
                         position: {
                             lng: 100,
                             lat: 32
@@ -121,7 +119,7 @@
         },
         ready () {
             let _this = this;
-            // 请使用自己的 key
+            // 请使用自己的 key，此 key 为个人账号，每日使用次数有限
             load( { key: "hPKNosYElVbALMK2ySnseejdXN7y8nqT", version: "2.0" } );
             // map 右键菜单
             _this.mapContextMenu = [
@@ -203,7 +201,9 @@
             ];
         },
         methods: {
+            mapRightClickCallback () {
 
+            },
             /** marker 左键点击事件 */
             markerClickCallback: function ( e, $marker ) {
                 let index =  this.getMarkerIndex( $marker );

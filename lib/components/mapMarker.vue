@@ -10,7 +10,7 @@
             type: Object
         },
         config: {
-            required: true,
+            required: false,
             twoway: false,
             type: Object
         },
@@ -39,7 +39,7 @@
     };
 
     const eventList = [
-        "click",         
+        "click",
         "dblclick",
         "mousedown",
         "mouseup",
@@ -82,9 +82,9 @@
                     if ( this.mapComponentObj ) {
                         let conf = this.config;
                         let iconOption = {};
-
+                        if ( !this.checkIconConfig( conf ) ) return;
                         if ( conf.imageSize ) iconOption.imageSize = new BMap.Size( conf.imageSize.x, conf.imageSize.y );
-                        if ( conf.imageSize ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
+                        if ( conf.size && conf.imageSize ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
                         if ( conf.anchor ) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
 
                         let size = new BMap.Size( conf.size.x, conf.size.y );
@@ -136,10 +136,10 @@
         },
         methods: {
             /** required ! dont change function name !! */
-            createComponent: function () {
+            createComponent () {
                 this.drawMarker();
             },
-            deleteComponent: function () {
+            deleteComponent () {
                 this.removeMarker();
             },
             drawMarker: function () {
@@ -158,16 +158,19 @@
 
                 let pointObj = new BMap.Point( this.position.lng, this.position.lat );
                 let conf = this.config;
-                let iconOption = {};
+                if ( this.checkIconConfig( conf ) ) {
+                    let iconOption = {};
 
-                if ( conf.imageSize ) iconOption.imageSize = new BMap.Size( conf.imageSize.x, conf.imageSize.y );
-                if ( conf.imageSize ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
-                if ( conf.anchor ) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
+                    if ( conf.imageSize ) iconOption.imageSize = new BMap.Size( conf.imageSize.x, conf.imageSize.y );
+                    if ( conf.imageSize ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
+                    if ( conf.anchor ) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
 
-                let size = new BMap.Size( conf.size.x, conf.size.y );
-                let icon = new BMap.Icon( conf.img, size, iconOption );
-
-                this.mapComponentObj = new BMap.Marker( pointObj, { icon: icon || iconOrigin } );
+                    let size = new BMap.Size( conf.size.x, conf.size.y );
+                    let icon = new BMap.Icon( conf.img, size, iconOption );
+                    this.mapComponentObj = new BMap.Marker( pointObj, { icon: icon || iconOrigin } );
+                } else {
+                    this.mapComponentObj = new BMap.Marker( pointObj );
+                }
                 this.mapObj.addOverlay( this.mapComponentObj );
 
                 if ( zIndex !== undefined ) this.mapComponentObj.setZIndex( zIndex );
@@ -183,9 +186,7 @@
                 ) ) {
                     this.labelObj = new BMap.Label( this.label.text, { offset: new BMap.Size( this.label.offset.x, this.label.offset.y )});
                     this.mapComponentObj.setLabel ( this.labelObj );
-//                    console.log( "set marker label" );
                 } else {
-//                    console.log( this.label )
                     console.log( "can not set marker label" );
                 }
                 bindEvent( this, this.mapComponentObj, eventList );
@@ -213,7 +214,7 @@
                     this.position.lng = e.point.lng;
                 })
             },
-            removeMarker: function () {
+            removeMarker () {
                 if ( this.mapComponentObj && this.mapObj ) {
                     this.mapObj.removeOverlay( this.mapComponentObj );
                 } else {
@@ -221,13 +222,35 @@
                 }
             },
             /** 获取 infowindow 对象 */
-            getInfoWindow: function ( id ) {
+            getInfoWindow ( id ) {
                 if ( this.componentObj ) {
                     return this.componentObj;
                 } else {
                     return undefined;
                 }
             },
+
+            checkIconConfig ( conf
+            ) {
+                let result = true;
+                if (
+                    !conf ||
+                    !conf.img ||
+                    !conf.imageSize ||
+                    !conf.imageSize.x ||
+                    !conf.imageSize.y ||
+                    !conf.size ||
+                    !conf.size.x ||
+                    !conf.size.y ||
+                    !conf.anchor ||
+                    !conf.anchor.x ||
+                    !conf.anchor.y
+                 ) {
+                    console.warn( "[vue-baidu-map] Icon config error");
+                    result = false;
+                }
+                return result;
+            }
         }
     }
 </script>

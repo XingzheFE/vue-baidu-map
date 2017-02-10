@@ -3,23 +3,13 @@ let webpack = require("webpack");
 let projectRoot = path.resolve(__dirname, "../");
 
 let config = {
-    entry: "./example/index.js",
+    entry: "./lib/index.js",
     watch: true,
     output: {
-        path: "/dist/",
+        path: "./dist/",
         filename: "index.js"
     },
-    devtool: "eval-source-map",
-    // resolve: {
-    //     alias: {
-    //         "static": path.resolve(__dirname, "../../static"),
-    //         "components": path.resolve(__dirname, "../../build/components"),
-    //         "node_modules": path.resolve(__dirname, "../../node_modules")
-    //     }
-    // },
-    // resolveLoader: {
-    //     fallback: [path.join(__dirname, "../node_modules")]
-    // },
+    devtool: "source-map",
     devServer: {
         contentBase: path.join(__dirname, "../dist"),
         compress: true,
@@ -62,11 +52,11 @@ let config = {
         // 错误不中断程序运行
         new webpack.NoEmitOnErrorsPlugin(),
         // 代码压缩
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // }),
         new webpack.BannerPlugin('This file is created by xingzheFE\n' + new Date())
     ]
 };
