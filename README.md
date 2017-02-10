@@ -1,9 +1,17 @@
 # vue-baidu-map
+## install
+
+```bash
+npm install vue1-baidu-map
+```
 
 ## usage
 
+
 ```javascript
 import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox } from "vue-baidu-map";
+
+load( { key: "[your key]", version: "2.0" } );
 
 components: {
     "b-map": map,
@@ -115,3 +123,4 @@ components: {
     ></b-fullscreen>
 </b-map>
 ```
+[Example](./example)
