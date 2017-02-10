@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Fri Feb 10 2017 23:03:51 GMT+0800 (CST)
+ * Fri Feb 10 2017 23:09:07 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2130,12 +2130,8 @@ exports.default = {
             _this.createMap();
         }
     },
-    detached: function detached() {
-        this.deleteMap();
-    },
-    destroyed: function destroyed() {
-        this.deleteMap();
-    },
+    detached: function detached() {},
+    destroyed: function destroyed() {},
     watch: {
         "contextMenu": {
             handler: function handler(val) {

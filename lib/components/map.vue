@@ -123,10 +123,10 @@
             }
         },
         detached: function () {
-            this.deleteMap();
+            // this.deleteMap();
         },
         destroyed: function () {
-            this.deleteMap();
+            // this.deleteMap();
         },
         watch: {
             "contextMenu": {
