@@ -1,6 +1,7 @@
 /** Loading animation */
 .loading-animation-1-0-1 * {
     box-sizing: border-box;
+    color: #fff;
 }
 .loading-animation-1-0-1 {
     display: none;
@@ -29,7 +30,7 @@
     margin: 17px auto 5px auto;
     border: 5px solid #fff;
     border-radius: 50%;
-    animation: loading 2s infinite ;
+    animation: loading-animation-1-0-1 2s infinite ;
     animation-timing-function: linear;
 }
 .loading-animation-1-0-1 h3 {
@@ -37,7 +38,7 @@
     font-size: 15px;
     margin-top: 8px;
 }
-@keyframes loading {
+@keyframes loading-animation-1-0-1 {
     0% {
         border-top: 5px solid #fff;
         border-left: 5px solid #fff;

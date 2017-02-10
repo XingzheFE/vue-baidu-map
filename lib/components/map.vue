@@ -1,13 +1,11 @@
 <template>
     <div id="baidu-map-box" v-bind:class="{ 'map-fullscreen': isFullscreen }">
         <div v-el:map class="vue-baidu-map"></div>
-        <!--slot for other components-->
         <slot></slot>
     </div>
 </template>
 
 <script>
-    // require("style-loader!css-loader?modules!https://at.alicdn.com/t/font_0e5q81gtx83erk9.css");
     import checkMap from "./../utils/checkMap.js";
     import init from "./../utils/init.js";
     import bindEvent from '../utils/bindEvent';
@@ -250,67 +248,6 @@
             &:hover {
                  color: $color-blue !important;
              }
-        }
-    }
-    /** Loading animation */
-    .loading-animation-1-0-1 * {
-        box-sizing: border-box;
-    }
-    .loading-animation-1-0-1 {
-        display: none;
-        z-index: 999;
-        pointer-events: none;
-        box-sizing: border-box;
-        position: absolute;
-        margin: auto;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100px;
-        height: 100px;
-        padding: 0;
-        background: #3a3c3f;
-        background: rgba( 0,0,0,0.65);
-        border-radius: 3px;
-        text-align: center;
-        transition: all 0.15s ease;
-        .circle {
-            position: relative;
-            width: 45px;
-            height: 45px;
-            margin: 17px auto 5px auto;
-            border: 5px solid #fff;
-            border-radius: 50%;
-            animation: loading 2s infinite ;
-            animation-timing-function: linear;
-        }
-        h3 {
-            font-family: sans-serif;
-            font-size: 15px;
-            margin-top: 8px;
-        }
-    }
-    @keyframes loading {
-        0% {
-            border-top: 5px solid #fff;
-            border-left: 5px solid #fff;
-            border-right: 5px solid #fff;
-            border-bottom: 5px solid rgba(255,255,255,0);
-            transform: rotate(45deg);
-        }
-        50% {
-            border-top: 5px solid #fff;
-            border-left: 5px solid #fff;
-            border-right: 5px solid #fff;
-            border-bottom: 5px solid rgba(255,255,255,0.4);
-        }
-        100% {
-            border-top: 5px solid #fff;
-            border-left: 5px solid #fff;
-            border-right: 5px solid #fff;
-            border-bottom: 5px solid rgba(255,255,255,0);
-            transform: rotate(405deg);
         }
     }
 </style>

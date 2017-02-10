@@ -4,5 +4,4 @@
 .editorconfig
 npm-debug.log
 .idea/
-/dist
 /build/copy.js

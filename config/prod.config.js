@@ -6,8 +6,9 @@ let config = {
     entry: "./lib/index.js",
     watch: true,
     output: {
-        path: "./dist/",
-        filename: "index.js"
+        path: path.resolve(__dirname, '../'),
+        filename: "index.js",
+        libraryTarget: 'umd'
     },
     devtool: "source-map",
     devServer: {
