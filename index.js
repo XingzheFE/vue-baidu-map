@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Mon Feb 13 2017 11:48:18 GMT+0800 (CST)
+ * Mon Feb 13 2017 13:41:21 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -2251,6 +2251,21 @@ var props = {
         required: true,
         type: Number,
         twoway: false
+    },
+    size: {
+        required: false,
+        type: Object,
+        twoway: false
+    },
+    visible: {
+        required: false,
+        type: Boolean,
+        twoway: false
+    },
+    position: {
+        required: false,
+        type: Object,
+        twoway: false
     }
 };
 exports.default = {
@@ -2264,7 +2279,15 @@ exports.default = {
     ready: function ready() {},
     detached: function detached() {},
     destroyed: function destroyed() {},
-    watch: {},
+    watch: {
+        "visible": function visible(val) {
+            if (val && this.position && this.position.lat && this.position.lng) {
+                this.mapObj.openInfoWindow(this.componentObj, new BMap.Point(this.position.lng, this.position.lat));
+            } else {
+                this.mapObj.closeInfoWindow();
+            }
+        }
+    },
     methods: {
         "createComponent": function createComponent() {
             this.createInfoWindow();
@@ -2272,6 +2295,13 @@ exports.default = {
         },
         "createInfoWindow": function createInfoWindow() {
             this.componentObj = new BMap.InfoWindow(this.$els.window);
+            if (this.size && this.size.width && this.size.height) {
+                this.componentObj.setWidth(this.size.width);
+                this.componentObj.setHeight(this.size.height);
+            }
+            if (this.visible && this.position && this.position.lat && this.position.lng) {
+                this.mapObj.openInfoWindow(this.componentObj, new BMap.Point(this.position.lng, this.position.lat));
+            }
         },
         "removeMarker": function removeMarker() {}
     }
@@ -3586,7 +3616,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-7ed6711e] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    display: none;\n}\n", "", {"version":3,"sources":["/./lib/components/mapInfoWindow.vue?36bb7122"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAmDA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,cAAA;CACA","file":"mapInfoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <div v-el:window class=\"infowindow-box\">\n            <slot></slot>\n        </div>\n    </div>\n</template>\n<script>\n    import componentsMixin from \"../mixin/overlaysMixin.js\";\n\n    const props = {\n        id: {\n            required: true,\n            type: Number,\n            twoway: false\n        }\n    };\n    export default {\n        mixins: [ componentsMixin ],\n        props: props,\n        data: function () {\n            return {\n                componentType: \"infoWindow\",\n                componentObj: undefined                // map components object\n            }\n        },\n        ready: function() {\n        },\n        detached: function () {\n\n        },\n        destroyed: function () {\n        },\n        watch: {\n        },\n        methods: {\n            // required !\n            \"createComponent\": function () {\n                this.createInfoWindow();\n                this.$dispatch( \"register-infowindow\", this );\n            },\n            \"createInfoWindow\": function () {\n                this.componentObj = new BMap.InfoWindow( this.$els.window );\n            },\n            \"removeMarker\": function () {\n\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        display: none;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-7ed6711e] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    display: none;\n}\n", "", {"version":3,"sources":["/./lib/components/mapInfoWindow.vue?7e1a27bd"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgFA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,cAAA;CACA","file":"mapInfoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <div v-el:window class=\"infowindow-box\">\n            <slot></slot>\n        </div>\n    </div>\n</template>\n<script>\n    import componentsMixin from \"../mixin/overlaysMixin.js\";\n\n    const props = {\n        id: {\n            required: true,\n            type: Number,\n            twoway: false\n        },\n        size: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        visible: {\n            required: false,\n            type: Boolean,\n            twoway: false\n        },\n        position: {\n            required: false,\n            type: Object,\n            twoway: false\n        }\n    };\n    export default {\n        mixins: [ componentsMixin ],\n        props: props,\n        data: function () {\n            return {\n                componentType: \"infoWindow\",\n                componentObj: undefined                // map components object\n            }\n        },\n        ready: function() {\n        },\n        detached: function () {\n\n        },\n        destroyed: function () {\n        },\n        watch: {\n            \"visible\": function ( val ) {\n                if ( val && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                } else {\n                    this.mapObj.closeInfoWindow();\n                }\n            }\n        },\n        methods: {\n            // required !\n            \"createComponent\": function () {\n                this.createInfoWindow();\n                this.$dispatch( \"register-infowindow\", this );\n            },\n            \"createInfoWindow\": function () {\n                this.componentObj = new BMap.InfoWindow( this.$els.window );\n                if ( this.size && this.size.width && this.size.height ) {\n                    this.componentObj.setWidth( this.size.width );\n                    this.componentObj.setHeight( this.size.height );\n                }\n                if ( this.visible && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                }\n            },\n            \"removeMarker\": function () {\n\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        display: none;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
