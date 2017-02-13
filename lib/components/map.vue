@@ -30,6 +30,16 @@
             type: Boolean,
             default: true
         },
+        locateSucceed: {
+            required: false,
+            twoway: false,
+            type: Function,
+        },
+        locateFailed: {
+            required: false,
+            twoway: false,
+            type: Function,
+        },
         callback: {                 // 地图组件初始成功后的回调函数
             required: false,
             twoway: false,

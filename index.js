@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Fri Feb 10 2017 23:09:07 GMT+0800 (CST)
+ * Mon Feb 13 2017 11:48:18 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -1776,7 +1776,7 @@ function init(_this, map) {
 
     var style = _this.style || undefined;
     if (!(BMap && BMap.Map)) {
-        throw new Error("地图初始化失败！BMap不存在");
+        throw new Error("[vue-baidu-map] 地图初始化失败！BMap不存在");
     }
     if (typeof center !== "string") {
         center = new BMap.Point(center.lng, center.lat);
@@ -1792,13 +1792,19 @@ function init(_this, map) {
                     lng: r.point.lng,
                     lat: r.point.lat
                 };
-                map.centerAndZoom(r.point, 12);
+                map.centerAndZoom(r.point, 13);
+                if (_this.locateSucceed) {
+                    _this.locateSucceed(r);
+                }
                 setTimeout(function () {
                     _this.LOAD.hide();
                 }, 500);
             } else {
                 alert("定位失败");
-                console.log('failed' + this.getStatus());
+                console.log('[vue-baidu-map] locate failed' + this.getStatus());
+                if (_this.locateFailed) {
+                    _this.locateFailed();
+                }
             }
         }, { enableHighAccuracy: true });
     } else {
@@ -2073,6 +2079,16 @@ var props = {
         twoway: false,
         type: Boolean,
         default: true
+    },
+    locateSucceed: {
+        required: false,
+        twoway: false,
+        type: Function
+    },
+    locateFailed: {
+        required: false,
+        twoway: false,
+        type: Function
     },
     callback: {
         required: false,

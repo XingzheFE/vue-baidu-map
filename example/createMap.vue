@@ -5,7 +5,9 @@
             :zoom="mapConfig.zoom"
             :return-map="true"
             :context-menu="mapContextMenu"
-            :location="false"
+            :location="true"
+            :locate-succeed="location.succeedCallback"
+            :locate-failed="location.failedCallback"
             :enable-scroll-wheel-zoom="true"
             @b-rightclick="mapRightClickCallback"
         >
@@ -93,6 +95,14 @@
                     strokeColor: "#FF0000",
                     strokeWeight: 5,
                     strokeOpacity: 1
+                },
+                location: {
+                    succeedCallback ( res ) {
+                        console.log( res.point );
+                    },
+                    failedCallback: function () {
+                        console.log( "error" );
+                    }
                 },
                 poltMarker: [
                     {
