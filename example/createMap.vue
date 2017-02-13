@@ -11,11 +11,31 @@
             :enable-scroll-wheel-zoom="true"
             @b-rightclick="mapRightClickCallback"
         >
+            <!-- 定位信息 start -->
+            <b-infowindow
+                :id="124"
+                :visible.sync="location.visible"
+                :size="{
+                    width: 220,
+                    height: 60
+                }"
+                :position.sync="location.position"
+            >
+                <p>{{{ location.address }}}</p>
+            </b-infowindow>
+            <b-marker
+                :position.sync="location.position"
+                :bind-info-window="124"
+                :visible.sync="location.visible"
+            ></b-marker>
+            <!-- 定位信息 end -->
+
             <b-poltmarker
                 v-for="item in poltMarker"
                 :config="item.config"
                 :position.sync="item.position"
                 :visible.sync="item.visible"
+                :bind-info-window="123"
                 :z-index="9"
             ></b-poltmarker>
             <b-marker
@@ -97,9 +117,13 @@
                     strokeOpacity: 1
                 },
                 location: {
-                    succeedCallback ( res ) {
-                        console.log( res.point );
+                    position: {
+                        lat: 0,
+                        lng: 0
                     },
+                    visible: false,
+                    address: `<h4 style="font-size: 16px; color: #444;">你的位置</h4>`,
+                    succeedCallback: undefined,
                     failedCallback: function () {
                         console.log( "error" );
                     }
@@ -209,6 +233,13 @@
                     }
                 }
             ];
+
+            this.location.succeedCallback = function( res ) {
+                console.log( res );
+                _this.location.position = res.point;
+                _this.location.visible = true;
+                _this.location.address += `<p style="margin-top: 10px;font-size:14px;color:#333;">${res.address.city}-${res.address.district}-${res.address.street}</p>`;
+            }
         },
         methods: {
             mapRightClickCallback () {

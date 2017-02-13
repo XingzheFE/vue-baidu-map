@@ -13,6 +13,21 @@
             required: true,
             type: Number,
             twoway: false
+        },
+        size: {
+            required: false,
+            type: Object,
+            twoway: false
+        },
+        visible: {
+            required: false,
+            type: Boolean,
+            twoway: false
+        },
+        position: {
+            required: false,
+            type: Object,
+            twoway: false
         }
     };
     export default {
@@ -32,6 +47,13 @@
         destroyed: function () {
         },
         watch: {
+            "visible": function ( val ) {
+                if ( val && this.position && this.position.lat && this.position.lng ) {
+                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );
+                } else {
+                    this.mapObj.closeInfoWindow();
+                }
+            }
         },
         methods: {
             // required !
@@ -41,6 +63,13 @@
             },
             "createInfoWindow": function () {
                 this.componentObj = new BMap.InfoWindow( this.$els.window );
+                if ( this.size && this.size.width && this.size.height ) {
+                    this.componentObj.setWidth( this.size.width );
+                    this.componentObj.setHeight( this.size.height );
+                }
+                if ( this.visible && this.position && this.position.lat && this.position.lng ) {
+                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );
+                }
             },
             "removeMarker": function () {
 
