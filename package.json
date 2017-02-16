@@ -1,6 +1,6 @@
 {
   "name": "vue1-baidu-map",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A vue component based on Vue@1.0",
   "main": "./index.js",
   "scripts": {
