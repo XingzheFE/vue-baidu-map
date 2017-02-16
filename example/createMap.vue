@@ -90,13 +90,19 @@
                     y: 119
                 }"
             ></b-fullscreen>
+            <b-locate
+                :position="{
+                    x: -10,
+                    y: 157
+                }"
+            ></b-locate>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
     import Loading from '../lib/utils/loadingAnimation.js';
-    import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox, locateController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib/componentConfig/markerConfig";
 
     export default {
@@ -310,6 +316,7 @@
             "b-type": toggleTypeController,
             "b-search": localSearchController,
             "b-fullscreen": fullScreenController,
+            "b-locate": locateController,
         }
     }
 </script>

@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from "vue/src/index.js";
 import createRoadbook from "./createMap.vue";
 
 let app = new Vue({

@@ -13,18 +13,7 @@
         mixins: [controllerMixin],
         data: function () {
             return {
-                mapTypeName: "卫星图像"
-            }
-        },
-        watch: {
-            mapObj: {
-                handler: function () {
-                    if ( this.mapObj && this.mapObj.getMapType ) {
-                        let type = this.mapObj.getMapType();
-                        console.log( type )
-                    }
-                },
-                deep: true
+                mapTypeName: "卫星图像",
             }
         },
         methods: {
@@ -53,10 +42,13 @@
     #map-type-toggle {
         display: block;
         height: 28px;
-        padding: 0 6px;
+        width: 100%;
+        padding: 0;
         outline: none;
         border: none;
         /*border: 1px solid #cdcdcd;*/
+        overflow: hidden;
+        white-space:nowrap;
         background-color: #ffffff;
         color: #4d4d4d;
         font-size: 13px;

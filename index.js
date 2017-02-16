@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Mon Feb 13 2017 13:41:21 GMT+0800 (CST)
+ * Thu Feb 16 2017 16:20:03 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -77,7 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 128);
+/******/ 	return __webpack_require__(__webpack_require__.s = 133);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -138,15 +138,6 @@ module.exports = function() {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 /*
@@ -368,6 +359,15 @@ function applyToTag(styleElement, obj) {
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -411,7 +411,7 @@ exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProp
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(80)
+var IObject = __webpack_require__(82)
   , defined = __webpack_require__(21);
 module.exports = function(it){
   return IObject(defined(it));
@@ -419,35 +419,6 @@ module.exports = function(it){
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP         = __webpack_require__(5)
-  , createDesc = __webpack_require__(15);
-module.exports = __webpack_require__(3) ? function(object, key, value){
-  return dP.f(object, key, createDesc(1, value));
-} : function(object, key, value){
-  object[key] = value;
-  return object;
-};
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store      = __webpack_require__(29)('wks')
-  , uid        = __webpack_require__(16)
-  , Symbol     = __webpack_require__(1).Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function(name){
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -487,8 +458,9 @@ exports.default = {
     data: function data() {
         return {
             controllerObj: undefined,
-            styleObj: {}
-        };
+            styleObj: {},
+            $map: '',
+            mapObj: '' };
     },
     created: function created() {
         if ((0, _checkMap2.default)()) {
@@ -530,6 +502,35 @@ exports.default = {
         }
     }
 };
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP         = __webpack_require__(5)
+  , createDesc = __webpack_require__(15);
+module.exports = __webpack_require__(3) ? function(object, key, value){
+  return dP.f(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var store      = __webpack_require__(29)('wks')
+  , uid        = __webpack_require__(16)
+  , Symbol     = __webpack_require__(2).Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
 
 /***/ }),
 /* 10 */
@@ -652,8 +653,6 @@ exports.default = {
         return {
             componentType: "without declare",
             created: false,
-            $map: undefined,
-            mapObj: undefined,
             mapComponentObj: undefined,
             mapContextMenu: undefined };
     },
@@ -831,10 +830,10 @@ module.exports = (
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global    = __webpack_require__(1)
+var global    = __webpack_require__(2)
   , core      = __webpack_require__(11)
-  , ctx       = __webpack_require__(77)
-  , hide      = __webpack_require__(7)
+  , ctx       = __webpack_require__(79)
+  , hide      = __webpack_require__(8)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -917,7 +916,7 @@ exports.f = {}.propertyIsEnumerable;
 
 var def = __webpack_require__(5).f
   , has = __webpack_require__(4)
-  , TAG = __webpack_require__(8)('toStringTag');
+  , TAG = __webpack_require__(9)('toStringTag');
 
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
@@ -937,7 +936,7 @@ module.exports = function(key){
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(1)
+var global = __webpack_require__(2)
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
@@ -976,7 +975,7 @@ module.exports = function(it, S){
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var global         = __webpack_require__(1)
+var global         = __webpack_require__(2)
   , core           = __webpack_require__(11)
   , LIBRARY        = __webpack_require__(25)
   , wksExt         = __webpack_require__(33)
@@ -990,7 +989,7 @@ module.exports = function(name){
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(8);
+exports.f = __webpack_require__(9);
 
 /***/ }),
 /* 34 */
@@ -1187,11 +1186,11 @@ process.umask = function() { return 0; };
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(68);
+var _iterator = __webpack_require__(70);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(67);
+var _symbol = __webpack_require__(69);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -1220,7 +1219,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(13)
-  , document = __webpack_require__(1).document
+  , document = __webpack_require__(2).document
   // in old IE typeof document.createElement is 'object'
   , is = isObject(document) && isObject(document.createElement);
 module.exports = function(it){
@@ -1244,13 +1243,13 @@ module.exports = !__webpack_require__(3) && !__webpack_require__(12)(function(){
 var LIBRARY        = __webpack_require__(25)
   , $export        = __webpack_require__(23)
   , redefine       = __webpack_require__(44)
-  , hide           = __webpack_require__(7)
+  , hide           = __webpack_require__(8)
   , has            = __webpack_require__(4)
   , Iterators      = __webpack_require__(24)
-  , $iterCreate    = __webpack_require__(82)
+  , $iterCreate    = __webpack_require__(84)
   , setToStringTag = __webpack_require__(27)
-  , getPrototypeOf = __webpack_require__(89)
-  , ITERATOR       = __webpack_require__(8)('iterator')
+  , getPrototypeOf = __webpack_require__(91)
+  , ITERATOR       = __webpack_require__(9)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
   , KEYS           = 'keys'
@@ -1317,7 +1316,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(10)
-  , dPs         = __webpack_require__(86)
+  , dPs         = __webpack_require__(88)
   , enumBugKeys = __webpack_require__(22)
   , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
@@ -1332,7 +1331,7 @@ var createDict = function(){
     , gt     = '>'
     , iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(79).appendChild(iframe);
+  __webpack_require__(81).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -1382,7 +1381,7 @@ exports.f = Object.getOwnPropertySymbols;
 
 var has          = __webpack_require__(4)
   , toIObject    = __webpack_require__(6)
-  , arrayIndexOf = __webpack_require__(76)(false)
+  , arrayIndexOf = __webpack_require__(78)(false)
   , IE_PROTO     = __webpack_require__(28)('IE_PROTO');
 
 module.exports = function(object, names){
@@ -1402,7 +1401,7 @@ module.exports = function(object, names){
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(7);
+module.exports = __webpack_require__(8);
 
 /***/ }),
 /* 45 */
@@ -1461,11 +1460,11 @@ exports.default = load;
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(124)
-__vue_script__ = __webpack_require__(57)
+__webpack_require__(129)
+__vue_script__ = __webpack_require__(58)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/controllerBox.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(116)
+__vue_template__ = __webpack_require__(120)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1495,11 +1494,11 @@ if (false) {(function () {  module.hot.accept()
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(127)
-__vue_script__ = __webpack_require__(58)
+__webpack_require__(132)
+__vue_script__ = __webpack_require__(59)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/fullScreenController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(119)
+__vue_template__ = __webpack_require__(123)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1529,11 +1528,11 @@ if (false) {(function () {  module.hot.accept()
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(121)
-__vue_script__ = __webpack_require__(59)
+__webpack_require__(125)
+__vue_script__ = __webpack_require__(60)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/localSearchController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(113)
+__vue_template__ = __webpack_require__(116)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1564,11 +1563,45 @@ if (false) {(function () {  module.hot.accept()
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
 __webpack_require__(126)
-__webpack_require__(120)
-__vue_script__ = __webpack_require__(60)
+__vue_script__ = __webpack_require__(61)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/components/locateController.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(117)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-4325644c/locateController.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(131)
+__webpack_require__(124)
+__vue_script__ = __webpack_require__(62)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/map.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(118)
+__vue_template__ = __webpack_require__(122)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1593,16 +1626,16 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(125)
-__vue_script__ = __webpack_require__(61)
+__webpack_require__(130)
+__vue_script__ = __webpack_require__(63)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/mapInfoWindow.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(117)
+__vue_template__ = __webpack_require__(121)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1627,12 +1660,12 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__vue_script__ = __webpack_require__(62)
+__vue_script__ = __webpack_require__(64)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/mapMarker.vue: named exports in *.vue files are ignored.")}
 module.exports = __vue_script__ || {}
@@ -1659,12 +1692,12 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__vue_script__ = __webpack_require__(63)
+__vue_script__ = __webpack_require__(65)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/mapPolyline.vue: named exports in *.vue files are ignored.")}
 module.exports = __vue_script__ || {}
@@ -1691,16 +1724,16 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(122)
-__vue_script__ = __webpack_require__(64)
+__webpack_require__(127)
+__vue_script__ = __webpack_require__(66)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/toggleTypeController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(114)
+__vue_template__ = __webpack_require__(118)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1725,16 +1758,16 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(123)
-__vue_script__ = __webpack_require__(65)
+__webpack_require__(128)
+__vue_script__ = __webpack_require__(67)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
   console.warn("[vue-loader] lib/components/zoomController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(115)
+__vue_template__ = __webpack_require__(119)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1759,7 +1792,7 @@ if (false) {(function () {  module.hot.accept()
 })()}
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1833,7 +1866,7 @@ var STYLE_JSON = {
 };
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1843,11 +1876,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _classCallCheck2 = __webpack_require__(69);
+var _classCallCheck2 = __webpack_require__(71);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(70);
+var _createClass2 = __webpack_require__(72);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -1912,27 +1945,6 @@ var Loading = function () {
 exports.default = Loading;
 
 /***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _controllerMixin = __webpack_require__(9);
-
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_controllerMixin2.default]
-};
-
-/***/ }),
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1943,7 +1955,28 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(9);
+var _controllerMixin = __webpack_require__(7);
+
+var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    mixins: [_controllerMixin2.default]
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _controllerMixin = __webpack_require__(7);
 
 var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
 
@@ -1975,7 +2008,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1985,7 +2018,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(9);
+var _controllerMixin = __webpack_require__(7);
 
 var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
 
@@ -2029,7 +2062,69 @@ exports.default = {
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _controllerMixin = __webpack_require__(7);
+
+var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    mixins: [_controllerMixin2.default],
+    data: function data() {
+        return {
+            isLocating: false
+        };
+    },
+
+    methods: {
+        locate: function locate() {
+            var _this = this;
+            if (_this.mapObj && window.BMap && BMap.Geolocation) {
+                var geolocation = new BMap.Geolocation();
+                _this.$map.LOAD.show();
+                _this.isLocating = true;
+
+                geolocation.getCurrentPosition(function (r) {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        _this.$map.currentLocation = {
+                            lng: r.point.lng,
+                            lat: r.point.lat
+                        };
+                        _this.mapObj.centerAndZoom(r.point, 13);
+                        if (_this.$map.locateSucceed) {
+                            _this.$map.locateSucceed(r);
+                        }
+                        setTimeout(function () {
+                            _this.$map.LOAD.hide();
+                        }, 500);
+                    } else {
+                        alert("定位失败");
+                        console.log('[vue-baidu-map] locate failed' + this.getStatus());
+                        if (_this.$map.locateFailed) {
+                            _this.$map.locateFailed();
+                        }
+                    }
+                    setTimeout(function () {
+                        _this.isLocating = false;
+                    }, 2000);
+                }, { enableHighAccuracy: true });
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2043,7 +2138,7 @@ var _checkMap = __webpack_require__(20);
 
 var _checkMap2 = _interopRequireDefault(_checkMap);
 
-var _init = __webpack_require__(55);
+var _init = __webpack_require__(56);
 
 var _init2 = _interopRequireDefault(_init);
 
@@ -2055,11 +2150,11 @@ var _bindContextMenu = __webpack_require__(18);
 
 var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
 
-var _loadingAnimation = __webpack_require__(56);
+var _loadingAnimation = __webpack_require__(57);
 
 var _loadingAnimation2 = _interopRequireDefault(_loadingAnimation);
 
-__webpack_require__(112);
+__webpack_require__(115);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2230,7 +2325,7 @@ exports.default = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2308,7 +2403,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2532,7 +2627,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2649,7 +2744,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2659,7 +2754,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(9);
+var _controllerMixin = __webpack_require__(7);
 
 var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
 
@@ -2671,17 +2766,6 @@ exports.default = {
         return {
             mapTypeName: "卫星图像"
         };
-    },
-    watch: {
-        mapObj: {
-            handler: function handler() {
-                if (this.mapObj && this.mapObj.getMapType) {
-                    var type = this.mapObj.getMapType();
-                    console.log(type);
-                }
-            },
-            deep: true
-        }
     },
     methods: {
         changeMapType: function changeMapType() {
@@ -2697,7 +2781,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2707,7 +2791,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(9);
+var _controllerMixin = __webpack_require__(7);
 
 var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
 
@@ -2733,18 +2817,6 @@ exports.default = {
 };
 
 /***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(71), __esModule: true };
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(72), __esModule: true };
-
-/***/ }),
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2752,6 +2824,18 @@ module.exports = { "default": __webpack_require__(73), __esModule: true };
 
 /***/ }),
 /* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(74), __esModule: true };
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(75), __esModule: true };
+
+/***/ }),
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2766,7 +2850,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2774,7 +2858,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(66);
+var _defineProperty = __webpack_require__(68);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -2799,35 +2883,35 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(95);
+__webpack_require__(97);
 var $Object = __webpack_require__(11).Object;
 module.exports = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(98);
-__webpack_require__(96);
-__webpack_require__(99);
 __webpack_require__(100);
+__webpack_require__(98);
+__webpack_require__(101);
+__webpack_require__(102);
 module.exports = __webpack_require__(11).Symbol;
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(97);
-__webpack_require__(101);
+__webpack_require__(99);
+__webpack_require__(103);
 module.exports = __webpack_require__(33).f('iterator');
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -2836,20 +2920,20 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(6)
-  , toLength  = __webpack_require__(92)
-  , toIndex   = __webpack_require__(91);
+  , toLength  = __webpack_require__(94)
+  , toIndex   = __webpack_require__(93);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -2868,11 +2952,11 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(74);
+var aFunction = __webpack_require__(76);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -2893,7 +2977,7 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -2913,13 +2997,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(1).document && document.documentElement;
+module.exports = __webpack_require__(2).document && document.documentElement;
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -2929,7 +3013,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 };
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -2939,7 +3023,7 @@ module.exports = Array.isArray || function isArray(arg){
 };
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2950,7 +3034,7 @@ var create         = __webpack_require__(40)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(7)(IteratorPrototype, __webpack_require__(8)('iterator'), function(){ return this; });
+__webpack_require__(8)(IteratorPrototype, __webpack_require__(9)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -2958,7 +3042,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -2966,7 +3050,7 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys   = __webpack_require__(14)
@@ -2981,7 +3065,7 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var META     = __webpack_require__(16)('meta')
@@ -3039,7 +3123,7 @@ var meta = module.exports = {
 };
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(5)
@@ -3057,7 +3141,7 @@ module.exports = __webpack_require__(3) ? Object.defineProperties : function def
 };
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE            = __webpack_require__(26)
@@ -3078,7 +3162,7 @@ exports.f = __webpack_require__(3) ? gOPD : function getOwnPropertyDescriptor(O,
 };
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -3103,12 +3187,12 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(4)
-  , toObject    = __webpack_require__(93)
+  , toObject    = __webpack_require__(95)
   , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
@@ -3121,7 +3205,7 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(30)
@@ -3143,7 +3227,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(30)
@@ -3155,7 +3239,7 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -3166,7 +3250,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
@@ -3176,13 +3260,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(75)
-  , step             = __webpack_require__(83)
+var addToUnscopables = __webpack_require__(77)
+  , step             = __webpack_require__(85)
   , Iterators        = __webpack_require__(24)
   , toIObject        = __webpack_require__(6);
 
@@ -3216,7 +3300,7 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(23);
@@ -3224,18 +3308,18 @@ var $export = __webpack_require__(23);
 $export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperty: __webpack_require__(5).f});
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at  = __webpack_require__(90)(true);
+var $at  = __webpack_require__(92)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(39)(String, 'String', function(iterated){
@@ -3253,35 +3337,35 @@ __webpack_require__(39)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // ECMAScript 6 symbols shim
-var global         = __webpack_require__(1)
+var global         = __webpack_require__(2)
   , has            = __webpack_require__(4)
   , DESCRIPTORS    = __webpack_require__(3)
   , $export        = __webpack_require__(23)
   , redefine       = __webpack_require__(44)
-  , META           = __webpack_require__(85).KEY
+  , META           = __webpack_require__(87).KEY
   , $fails         = __webpack_require__(12)
   , shared         = __webpack_require__(29)
   , setToStringTag = __webpack_require__(27)
   , uid            = __webpack_require__(16)
-  , wks            = __webpack_require__(8)
+  , wks            = __webpack_require__(9)
   , wksExt         = __webpack_require__(33)
   , wksDefine      = __webpack_require__(32)
-  , keyOf          = __webpack_require__(84)
-  , enumKeys       = __webpack_require__(78)
-  , isArray        = __webpack_require__(81)
+  , keyOf          = __webpack_require__(86)
+  , enumKeys       = __webpack_require__(80)
+  , isArray        = __webpack_require__(83)
   , anObject       = __webpack_require__(10)
   , toIObject      = __webpack_require__(6)
   , toPrimitive    = __webpack_require__(31)
   , createDesc     = __webpack_require__(15)
   , _create        = __webpack_require__(40)
-  , gOPNExt        = __webpack_require__(88)
-  , $GOPD          = __webpack_require__(87)
+  , gOPNExt        = __webpack_require__(90)
+  , $GOPD          = __webpack_require__(89)
   , $DP            = __webpack_require__(5)
   , $keys          = __webpack_require__(14)
   , gOPD           = $GOPD.f
@@ -3485,7 +3569,7 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
 });
 
 // 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(7)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(8)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 // 19.4.3.5 Symbol.prototype[@@toStringTag]
 setToStringTag($Symbol, 'Symbol');
 // 20.2.1.9 Math[@@toStringTag]
@@ -3494,26 +3578,26 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('asyncIterator');
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('observable');
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(94);
-var global        = __webpack_require__(1)
-  , hide          = __webpack_require__(7)
+__webpack_require__(96);
+var global        = __webpack_require__(2)
+  , hide          = __webpack_require__(8)
   , Iterators     = __webpack_require__(24)
-  , TO_STRING_TAG = __webpack_require__(8)('toStringTag');
+  , TO_STRING_TAG = __webpack_require__(9)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
   var NAME       = collections[i]
@@ -3524,7 +3608,7 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 }
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -3538,34 +3622,6 @@ exports.push([module.i, "/** Loading animation */\n.loading-animation-1-0-1 * {\
 
 
 /***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.eot?t=1486209985174\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.eot?t=1486209985174#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.woff?t=1486209985174\") format(\"woff\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.ttf?t=1486209985174\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.svg?t=1486209985174#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\E61D\"; }\n\n.icon-zoomout:before {\n  content: \"\\E61E\"; }\n\n.icon-search:before {\n  content: \"\\E611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA,iBAAiB;AACjB;EACE,wBAAwB;EACxB,uEAAuE;EACvE,QAAQ;EACR,4WAA4W;EAC5W,cAAc,EAAE;;AAElB;EACE,mCAAmC;EACnC,gBAAgB;EAChB,mBAAmB;EACnB,oCAAoC;EACpC,mCAAmC,EAAE;;AAEvC;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;;GAEG;AACH,gBAAgB;AAChB,WAAW;AACX;EACE,+DAA+D;EAC/D,wBAAwB,EAAE;EAC1B;IACE,uBAAuB,EAAE;IACzB;MACE,0BAA0B,EAAE","file":"map.vue","sourcesContent":["@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.eot?t=1486209985174\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.eot?t=1486209985174#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.woff?t=1486209985174\") format(\"woff\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.ttf?t=1486209985174\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_0e5q81gtx83erk9.svg?t=1486209985174#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\e61d\"; }\n\n.icon-zoomout:before {\n  content: \"\\e61e\"; }\n\n.icon-search:before {\n  content: \"\\e611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-21cc72d3] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-21cc72d3] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 240px;\n    height: 45px;\n    background: #fff;\n    box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n}\n.search-input[_v-21cc72d3] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 15px;\n    outline: none;\n    border: none;\n    background-color: #ffffff;\n    color: $font-color;\n    font-size: 14px;\n}\n.search-logo[_v-21cc72d3] {\n    display: block;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    width: 45px;\n    height: 45px;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    font-size: 20px;\n    text-align: center !important;\n    color: #4d4d4d;\n    background: transparent;\n}\n", "", {"version":3,"sources":["/./lib/components/localSearchController.vue?c7606738"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgDA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,aAAA;IACA,aAAA;IACA,iBAAA;IACA,kDAAA;CACA;AACA;IACA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,cAAA;IACA,aAAA;IACA,0BAAA;IACA,mBAAA;IACA,gBAAA;CACA;AACA;IACA,eAAA;IACA,mBAAA;IACA,SAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,aAAA;IACA,cAAA;IACA,gBAAA;IACA,gBAAA;IACA,8BAAA;IACA,eAAA;IACA,wBAAA;CACA","file":"localSearchController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\">\n        <button @click=\"search\" class=\"search-logo\"><i class=\"iconfont icon-search\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                keywords: \"\",\n                markerList: []\n            }\n        },\n        methods: {\n            // 在地图上搜索位\n            search: function () {\n                let _this = this;\n                if ( _this.keywords ) {\n                    let local = new BMap.LocalSearch( _this.mapObj, {\n                        renderOptions:{ map: _this.mapObj }\n                    });\n                    local.disableFirstResultSelection();\n                    local.search( _this.keywords );\n                    local.setMarkersSetCallback( function( pois ){\n                        _this.markerList = _this.markerList.concat( pois );\n                    });\n                }\n            },\n        },\n        watch: {\n            \"keywords\": {\n                handler: function () {\n                    let _this = this;\n                    if ( this.keywords.length === 0 ) {\n                        _this.markerList.map( function ( item ) {\n                            _this.mapObj.removeOverlay( item.marker );\n                        });\n                    }\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 240px;\n        height: 45px;\n        background: #fff;\n        box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n    }\n    .search-input {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 15px;\n        outline: none;\n        border: none;\n        background-color: #ffffff;\n        color: $font-color;\n        font-size: 14px;\n    }\n    .search-logo {\n        display: block;\n        position: absolute;\n        right: 0;\n        bottom: 0;\n        width: 45px;\n        height: 45px;\n        border: none;\n        outline: none;\n        cursor: pointer;\n        font-size: 20px;\n        text-align: center !important;\n        color: #4d4d4d;\n        background: transparent;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ }),
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3574,7 +3630,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-67e4af94] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 64px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#map-type-toggle[_v-67e4af94] {\n    display: block;\n    height: 28px;\n    padding: 0 6px;\n    outline: none;\n    border: none;\n    /*border: 1px solid #cdcdcd;*/\n    background-color: #ffffff;\n    color: #4d4d4d;\n    font-size: 13px;\n    cursor: pointer;\n}\n", "", {"version":3,"sources":["/./lib/components/toggleTypeController.vue?72bd0778"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA2CA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,aAAA;IACA,eAAA;IACA,cAAA;IACA,aAAA;IACA,8BAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;CACA","file":"toggleTypeController.vue","sourcesContent":["<!--notice\n    removeController method is not existing\n-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"changeMapType\" id=\"map-type-toggle\">{{ mapTypeName }}</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                mapTypeName: \"卫星图像\"\n            }\n        },\n        watch: {\n            mapObj: {\n                handler: function () {\n                    if ( this.mapObj && this.mapObj.getMapType ) {\n                        let type = this.mapObj.getMapType();\n                        console.log( type )\n                    }\n                },\n                deep: true\n            }\n        },\n        methods: {\n            changeMapType: function () {\n                if ( this.mapTypeName === \"普通地图\" ) {\n                    this.mapObj.setMapType( BMAP_NORMAL_MAP );\n                    this.mapTypeName = \"卫星图像\";\n                } else {\n                    this.mapObj.setMapType( BMAP_HYBRID_MAP );\n                    this.mapTypeName = \"普通地图\";\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 64px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #map-type-toggle {\n        display: block;\n        height: 28px;\n        padding: 0 6px;\n        outline: none;\n        border: none;\n        /*border: 1px solid #cdcdcd;*/\n        background-color: #ffffff;\n        color: #4d4d4d;\n        font-size: 13px;\n        cursor: pointer;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\E61D\"; }\n\n.icon-zoomout:before {\n  content: \"\\E61E\"; }\n\n.icon-location:before {\n  content: \"\\E640\"; }\n\n.icon-search:before {\n  content: \"\\E611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA,iBAAiB;AACjB;EACE,wBAAwB;EACxB,qEAAqE;EACrE,QAAQ;EACR,oWAAoW;EACpW,cAAc,EAAE;;AAElB;EACE,mCAAmC;EACnC,gBAAgB;EAChB,mBAAmB;EACnB,oCAAoC;EACpC,mCAAmC,EAAE;;AAEvC;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;;GAEG;AACH,gBAAgB;AAChB,WAAW;AACX;EACE,+DAA+D;EAC/D,wBAAwB,EAAE;EAC1B;IACE,uBAAuB,EAAE;IACzB;MACE,0BAA0B,EAAE","file":"map.vue","sourcesContent":["@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\e61d\"; }\n\n.icon-zoomout:before {\n  content: \"\\e61e\"; }\n\n.icon-location:before {\n  content: \"\\e640\"; }\n\n.icon-search:before {\n  content: \"\\e611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3588,7 +3644,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7a9ac99b] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 56px;\n    background: #fff;\n    /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#zoom-in[_v-7a9ac99b],\n#zoom-out[_v-7a9ac99b] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 28px;\n    height: 28px;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    font-size: 18px;\n    &:hover {\n         color: #189adb;\n     }\n}\n#zoom-in[_v-7a9ac99b] {\n    top: 0;\n    border-bottom: 1px solid rgba(0,0,0,0.15);\n}\n#zoom-out[_v-7a9ac99b] {\n    top: 28px;\n}\n", "", {"version":3,"sources":["/./lib/components/zoomController.vue?abd16a28"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA8BA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,oDAAA;IACA,+DAAA;CACA;AACA;;IAEA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;IACA;SACA,eAAA;MACA;CACA;AACA;IACA,OAAA;IACA,0CAAA;CACA;AACA;IACA,UAAA;CACA","file":"zoomController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"zoomIn\" id=\"zoom-in\">+</button>\n        <button @click=\"zoomOut\" id=\"zoom-out\">-</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        methods: {\n            // 地图放大\n            zoomIn: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() + 1 );\n                }\n            },\n            // 地图缩小\n            zoomOut: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() - 1 );\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 56px;\n        background: #fff;\n        /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #zoom-in,\n    #zoom-out {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 28px;\n        height: 28px;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        font-size: 18px;\n        &:hover {\n             color: #189adb;\n         }\n    }\n    #zoom-in {\n        top: 0;\n        border-bottom: 1px solid rgba(0,0,0,0.15);\n    }\n    #zoom-out {\n        top: 28px;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-21cc72d3] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-21cc72d3] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 240px;\n    height: 45px;\n    background: #fff;\n    box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n}\n.search-input[_v-21cc72d3] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 15px;\n    outline: none;\n    border: none;\n    background-color: #ffffff;\n    color: $font-color;\n    font-size: 14px;\n}\n.search-logo[_v-21cc72d3] {\n    display: block;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    width: 45px;\n    height: 45px;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    font-size: 20px;\n    text-align: center !important;\n    color: #4d4d4d;\n    background: transparent;\n}\n", "", {"version":3,"sources":["/./lib/components/localSearchController.vue?c7606738"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgDA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,aAAA;IACA,aAAA;IACA,iBAAA;IACA,kDAAA;CACA;AACA;IACA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,cAAA;IACA,aAAA;IACA,0BAAA;IACA,mBAAA;IACA,gBAAA;CACA;AACA;IACA,eAAA;IACA,mBAAA;IACA,SAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,aAAA;IACA,cAAA;IACA,gBAAA;IACA,gBAAA;IACA,8BAAA;IACA,eAAA;IACA,wBAAA;CACA","file":"localSearchController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\">\n        <button @click=\"search\" class=\"search-logo\"><i class=\"iconfont icon-search\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                keywords: \"\",\n                markerList: []\n            }\n        },\n        methods: {\n            // 在地图上搜索位\n            search: function () {\n                let _this = this;\n                if ( _this.keywords ) {\n                    let local = new BMap.LocalSearch( _this.mapObj, {\n                        renderOptions:{ map: _this.mapObj }\n                    });\n                    local.disableFirstResultSelection();\n                    local.search( _this.keywords );\n                    local.setMarkersSetCallback( function( pois ){\n                        _this.markerList = _this.markerList.concat( pois );\n                    });\n                }\n            },\n        },\n        watch: {\n            \"keywords\": {\n                handler: function () {\n                    let _this = this;\n                    if ( this.keywords.length === 0 ) {\n                        _this.markerList.map( function ( item ) {\n                            _this.mapObj.removeOverlay( item.marker );\n                        });\n                    }\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 240px;\n        height: 45px;\n        background: #fff;\n        box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n    }\n    .search-input {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 15px;\n        outline: none;\n        border: none;\n        background-color: #ffffff;\n        color: $font-color;\n        font-size: 14px;\n    }\n    .search-logo {\n        display: block;\n        position: absolute;\n        right: 0;\n        bottom: 0;\n        width: 45px;\n        height: 45px;\n        border: none;\n        outline: none;\n        cursor: pointer;\n        font-size: 20px;\n        text-align: center !important;\n        color: #4d4d4d;\n        background: transparent;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3602,7 +3658,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7d483a73] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: auto !important;\n    height: auto !important;\n}\n", "", {"version":3,"sources":["/./lib/components/controllerBox.vue?fbf214a4"],"names":[],"mappings":";;;;;;;;;;;;;;AAcA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;CACA","file":"controllerBox.vue","sourcesContent":["<!--box ：放置自定义控件-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <slot></slot>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: auto !important;\n        height: auto !important;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-4325644c] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px !important;\n    height: 28px !important;\n    color: #4d4d4d;\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.locate-btn[_v-4325644c] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    line-height: 30px;\n    cursor: pointer;\n    color: inherit;\n    border: none;\n    background-color: #fff;\n}\n.location-animation[_v-4325644c] {\n    -webkit-animation: 1.4s location-animation infinite ease-in-out;\n            animation: 1.4s location-animation infinite ease-in-out;\n}\n@-webkit-keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n@keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n", "", {"version":3,"sources":["/./lib/components/locateController.vue?7f1be898"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqDA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;IACA,eAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,eAAA;IACA,aAAA;IACA,uBAAA;CACA;AACA;IACA,gEAAA;YAAA,wDAAA;CACA;AACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA;AAVA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA","file":"locateController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\"><i class=\"iconfont icon-location\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data () {\n            return {\n                isLocating: false\n            }\n        },\n        methods: {\n            locate () {\n                let _this = this;\n                if ( _this.mapObj && window.BMap && BMap.Geolocation ) {\n                    let geolocation = new BMap.Geolocation();\n                    _this.$map.LOAD.show();\n                    _this.isLocating = true;\n                    // _this.mapObj.\n                    geolocation.getCurrentPosition( function( r ){\n                        if( this.getStatus() == BMAP_STATUS_SUCCESS ){\n                            _this.$map.currentLocation = {\n                                lng: r.point.lng,\n                                lat: r.point.lat\n                            };\n                            _this.mapObj.centerAndZoom( r.point, 13 );\n                            if ( _this.$map.locateSucceed ) {\n                                _this.$map.locateSucceed( r );\n                            }\n                            setTimeout( () => {\n                                _this.$map.LOAD.hide();\n                            }, 500);\n                        } else {\n                            alert( \"定位失败\" );\n                            console.log( '[vue-baidu-map] locate failed' + this.getStatus() );\n                            if ( _this.$map.locateFailed ) {\n                                _this.$map.locateFailed();\n                            }\n                        }\n                        setTimeout( () => {\n                            _this.isLocating = false;\n                        }, 2000);\n                    },{ enableHighAccuracy: true });\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px !important;\n        height: 28px !important;\n        color: #4d4d4d;\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .locate-btn {\n        display: block;\n        width: 100%;\n        height: 100%;\n        line-height: 30px;\n        cursor: pointer;\n        color: inherit;\n        border: none;\n        background-color: #fff;\n    }\n    .location-animation {\n        animation: 1.4s location-animation infinite ease-in-out;\n    }\n    @keyframes location-animation {\n        0% {\n            color: #4d4d4d;\n        }\n        50% {\n            color: #288adb;\n        }\n        100% {\n            color: #4d4d4d;\n        }\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3616,7 +3672,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-7ed6711e] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    display: none;\n}\n", "", {"version":3,"sources":["/./lib/components/mapInfoWindow.vue?7e1a27bd"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgFA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,cAAA;CACA","file":"mapInfoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <div v-el:window class=\"infowindow-box\">\n            <slot></slot>\n        </div>\n    </div>\n</template>\n<script>\n    import componentsMixin from \"../mixin/overlaysMixin.js\";\n\n    const props = {\n        id: {\n            required: true,\n            type: Number,\n            twoway: false\n        },\n        size: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        visible: {\n            required: false,\n            type: Boolean,\n            twoway: false\n        },\n        position: {\n            required: false,\n            type: Object,\n            twoway: false\n        }\n    };\n    export default {\n        mixins: [ componentsMixin ],\n        props: props,\n        data: function () {\n            return {\n                componentType: \"infoWindow\",\n                componentObj: undefined                // map components object\n            }\n        },\n        ready: function() {\n        },\n        detached: function () {\n\n        },\n        destroyed: function () {\n        },\n        watch: {\n            \"visible\": function ( val ) {\n                if ( val && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                } else {\n                    this.mapObj.closeInfoWindow();\n                }\n            }\n        },\n        methods: {\n            // required !\n            \"createComponent\": function () {\n                this.createInfoWindow();\n                this.$dispatch( \"register-infowindow\", this );\n            },\n            \"createInfoWindow\": function () {\n                this.componentObj = new BMap.InfoWindow( this.$els.window );\n                if ( this.size && this.size.width && this.size.height ) {\n                    this.componentObj.setWidth( this.size.width );\n                    this.componentObj.setHeight( this.size.height );\n                }\n                if ( this.visible && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                }\n            },\n            \"removeMarker\": function () {\n\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        display: none;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-67e4af94] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 64px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#map-type-toggle[_v-67e4af94] {\n    display: block;\n    height: 28px;\n    width: 100%;\n    padding: 0;\n    outline: none;\n    border: none;\n    /*border: 1px solid #cdcdcd;*/\n    overflow: hidden;\n    white-space:nowrap;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    font-size: 13px;\n    cursor: pointer;\n}\n", "", {"version":3,"sources":["/./lib/components/toggleTypeController.vue?6d2b7ec0"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgCA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,aAAA;IACA,YAAA;IACA,WAAA;IACA,cAAA;IACA,aAAA;IACA,8BAAA;IACA,iBAAA;IACA,mBAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;CACA","file":"toggleTypeController.vue","sourcesContent":["<!--notice\n    removeController method is not existing\n-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"changeMapType\" id=\"map-type-toggle\">{{ mapTypeName }}</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                mapTypeName: \"卫星图像\",\n            }\n        },\n        methods: {\n            changeMapType: function () {\n                if ( this.mapTypeName === \"普通地图\" ) {\n                    this.mapObj.setMapType( BMAP_NORMAL_MAP );\n                    this.mapTypeName = \"卫星图像\";\n                } else {\n                    this.mapObj.setMapType( BMAP_HYBRID_MAP );\n                    this.mapTypeName = \"普通地图\";\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 64px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #map-type-toggle {\n        display: block;\n        height: 28px;\n        width: 100%;\n        padding: 0;\n        outline: none;\n        border: none;\n        /*border: 1px solid #cdcdcd;*/\n        overflow: hidden;\n        white-space:nowrap;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        font-size: 13px;\n        cursor: pointer;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3630,7 +3686,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "/*\n * Colors\n */\n/* font color */\n*[_v-c1365880] {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box[_v-c1365880] {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map[_v-c1365880] {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen[_v-c1365880] {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA;;GAEG;AACH,gBAAgB;AAChB;EACE,uBAAuB;EACvB,WAAW;EACX,UAAU,EAAE;;AAEd;EACE,mBAAmB;EACnB,YAAY;EACZ,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,0BAA0B,EAAE;;AAE9B;EACE,2BAA2B;EAC3B,aAAa;EACb,OAAO;EACP,QAAQ;EACR,uBAAuB;EACvB,wBAAwB,EAAE","file":"map.vue","sourcesContent":["/*\n * Colors\n */\n/* font color */\n* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7a9ac99b] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 56px;\n    background: #fff;\n    /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#zoom-in[_v-7a9ac99b],\n#zoom-out[_v-7a9ac99b] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 28px;\n    height: 28px;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    font-size: 18px;\n    &:hover {\n         color: #189adb;\n     }\n}\n#zoom-in[_v-7a9ac99b] {\n    top: 0;\n    border-bottom: 1px solid rgba(0,0,0,0.15);\n}\n#zoom-out[_v-7a9ac99b] {\n    top: 28px;\n}\n", "", {"version":3,"sources":["/./lib/components/zoomController.vue?abd16a28"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA8BA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,oDAAA;IACA,+DAAA;CACA;AACA;;IAEA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;IACA;SACA,eAAA;MACA;CACA;AACA;IACA,OAAA;IACA,0CAAA;CACA;AACA;IACA,UAAA;CACA","file":"zoomController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"zoomIn\" id=\"zoom-in\">+</button>\n        <button @click=\"zoomOut\" id=\"zoom-out\">-</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        methods: {\n            // 地图放大\n            zoomIn: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() + 1 );\n                }\n            },\n            // 地图缩小\n            zoomOut: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() - 1 );\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 56px;\n        background: #fff;\n        /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #zoom-in,\n    #zoom-out {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 28px;\n        height: 28px;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        font-size: 18px;\n        &:hover {\n             color: #189adb;\n         }\n    }\n    #zoom-in {\n        top: 0;\n        border-bottom: 1px solid rgba(0,0,0,0.15);\n    }\n    #zoom-out {\n        top: 28px;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3644,13 +3700,55 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-cc44eeba] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-cc44eeba] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.fullscreen[_v-cc44eeba] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    font-size: 0.6rem;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    text-align: center;\n}\n", "", {"version":3,"sources":["/./lib/components/fullScreenController.vue?60a9709e"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqCA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,WAAA;IACA,kBAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,mBAAA;CACA","file":"fullScreenController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\">\n        <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomin\"></i></button>\n        <button v-else v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomout\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        props: {},\n        ready: function () {\n        },\n        methods: {\n            // 地图放大\n            toggleFullscreen: function () {\n                this.$parent.$data.isFullscreen = !this.$parent.$data.isFullscreen;\n//                this.$emit( \"resize\" );\n                if ( this.callback ) {\n                    this.callback( this.$parent.$data.isFullscreen );\n                }\n            }\n        },\n        computed: {\n            isFullscreen: function () {\n                return this.$parent.$data.isFullscreen;\n            }\n        },\n        events: {\n            \"resize\": function () {\n                this.mapObj.enableAutoResize();                   // FIX:\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .fullscreen {\n        display: block;\n        width: 100%;\n        height: 100%;\n        padding: 0;\n        font-size: 0.6rem;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        text-align: center;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7d483a73] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: auto !important;\n    height: auto !important;\n}\n", "", {"version":3,"sources":["/./lib/components/controllerBox.vue?fbf214a4"],"names":[],"mappings":";;;;;;;;;;;;;;AAcA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;CACA","file":"controllerBox.vue","sourcesContent":["<!--box ：放置自定义控件-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <slot></slot>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: auto !important;\n        height: auto !important;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
 
 /***/ }),
 /* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-7ed6711e] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    display: none;\n}\n", "", {"version":3,"sources":["/./lib/components/mapInfoWindow.vue?7e1a27bd"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgFA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,cAAA;CACA","file":"mapInfoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <div v-el:window class=\"infowindow-box\">\n            <slot></slot>\n        </div>\n    </div>\n</template>\n<script>\n    import componentsMixin from \"../mixin/overlaysMixin.js\";\n\n    const props = {\n        id: {\n            required: true,\n            type: Number,\n            twoway: false\n        },\n        size: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        visible: {\n            required: false,\n            type: Boolean,\n            twoway: false\n        },\n        position: {\n            required: false,\n            type: Object,\n            twoway: false\n        }\n    };\n    export default {\n        mixins: [ componentsMixin ],\n        props: props,\n        data: function () {\n            return {\n                componentType: \"infoWindow\",\n                componentObj: undefined                // map components object\n            }\n        },\n        ready: function() {\n        },\n        detached: function () {\n\n        },\n        destroyed: function () {\n        },\n        watch: {\n            \"visible\": function ( val ) {\n                if ( val && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                } else {\n                    this.mapObj.closeInfoWindow();\n                }\n            }\n        },\n        methods: {\n            // required !\n            \"createComponent\": function () {\n                this.createInfoWindow();\n                this.$dispatch( \"register-infowindow\", this );\n            },\n            \"createInfoWindow\": function () {\n                this.componentObj = new BMap.InfoWindow( this.$els.window );\n                if ( this.size && this.size.width && this.size.height ) {\n                    this.componentObj.setWidth( this.size.width );\n                    this.componentObj.setHeight( this.size.height );\n                }\n                if ( this.visible && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                }\n            },\n            \"removeMarker\": function () {\n\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        display: none;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "/*\n * Colors\n */\n/* font color */\n*[_v-c1365880] {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box[_v-c1365880] {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map[_v-c1365880] {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen[_v-c1365880] {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA;;GAEG;AACH,gBAAgB;AAChB;EACE,uBAAuB;EACvB,WAAW;EACX,UAAU,EAAE;;AAEd;EACE,mBAAmB;EACnB,YAAY;EACZ,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,0BAA0B,EAAE;;AAE9B;EACE,2BAA2B;EAC3B,aAAa;EACb,OAAO;EACP,QAAQ;EACR,uBAAuB;EACvB,wBAAwB,EAAE","file":"map.vue","sourcesContent":["/*\n * Colors\n */\n/* font color */\n* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-cc44eeba] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-cc44eeba] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.fullscreen[_v-cc44eeba] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    font-size: 0.6rem;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    text-align: center;\n}\n", "", {"version":3,"sources":["/./lib/components/fullScreenController.vue?60a9709e"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqCA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,WAAA;IACA,kBAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,mBAAA;CACA","file":"fullScreenController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\">\n        <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomin\"></i></button>\n        <button v-else v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomout\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        props: {},\n        ready: function () {\n        },\n        methods: {\n            // 地图放大\n            toggleFullscreen: function () {\n                this.$parent.$data.isFullscreen = !this.$parent.$data.isFullscreen;\n//                this.$emit( \"resize\" );\n                if ( this.callback ) {\n                    this.callback( this.$parent.$data.isFullscreen );\n                }\n            }\n        },\n        computed: {\n            isFullscreen: function () {\n                return this.$parent.$data.isFullscreen;\n            }\n        },\n        events: {\n            \"resize\": function () {\n                this.mapObj.enableAutoResize();                   // FIX:\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .fullscreen {\n        display: block;\n        width: 100%;\n        height: 100%;\n        padding: 0;\n        font-size: 0.6rem;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        text-align: center;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 114 */
 /***/ (function(module, exports) {
 
 /*
@@ -3902,16 +4000,16 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 112 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(102);
+var content = __webpack_require__(104);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(111)(content, {});
+var update = __webpack_require__(114)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3928,58 +4026,64 @@ if(false) {
 }
 
 /***/ }),
-/* 113 */
+/* 116 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-21cc72d3=\"\">\n    <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\" _v-21cc72d3=\"\">\n    <button @click=\"search\" class=\"search-logo\" _v-21cc72d3=\"\"><i class=\"iconfont icon-search\" _v-21cc72d3=\"\"></i></button>\n</div>\n";
 
 /***/ }),
-/* 114 */
-/***/ (function(module, exports) {
-
-module.exports = "\n\n\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-67e4af94=\"\">\n    <button @click=\"changeMapType\" id=\"map-type-toggle\" _v-67e4af94=\"\">{{ mapTypeName }}</button>\n</div>\n";
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports) {
-
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7a9ac99b=\"\">\n    <button @click=\"zoomIn\" id=\"zoom-in\" _v-7a9ac99b=\"\">+</button>\n    <button @click=\"zoomOut\" id=\"zoom-out\" _v-7a9ac99b=\"\">-</button>\n</div>\n";
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports) {
-
-module.exports = "\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7d483a73=\"\">\n    <slot _v-7d483a73=\"\"></slot>\n</div>\n";
-
-/***/ }),
 /* 117 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"component-section\" _v-7ed6711e=\"\">\n    <div v-el:window=\"\" class=\"infowindow-box\" _v-7ed6711e=\"\">\n        <slot _v-7ed6711e=\"\"></slot>\n    </div>\n</div>\n";
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-4325644c=\"\">\n    <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\" _v-4325644c=\"\"><i class=\"iconfont icon-location\" _v-4325644c=\"\"></i></button>\n</div>\n";
 
 /***/ }),
 /* 118 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div id=\"baidu-map-box\" v-bind:class=\"{ 'map-fullscreen': isFullscreen }\" _v-c1365880=\"\">\n    <div v-el:map=\"\" class=\"vue-baidu-map\" _v-c1365880=\"\"></div>\n    <slot _v-c1365880=\"\"></slot>\n</div>\n";
+module.exports = "\n\n\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-67e4af94=\"\">\n    <button @click=\"changeMapType\" id=\"map-type-toggle\" _v-67e4af94=\"\">{{ mapTypeName }}</button>\n</div>\n";
 
 /***/ }),
 /* 119 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\" _v-cc44eeba=\"\">\n    <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomin\" _v-cc44eeba=\"\"></i></button>\n    <button v-else=\"\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomout\" _v-cc44eeba=\"\"></i></button>\n</div>\n";
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7a9ac99b=\"\">\n    <button @click=\"zoomIn\" id=\"zoom-in\" _v-7a9ac99b=\"\">+</button>\n    <button @click=\"zoomOut\" id=\"zoom-out\" _v-7a9ac99b=\"\">-</button>\n</div>\n";
 
 /***/ }),
 /* 120 */
+/***/ (function(module, exports) {
+
+module.exports = "\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7d483a73=\"\">\n    <slot _v-7d483a73=\"\"></slot>\n</div>\n";
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"component-section\" _v-7ed6711e=\"\">\n    <div v-el:window=\"\" class=\"infowindow-box\" _v-7ed6711e=\"\">\n        <slot _v-7ed6711e=\"\"></slot>\n    </div>\n</div>\n";
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div id=\"baidu-map-box\" v-bind:class=\"{ 'map-fullscreen': isFullscreen }\" _v-c1365880=\"\">\n    <div v-el:map=\"\" class=\"vue-baidu-map\" _v-c1365880=\"\"></div>\n    <slot _v-c1365880=\"\"></slot>\n</div>\n";
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\" _v-cc44eeba=\"\">\n    <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomin\" _v-cc44eeba=\"\"></i></button>\n    <button v-else=\"\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomout\" _v-cc44eeba=\"\"></i></button>\n</div>\n";
+
+/***/ }),
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(103);
+var content = __webpack_require__(105);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3996,16 +4100,16 @@ if(false) {
 }
 
 /***/ }),
-/* 121 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(104);
+var content = __webpack_require__(106);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4022,16 +4126,42 @@ if(false) {
 }
 
 /***/ }),
-/* 122 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(105);
+var content = __webpack_require__(107);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4325644c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4325644c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(108);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4048,16 +4178,16 @@ if(false) {
 }
 
 /***/ }),
-/* 123 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(106);
+var content = __webpack_require__(109);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4074,16 +4204,16 @@ if(false) {
 }
 
 /***/ }),
-/* 124 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(107);
+var content = __webpack_require__(110);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4100,16 +4230,16 @@ if(false) {
 }
 
 /***/ }),
-/* 125 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(108);
+var content = __webpack_require__(111);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4126,16 +4256,16 @@ if(false) {
 }
 
 /***/ }),
-/* 126 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(109);
+var content = __webpack_require__(112);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4152,16 +4282,16 @@ if(false) {
 }
 
 /***/ }),
-/* 127 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(110);
+var content = __webpack_require__(113);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(2)(content, {});
+var update = __webpack_require__(1)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4178,7 +4308,7 @@ if(false) {
 }
 
 /***/ }),
-/* 128 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4187,25 +4317,25 @@ if(false) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.localSearchController = exports.fullScreenController = exports.toggleTypeController = exports.zoomController = exports.controllerBox = exports.mapInfoWindow = exports.mapPolyline = exports.mapMarker = exports.map = exports.load = undefined;
+exports.locateController = exports.localSearchController = exports.fullScreenController = exports.toggleTypeController = exports.zoomController = exports.controllerBox = exports.mapInfoWindow = exports.mapPolyline = exports.mapMarker = exports.map = exports.load = undefined;
 
 var _load = __webpack_require__(45);
 
 var _load2 = _interopRequireDefault(_load);
 
-var _map = __webpack_require__(49);
+var _map = __webpack_require__(50);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _mapMarker = __webpack_require__(51);
+var _mapMarker = __webpack_require__(52);
 
 var _mapMarker2 = _interopRequireDefault(_mapMarker);
 
-var _mapPolyline = __webpack_require__(52);
+var _mapPolyline = __webpack_require__(53);
 
 var _mapPolyline2 = _interopRequireDefault(_mapPolyline);
 
-var _mapInfoWindow = __webpack_require__(50);
+var _mapInfoWindow = __webpack_require__(51);
 
 var _mapInfoWindow2 = _interopRequireDefault(_mapInfoWindow);
 
@@ -4213,11 +4343,11 @@ var _controllerBox = __webpack_require__(46);
 
 var _controllerBox2 = _interopRequireDefault(_controllerBox);
 
-var _zoomController = __webpack_require__(54);
+var _zoomController = __webpack_require__(55);
 
 var _zoomController2 = _interopRequireDefault(_zoomController);
 
-var _toggleTypeController = __webpack_require__(53);
+var _toggleTypeController = __webpack_require__(54);
 
 var _toggleTypeController2 = _interopRequireDefault(_toggleTypeController);
 
@@ -4228,6 +4358,10 @@ var _fullScreenController2 = _interopRequireDefault(_fullScreenController);
 var _localSearchController = __webpack_require__(48);
 
 var _localSearchController2 = _interopRequireDefault(_localSearchController);
+
+var _locateController = __webpack_require__(49);
+
+var _locateController2 = _interopRequireDefault(_locateController);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4241,6 +4375,7 @@ exports.zoomController = _zoomController2.default;
 exports.toggleTypeController = _toggleTypeController2.default;
 exports.fullScreenController = _fullScreenController2.default;
 exports.localSearchController = _localSearchController2.default;
+exports.locateController = _locateController2.default;
 
 /***/ })
 /******/ ]);
