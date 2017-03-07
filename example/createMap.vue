@@ -96,6 +96,12 @@
                     y: 157
                 }"
             ></b-locate>
+            <b-locate
+                :position="{
+                    x: '-0',
+                    y: '-0'
+                }"
+            ></b-locate>
         </b-map>
         <!--vue-baidu-map end-->
     </div>

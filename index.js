@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Thu Feb 16 2017 16:20:03 GMT+0800 (CST)
+ * Tue Mar 07 2017 12:10:49 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -471,12 +471,12 @@ exports.default = {
         "styleObj": function styleObj() {
             var styleObj = {};
             if (this.position && this.position.x !== undefined && this.position.y !== undefined && !isNaN(this.position.x) && !isNaN(this.position.y)) {
-                if (this.position.x >= 0) {
+                if (this.position.x >= 0 && this.position.x.toString().indexOf("-") <= -1) {
                     styleObj.left = this.position.x + "px";
                 } else {
                     styleObj.right = Math.abs(this.position.x) + "px";
                 }
-                if (this.position.y >= 0) {
+                if (this.position.y >= 0 && this.position.y.toString().indexOf("-") <= -1) {
                     styleObj.top = this.position.y + "px";
                 } else {
                     styleObj.bottom = Math.abs(this.position.y) + "px";

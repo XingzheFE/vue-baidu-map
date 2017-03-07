@@ -123,4 +123,6 @@ components: {
     ></b-fullscreen>
 </b-map>
 ```
-[Example](./example)
+[示例|Demo with a lot of features](./example)
+
+[Created by XingzheFE](http://www.imxingzhe.com/lushu/)
