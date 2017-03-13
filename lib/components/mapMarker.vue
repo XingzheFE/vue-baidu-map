@@ -54,17 +54,24 @@
         "dragend"
     ];
 
+    let mapComponentObj = undefined;
+
+
     export default {
         mixins: [ componentsMixin ],
         props: props,
         data: function () {
             return {
                 componentType: "marker",
-                componentObj: undefined,                   // baidu map infowindow 对象,
+                mapInfoWindowObj: undefined,                   // baidu map infowindow 对象,
                 labelObj: undefined                         // marker Label 对象
             }
         },
         ready: function() {
+            console.log( mapComponentObj );
+        },
+        beforeDestroy (){
+            this.deleteComponent();
         },
         watch: {
             "position": {
@@ -162,7 +169,7 @@
                     let iconOption = {};
 
                     if ( conf.imageSize ) iconOption.imageSize = new BMap.Size( conf.imageSize.x, conf.imageSize.y );
-                    if ( conf.imageSize ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
+                    if ( conf.imageSize && conf.size ) iconOption.imageOffset = new BMap.Size( ( conf.size.x - conf.imageSize.x ) / 2, ( conf.size.y - conf.imageSize.y ) / 2 );
                     if ( conf.anchor ) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
 
                     let size = new BMap.Size( conf.size.x, conf.size.y );
@@ -172,6 +179,8 @@
                     this.mapComponentObj = new BMap.Marker( pointObj );
                 }
                 this.mapObj.addOverlay( this.mapComponentObj );
+                mapComponentObj = this.mapComponentObj;
+return;
 
                 if ( zIndex !== undefined ) this.mapComponentObj.setZIndex( zIndex );
                 if ( !this.visible ) this.mapComponentObj.hide();
@@ -195,13 +204,13 @@
                 /** open info window */
                 if ( this.bindInfoWindow ) {
                     this.mapComponentObj.addEventListener( "click", () => {
-                        if ( this.$map.$data.infoWindowList[this.bindInfoWindow] && this.componentObj !== this.$map.$data.infoWindowList[this.bindInfoWindow] ) {
-                            this.componentObj = this.$map.$data.infoWindowList[this.bindInfoWindow].componentObj;
+                        if ( this.$map.$data.infoWindowList[this.bindInfoWindow] && this.mapInfoWindowObj !== this.$map.$data.infoWindowList[this.bindInfoWindow] ) {
+                            this.mapInfoWindowObj = this.$map.$data.infoWindowList[this.bindInfoWindow].mapInfoWindowObj;
                         } else {
                             console.warn( "[vue-baidu-map] this marker did not has infowindow!");
                         }
-                        if ( this.componentObj ) {
-                            this.mapObj.openInfoWindow( this.componentObj, this.mapComponentObj.point );
+                        if ( this.mapInfoWindowObj ) {
+                            this.mapObj.openInfoWindow( this.mapInfoWindowObj, this.mapComponentObj.point );
                         } else {
                             console.warn( "[vue-baidu-map] this marker did not bind infowindow!");
                         }
@@ -217,14 +226,18 @@
             removeMarker () {
                 if ( this.mapComponentObj && this.mapObj ) {
                     this.mapObj.removeOverlay( this.mapComponentObj );
+                    this.mapComponentObj = null;
+                    this.label = null;
+                    this.conf = null;
+                    this.mapInfoWindowObj = null;
                 } else {
                     console.error( "[vue-baidu-map] remove marker failed!" );
                 }
             },
             /** 获取 infowindow 对象 */
             getInfoWindow ( id ) {
-                if ( this.componentObj ) {
-                    return this.componentObj;
+                if ( this.mapInfoWindowObj ) {
+                    return this.mapInfoWindowObj;
                 } else {
                     return undefined;
                 }
@@ -234,22 +247,17 @@
             ) {
                 let result = true;
                 if (
-                    !conf ||
-                    !conf.img ||
-                    !conf.imageSize ||
-                    !conf.imageSize.x ||
-                    !conf.imageSize.y ||
-                    !conf.size ||
-                    !conf.size.x ||
-                    !conf.size.y ||
-                    !conf.anchor ||
-                    !conf.anchor.x ||
-                    !conf.anchor.y
+                    conf && (
+                        (
+                            conf.img && conf.imageSize && conf.imageSize instanceof Object && !isNaN( conf.imageSize.x ) && !isNaN( conf.imageSize.y ) &&
+                            conf.size && conf.size instanceof Object && !isNaN( conf.size.x ) && !isNaN( conf.size.y )
+                        ) || conf.anchor && conf.anchor instanceof Object && !isNaN( conf.anchor.x ) && !isNaN( conf.anchor.y )
+                    )
                  ) {
-                    console.warn( "[vue-baidu-map] Icon config error");
-                    result = false;
+                    return result;
                 }
-                return result;
+                // console.warn( "[vue-baidu-map] Icon config error");
+                result = false;
             }
         }
     }

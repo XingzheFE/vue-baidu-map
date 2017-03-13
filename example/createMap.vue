@@ -96,12 +96,14 @@
                     y: 157
                 }"
             ></b-locate>
-            <b-locate
+            <b-box
                 :position="{
                     x: '-0',
                     y: '-0'
                 }"
-            ></b-locate>
+            >
+                <button type="button" name="button" @click="addMarkers">随机添加500个marker</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
@@ -247,13 +249,35 @@
             ];
 
             this.location.succeedCallback = function( res ) {
-                console.log( res );
                 _this.location.position = res.point;
                 _this.location.visible = true;
                 _this.location.address += `<p style="margin-top: 10px;font-size:14px;color:#333;">${res.address.city}-${res.address.district}-${res.address.street}</p>`;
             }
         },
         methods: {
+            addMarkers (){
+                let _this = this;
+                let count = 500;
+                while ( count > 0 ) {
+                    this.markerConfigList.push({
+                        config: poltMarkerConfig,
+                        position: {
+                            lng: 130*Math.random(),
+                            lat: 30*Math.random()
+                        },
+                        label: {
+                            text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                            offset: {
+                                x: 28,
+                                y: -2
+                            }
+                        },
+                        infoWindowId: 123,
+                        cid: Math.random().toString()
+                    });
+                    count--;
+                }
+            },
             mapRightClickCallback () {
 
             },
