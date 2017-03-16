@@ -41,9 +41,9 @@
 //        detached: function () {
 //            this.removeOverlay();
 //        },
-//        destroyed: function () {
-//            this.removeOverlay();
-//        },
+       beforeDestroy: function () {
+           this.removeOverlay();
+       },
         watch: {
             "points": {
                 handler:  function ( val ) {

@@ -5,7 +5,7 @@
             :zoom="mapConfig.zoom"
             :return-map="true"
             :context-menu="mapContextMenu"
-            :location="true"
+            :location="false"
             :locate-succeed="location.succeedCallback"
             :locate-failed="location.failedCallback"
             :enable-scroll-wheel-zoom="true"
@@ -30,14 +30,14 @@
             ></b-marker>
             <!-- 定位信息 end -->
 
-            <b-poltmarker
+            <!-- <b-poltmarker
                 v-for="item in poltMarker"
                 :config="item.config"
                 :position.sync="item.position"
                 :visible.sync="item.visible"
                 :bind-info-window="123"
                 :z-index="9"
-            ></b-poltmarker>
+            ></b-poltmarker> -->
             <b-marker
                 v-for="item in markerConfigList"
                 :config="item.config"
@@ -172,7 +172,7 @@
             // map 右键菜单
             _this.mapContextMenu = [
                 {
-                    text: "创建起点",
+                    text: "创建我的第一个marker",
                     callback: function ( e ) {
                         let point = {
                             config: poltMarkerConfig,
@@ -190,13 +190,16 @@
                             infoWindowId: 123,
                             cid: Math.random().toString()
                         };
+
+                        let lastMarkerIndex = _this.markerConfigList.length - 1;
+                        let lastMarker = _this.markerConfigList[lastMarkerIndex];
                         _this.markerConfigList.push( point );
                         _this.mapContextMenu[0].text = "创建途经点";
                         _this.polylineConfigList.push({
                             points: [
                                 {
-                                    lng: 118,
-                                    lat: 31
+                                    lng: lastMarker.position.lng,
+                                    lat: lastMarker.position.lat
                                 },
                                 {
                                     lng: e.lng,
@@ -213,6 +216,7 @@
                         _this.markerConfigList = [];
                         _this.polylineConfigList = [];
                         _this.mapContextMenu[0].text = "创建起点";
+                        _this.$map.mapObj.clearOverlays();
                     }
                 }
             ];
@@ -253,6 +257,23 @@
                 _this.location.visible = true;
                 _this.location.address += `<p style="margin-top: 10px;font-size:14px;color:#333;">${res.address.city}-${res.address.district}-${res.address.street}</p>`;
             }
+
+            this.markerConfigList.push({
+                config: poltMarkerConfig,
+                position: {
+                    lng: 130*Math.random(),
+                    lat: 30*Math.random()
+                },
+                label: {
+                    text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                    offset: {
+                        x: 28,
+                        y: -2
+                    }
+                },
+                infoWindowId: 123,
+                cid: Math.random().toString()
+            });
         },
         methods: {
             addMarkers (){
@@ -284,9 +305,9 @@
             /** marker 左键点击事件 */
             markerClickCallback: function ( e, $marker ) {
                 let index =  this.getMarkerIndex( $marker );
-                console.log(  this.$map.$data.infoWindowList );
-                console.log( $marker );
                 let infowindow = this.$map.$data.infoWindowList[$marker.bindInfoWindow].componentObj;
+                console.log(e);
+                console.log($marker);
             },
 
             /** marker 拖动结束事件 */
@@ -296,7 +317,7 @@
                 /** NOTICE: don't make a new position , maybe we do not need this */
                 _this.markerConfigList[index].position.lat = e.point.lat;
                 _this.markerConfigList[index].position.lng = e.point.lng;
-                _this.polylineConfigList[index].points.splice(1, 1, e.point);
+                _this.polylineConfigList[index-1].points.splice(1, 1, e.point);
             },
 
             /** 获取 marker 在 markerArr 中的索引值 */

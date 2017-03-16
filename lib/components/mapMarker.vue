@@ -54,9 +54,6 @@
         "dragend"
     ];
 
-    let mapComponentObj = undefined;
-
-
     export default {
         mixins: [ componentsMixin ],
         props: props,
@@ -68,10 +65,10 @@
             }
         },
         ready: function() {
-            console.log( mapComponentObj );
+            // console.log( this );
         },
         beforeDestroy (){
-            this.deleteComponent();
+            this.removeMarker();
         },
         watch: {
             "position": {
@@ -150,6 +147,12 @@
                 this.removeMarker();
             },
             drawMarker: function () {
+                pointObj = new BMap.Point( this.position.lng, this.position.lat );
+                this.mapComponentObj = {};
+                this.mapObj.addOverlay( new BMap.Marker( pointObj ) );
+                return;
+//
+
                 let _this = this;
                 let zIndex = undefined;
                 if ( !this.position ) {
@@ -179,8 +182,6 @@
                     this.mapComponentObj = new BMap.Marker( pointObj );
                 }
                 this.mapObj.addOverlay( this.mapComponentObj );
-                mapComponentObj = this.mapComponentObj;
-return;
 
                 if ( zIndex !== undefined ) this.mapComponentObj.setZIndex( zIndex );
                 if ( !this.visible ) this.mapComponentObj.hide();
@@ -198,14 +199,18 @@ return;
                 } else {
                     console.log( "can not set marker label" );
                 }
-                bindEvent( this, this.mapComponentObj, eventList );
+                // bindEvent( this, this.mapComponentObj, eventList );
+
+                bindEvent.call( this, eventList );
+
                 bindContextMenu( this, this.mapComponentObj );
+
 
                 /** open info window */
                 if ( this.bindInfoWindow ) {
                     this.mapComponentObj.addEventListener( "click", () => {
                         if ( this.$map.$data.infoWindowList[this.bindInfoWindow] && this.mapInfoWindowObj !== this.$map.$data.infoWindowList[this.bindInfoWindow] ) {
-                            this.mapInfoWindowObj = this.$map.$data.infoWindowList[this.bindInfoWindow].mapInfoWindowObj;
+                            this.mapInfoWindowObj = this.$map.$data.infoWindowList[this.bindInfoWindow].mapComponentObj;
                         } else {
                             console.warn( "[vue-baidu-map] this marker did not has infowindow!");
                         }
@@ -223,6 +228,8 @@ return;
                     this.position.lng = e.point.lng;
                 })
             },
+
+            /** 移除 marker */
             removeMarker () {
                 if ( this.mapComponentObj && this.mapObj ) {
                     this.mapObj.removeOverlay( this.mapComponentObj );
@@ -234,6 +241,7 @@ return;
                     console.error( "[vue-baidu-map] remove marker failed!" );
                 }
             },
+
             /** 获取 infowindow 对象 */
             getInfoWindow ( id ) {
                 if ( this.mapInfoWindowObj ) {
@@ -243,8 +251,8 @@ return;
                 }
             },
 
-            checkIconConfig ( conf
-            ) {
+            /** 检查 icon 配置项 */
+            checkIconConfig ( conf ) {
                 let result = true;
                 if (
                     conf && (
@@ -253,10 +261,9 @@ return;
                             conf.size && conf.size instanceof Object && !isNaN( conf.size.x ) && !isNaN( conf.size.y )
                         ) || conf.anchor && conf.anchor instanceof Object && !isNaN( conf.anchor.x ) && !isNaN( conf.anchor.y )
                     )
-                 ) {
+                ) {
                     return result;
                 }
-                // console.warn( "[vue-baidu-map] Icon config error");
                 result = false;
             }
         }
