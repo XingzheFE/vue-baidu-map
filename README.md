@@ -1,4 +1,6 @@
 # vue-baidu-map
+A vue component based on Vue.js@1.0.
+
 ## install
 
 ```bash
@@ -78,7 +80,7 @@ components: {
         @b-mousedown="polylineMousedownCallback"
     ></b-polyline>
 
-    <!--自定义控件 box -->
+    <!-- custom controls box -->
     <b-box-->
         :position="{
             x: 0,
@@ -90,7 +92,7 @@ components: {
         </div>
     </b-box>
 
-    <!--地图搜索控件 -->    
+    <!-- search in the map -->    
     <b-search
         :position="{
             x: 20,
@@ -98,7 +100,7 @@ components: {
         }"
     ></b-search>
 
-    <!--地图风格切换控件（卫星图像、普通图像） -->
+    <!-- toggle map type -->
     <b-type
         :position="{
             x: -10,
@@ -106,7 +108,7 @@ components: {
         }"
     ></b-type>
 
-    <!--地图缩放控件 -->    
+    <!-- zoom -->    
     <b-zoom
         :position="{
             x: -10,
@@ -114,7 +116,7 @@ components: {
         }"
     ></b-zoom>
 
-    <!--全屏控件 -->    
+    <!-- fullscreen -->    
     <b-fullscreen
         :position="{
             x: -10,
@@ -123,6 +125,8 @@ components: {
     ></b-fullscreen>
 </b-map>
 ```
-[示例|Demo with a lot of features](./example)
+[示例 | Demo with a lot of features](./example)
 
 [Created by XingzheFE](http://www.imxingzhe.com/lushu/)
+
+#Join us && make it better#
