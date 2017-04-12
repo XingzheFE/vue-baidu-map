@@ -131,6 +131,16 @@
             } else {
                 _this.createMap();
             }
+            this.$on('test', () => {
+                console.log(1);
+            });
+            this.$on('test', () => {
+                console.log(2);
+            });
+            this.$on('test', () => {
+                console.log(3);
+            });
+            this.$emit('test');
         },
         detached: function () {
             // this.deleteMap();

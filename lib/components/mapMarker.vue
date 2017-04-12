@@ -147,10 +147,10 @@
                 this.removeMarker();
             },
             drawMarker: function () {
-                pointObj = new BMap.Point( this.position.lng, this.position.lat );
-                this.mapComponentObj = {};
-                this.mapObj.addOverlay( new BMap.Marker( pointObj ) );
-                return;
+                // pointObj = new BMap.Point( this.position.lng, this.position.lat );
+                // this.mapComponentObj = {};
+                // this.mapObj.addOverlay( new BMap.Marker( pointObj ) );
+                // return;
 //
 
                 let _this = this;
@@ -182,23 +182,23 @@
                     this.mapComponentObj = new BMap.Marker( pointObj );
                 }
                 this.mapObj.addOverlay( this.mapComponentObj );
-
-                if ( zIndex !== undefined ) this.mapComponentObj.setZIndex( zIndex );
-                if ( !this.visible ) this.mapComponentObj.hide();
-                if ( this.enableDragging ) this.mapComponentObj.enableDragging();
-                if ( this.label &&
-                    this.label.text &&
-                    this.label.offset &&
-                    typeof this.label.offset.x !== "undefined" &&
-                    typeof this.label.offset.y !== "undefined" &&
-                    !isNaN( this.label.offset.x ) &&
-                    !isNaN( this.label.offset.y
-                ) ) {
-                    this.labelObj = new BMap.Label( this.label.text, { offset: new BMap.Size( this.label.offset.x, this.label.offset.y )});
-                    this.mapComponentObj.setLabel ( this.labelObj );
-                } else {
-                    console.log( "can not set marker label" );
-                }
+                //
+                // if ( zIndex !== undefined ) this.mapComponentObj.setZIndex( zIndex );
+                // if ( !this.visible ) this.mapComponentObj.hide();
+                // if ( this.enableDragging ) this.mapComponentObj.enableDragging();
+                // if ( this.label &&
+                //     this.label.text &&
+                //     this.label.offset &&
+                //     typeof this.label.offset.x !== "undefined" &&
+                //     typeof this.label.offset.y !== "undefined" &&
+                //     !isNaN( this.label.offset.x ) &&
+                //     !isNaN( this.label.offset.y
+                // ) ) {
+                //     this.labelObj = new BMap.Label( this.label.text, { offset: new BMap.Size( this.label.offset.x, this.label.offset.y )});
+                //     this.mapComponentObj.setLabel ( this.labelObj );
+                // } else {
+                //     console.log( "can not set marker label" );
+                // }
                 // bindEvent( this, this.mapComponentObj, eventList );
 
                 bindEvent.call( this, eventList );
