@@ -63,6 +63,7 @@
             return {
                 componentType: "marker",
                 $overlay: undefined,
+                testText: new Array(10000).join("x"),
             }
         },
         ready () {
@@ -149,6 +150,8 @@
             removeOverlay () {
                 if ( this.$overlay && this.$parent.$overlay ) {
                     this.$parent.$overlay.removeOverlay( this.$overlay );
+                    console.log( this.$overlay );
+                    this.$overlay = null;   // FIXME：此处 marker 不能完全被清空
                 }
             },
         }

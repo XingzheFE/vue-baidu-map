@@ -5,10 +5,38 @@
     </div>
 </template>
 <script>
-    import getCurrentPosition from "utils/getCurrentPosition";
+    import getControllerPosition from "utils/getControllerPosition";
+
+    const props = {
+        position: {
+            required: true,
+            twoway: false,
+            type: Object
+        },
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        callback: {
+            required: false,
+            twoway: false,
+            type: Function
+        }
+    };
 
     export default {
-
+        props,
+        data () {
+            return {
+                styleObj: {},
+                // $controller: undefined,
+            }
+        },
+        ready () {
+            this.styleObj = getControllerPosition( this.position );
+        },
     }
 </script>
 <style lang="css" scoped>

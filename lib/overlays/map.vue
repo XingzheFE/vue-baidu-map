@@ -156,7 +156,7 @@
         methods: {
             createMap: function () {
                 let _this = this;
-                this.$overlay = new BMap.Map( _this.$els.map );
+                window.map = this.$overlay = new BMap.Map( _this.$els.map );
                 init.call( _this );
                 bindContextMenu.call( _this );
             },

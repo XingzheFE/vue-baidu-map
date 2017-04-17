@@ -41,13 +41,20 @@
                 @b-click="markerClickCallback"
                 @b-dragend="markerDragendCallback"
             ></b-marker>
+            <b-box
+                :position="{
+                    x: '-0',
+                    y: '-0'
+                }"
+            >
+                <button @click="addMarkers" type="button" name="button">添加五百个随机点</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
-        <button @click="addMarkers" type="button" name="button">添加五百个随机点</button>
     </div>
 </template>
 <script>
-    import { load, map, mapMarker } from "../lib/index.js";
+    import { load, map, mapMarker, controllerBox } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -127,30 +134,14 @@
                             infoWindowId: 123,
                             cid: Math.random().toString()
                         };
-
-                        // let lastMarkerIndex = _this.markerConfigList.length - 1;
-                        // let lastMarker = _this.markerConfigList[lastMarkerIndex];
                         _this.markerConfigList.push( point );
                         _this.mapContextMenu[0].text = "创建途经点";
-                        // _this.polylineConfigList.push({
-                        //     points: [
-                        //         {
-                        //             lng: lastMarker.position.lng,
-                        //             lat: lastMarker.position.lat
-                        //         },
-                        //         {
-                        //             lng: e.lng,
-                        //             lat: e.lat
-                        //         }
-                        //     ],
-                        //     config: _this.polylineConfig
-                        // });
                     }
                 },
                 {
                     text: "清空地图",
                     callback: function ( e ) {
-                        let { markerConfigList, polylineConfigList } = this;
+                        let { markerConfigList, polylineConfigList } = _this;
                         markerConfigList.splice( 0, markerConfigList.length );
                         polylineConfigList.splice( 0, polylineConfigList.length );
                         _this.mapContextMenu[0].text = "创建起点";
@@ -279,6 +270,7 @@
         components: {
             "b-map": map,
             "b-marker": mapMarker,
+            "b-box": controllerBox,
             // "b-poltmarker": mapMarker,
             // "b-polyline": mapPolyline,
             // "b-infowindow": mapInfoWindow,
