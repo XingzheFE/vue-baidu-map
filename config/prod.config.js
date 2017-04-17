@@ -18,6 +18,14 @@ let config = {
         inline: true,
         port: 8080
     },
+    resolve: {
+        alias: {
+            utils: path.resolve( __dirname, '../lib/utils' ),
+            style: path.resolve( __dirname, '../lib/style' ),
+            overlay: path.resolve( __dirname, '../lib/overlays' ),
+            controller: path.resolve( __dirname, '../lib/controllers' ),
+        }
+    },
     module: {
         rules: [
             {

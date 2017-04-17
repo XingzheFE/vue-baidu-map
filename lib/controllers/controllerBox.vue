@@ -1,0 +1,22 @@
+<!--box ：放置自定义控件-->
+<template>
+    <div v-show="visible" class="controller-section" :style="styleObj">
+        <slot></slot>
+    </div>
+</template>
+<script>
+    import getCurrentPosition from "utils/getCurrentPosition";
+
+    export default {
+
+    }
+</script>
+<style lang="css" scoped>
+    .controller-section {
+        z-index: 2;
+        position: absolute;
+        overflow: hidden;
+        width: auto !important;
+        height: auto !important;
+    }
+</style>

@@ -12,7 +12,7 @@
             @b-rightclick="mapRightClickCallback"
         >
             <!-- 定位信息 start -->
-            <!-- <b-infowindow
+            <b-infowindow
                 :id="124"
                 :visible.sync="location.visible"
                 :size="{
@@ -22,13 +22,22 @@
                 :position.sync="location.position"
             >
                 <p>{{{ location.address }}}</p>
-            </b-infowindow> -->
-            <!-- <b-marker
+            </b-infowindow>
+            <b-marker
                 :position.sync="location.position"
                 :bind-info-window="124"
                 :visible.sync="location.visible"
-            ></b-marker> -->
+            ></b-marker>
             <!-- 定位信息 end -->
+
+            <!-- <b-poltmarker
+                v-for="item in poltMarker"
+                :config="item.config"
+                :position.sync="item.position"
+                :visible.sync="item.visible"
+                :bind-info-window="123"
+                :z-index="9"
+            ></b-poltmarker> -->
             <b-marker
                 v-for="item in markerConfigList"
                 :config="item.config"
@@ -41,14 +50,68 @@
                 @b-click="markerClickCallback"
                 @b-dragend="markerDragendCallback"
             ></b-marker>
+            <b-infowindow
+                :id="123"
+                :visible="false"
+            >
+                <!--infowindow content start-->
+                <p>infoWindow</p>
+                <!--infowindow content end-->
+
+            </b-infowindow>
+            <b-polyline
+                v-for="item in polylineConfigList"
+                :points="item.points"
+                :config="item.config"
+                :cid="item.cid"
+                @b-mousedown="polylineMousedownCallback"
+            ></b-polyline>
+            <b-search
+                :position="{
+                    x: 20,
+                    y: 15
+                }"
+            ></b-search>
+            <b-type
+                :position="{
+                    x: -10,
+                    y: 15
+                }"
+            ></b-type>
+            <b-zoom
+                :position="{
+                    x: -10,
+                    y: 53
+                }"
+            ></b-zoom>
+            <b-fullscreen
+                :position="{
+                    x: -10,
+                    y: 119
+                }"
+            ></b-fullscreen>
+            <b-locate
+                :position="{
+                    x: -10,
+                    y: 157
+                }"
+            ></b-locate>
+            <b-box
+                :position="{
+                    x: '-0',
+                    y: '-0'
+                }"
+            >
+                <button type="button" name="button" @click="addMarkers">随机添加500个marker</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
-        <button @click="addMarkers" type="button" name="button">添加五百个随机点</button>
     </div>
 </template>
 <script>
-    import { load, map, mapMarker } from "../lib/index.js";
-    import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
+    import Loading from '../lib/utils/loadingAnimation.js';
+    import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox, locateController } from "../lib/index.js";
+    import { poltMarkerConfig } from "../lib/componentConfig/markerConfig";
 
     export default {
         data () {
@@ -128,72 +191,89 @@
                             cid: Math.random().toString()
                         };
 
-                        // let lastMarkerIndex = _this.markerConfigList.length - 1;
-                        // let lastMarker = _this.markerConfigList[lastMarkerIndex];
+                        let lastMarkerIndex = _this.markerConfigList.length - 1;
+                        let lastMarker = _this.markerConfigList[lastMarkerIndex];
                         _this.markerConfigList.push( point );
                         _this.mapContextMenu[0].text = "创建途经点";
-                        // _this.polylineConfigList.push({
-                        //     points: [
-                        //         {
-                        //             lng: lastMarker.position.lng,
-                        //             lat: lastMarker.position.lat
-                        //         },
-                        //         {
-                        //             lng: e.lng,
-                        //             lat: e.lat
-                        //         }
-                        //     ],
-                        //     config: _this.polylineConfig
-                        // });
+                        _this.polylineConfigList.push({
+                            points: [
+                                {
+                                    lng: lastMarker.position.lng,
+                                    lat: lastMarker.position.lat
+                                },
+                                {
+                                    lng: e.lng,
+                                    lat: e.lat
+                                }
+                            ],
+                            config: _this.polylineConfig
+                        });
                     }
                 },
                 {
                     text: "清空地图",
                     callback: function ( e ) {
-                        let { markerConfigList, polylineConfigList } = this;
-                        markerConfigList.splice( 0, markerConfigList.length );
-                        polylineConfigList.splice( 0, polylineConfigList.length );
+                        _this.markerConfigList = [];
+                        _this.polylineConfigList = [];
                         _this.mapContextMenu[0].text = "创建起点";
+                        _this.$map.mapObj.clearOverlays();
                     }
                 }
             ];
 
-            // // marker 右键菜单
-            // this.markerContextMenu = [
-            //     {
-            //         text: "删除途经点",
-            //         callback: function ( e, ee, marker ) {
-            //             // this 指向marker对象
-            //             let $marker = _this.getVueComponent( marker );
-            //             let index = _this.getMarkerIndex( $marker );
-            //             if ( index !== -1 ) {
-            //                 if ( index ===  0 ) {
-            //                     // 删除第一个途经点
-            //                     _this.markerConfigList.shift();
-            //                     _this.polylineConfigList.shift();
-            //                 } else if ( index === _this.markerConfigList.length - 1 ) {
-            //                     // 删除最后一个途经点
-            //                     _this.markerConfigList.pop();
-            //                     _this.polylineConfigList.pop();
-            //                 } else {
-            //                     // 删除中间点并设置新的路径
-            //                     _this.markerConfigList.splice( index, 1 );
-            //                 }
-            //                 if ( _this.markerConfigList.length === 0 ) {
-            //                     _this.mapContextMenu[0].text = "创建起点";
-            //                 }
-            //             } else {
-            //                 alert( "删除失败，不存在该标记点" )
-            //             }
-            //         }
-            //     }
-            // ];
-            //
-            // this.location.succeedCallback = function( res ) {
-            //     _this.location.position = res.point;
-            //     _this.location.visible = true;
-            //     _this.location.address += `<p style="margin-top: 10px;font-size:14px;color:#333;">${res.address.city}-${res.address.district}-${res.address.street}</p>`;
-            // }
+            // marker 右键菜单
+            this.markerContextMenu = [
+                {
+                    text: "删除途经点",
+                    callback: function ( e, ee, marker ) {
+                        // this 指向marker对象
+                        let $marker = _this.getVueComponent( marker );
+                        let index = _this.getMarkerIndex( $marker );
+                        if ( index !== -1 ) {
+                            if ( index ===  0 ) {
+                                // 删除第一个途经点
+                                _this.markerConfigList.shift();
+                                _this.polylineConfigList.shift();
+                            } else if ( index === _this.markerConfigList.length - 1 ) {
+                                // 删除最后一个途经点
+                                _this.markerConfigList.pop();
+                                _this.polylineConfigList.pop();
+                            } else {
+                                // 删除中间点并设置新的路径
+                                _this.markerConfigList.splice( index, 1 );
+                            }
+                            if ( _this.markerConfigList.length === 0 ) {
+                                _this.mapContextMenu[0].text = "创建起点";
+                            }
+                        } else {
+                            alert( "删除失败，不存在该标记点" )
+                        }
+                    }
+                }
+            ];
+
+            this.location.succeedCallback = function( res ) {
+                _this.location.position = res.point;
+                _this.location.visible = true;
+                _this.location.address += `<p style="margin-top: 10px;font-size:14px;color:#333;">${res.address.city}-${res.address.district}-${res.address.street}</p>`;
+            }
+
+            this.markerConfigList.push({
+                config: poltMarkerConfig,
+                position: {
+                    lng: 130*Math.random(),
+                    lat: 30*Math.random()
+                },
+                label: {
+                    text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                    offset: {
+                        x: 28,
+                        y: -2
+                    }
+                },
+                infoWindowId: 123,
+                cid: Math.random().toString()
+            });
         },
         methods: {
             addMarkers (){
@@ -278,15 +358,16 @@
         },
         components: {
             "b-map": map,
+            "b-box": controllerBox,
             "b-marker": mapMarker,
-            // "b-poltmarker": mapMarker,
-            // "b-polyline": mapPolyline,
-            // "b-infowindow": mapInfoWindow,
-            // "b-zoom": zoomController,
-            // "b-type": toggleTypeController,
-            // "b-search": localSearchController,
-            // "b-fullscreen": fullScreenController,
-            // "b-locate": locateController,
+            "b-poltmarker": mapMarker,
+            "b-polyline": mapPolyline,
+            "b-infowindow": mapInfoWindow,
+            "b-zoom": zoomController,
+            "b-type": toggleTypeController,
+            "b-search": localSearchController,
+            "b-fullscreen": fullScreenController,
+            "b-locate": locateController,
         }
     }
 </script>
