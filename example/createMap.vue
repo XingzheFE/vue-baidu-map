@@ -49,6 +49,14 @@
             >
                 <button @click="addMarkers" type="button" name="button">添加五百个随机点</button>
             </b-box>
+            <b-box
+                :position="{
+                    x: '-0',
+                    y: '-10'
+                }"
+            >
+                <button @click="changeLabel" type="button" name="button">修改label</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
@@ -127,7 +135,7 @@
                             label: {
                                 text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
                                 offset: {
-                                    x: 28,
+                                    x: 18,
                                     y: -2
                                 }
                             },
@@ -135,6 +143,7 @@
                             cid: Math.random().toString()
                         };
                         _this.markerConfigList.push( point );
+                        console.log( JSON.stringify( _this.markerConfigList ) );
                         _this.mapContextMenu[0].text = "创建途经点";
                     }
                 },
@@ -198,9 +207,9 @@
                             lat: 30*Math.random()
                         },
                         label: {
-                            text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                            text: "==&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
                             offset: {
-                                x: 28,
+                                x: 18,
                                 y: -2
                             }
                         },
@@ -210,6 +219,19 @@
                     count--;
                 }
             },
+
+            changeLabel () {
+                this.markerConfigList.map( ( item, index, arr ) => {
+                    item.label =  {
+                        text: "&nbsp;" + ( Math.random() ).toString() + "&nbsp;",
+                        offset: {
+                            x: 18,
+                            y: -2
+                        }
+                    };
+                });
+            },
+
             mapRightClickCallback () {
 
             },

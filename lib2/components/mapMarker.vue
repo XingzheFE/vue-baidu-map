@@ -226,7 +226,7 @@
                 this.mapComponentObj.addEventListener( "dragging", ( e ) => {
                     this.position.lat = e.point.lat;
                     this.position.lng = e.point.lng;
-                })
+                });
             },
 
             /** 移除 marker */

@@ -2,7 +2,8 @@
     import bindEvent from '../utils/bindEvent.js';
     import bindContextMenu from '../utils/bindContextMenu.js';
     import _log from "utils/log";
-    import { createPoint } from "utils/factory";
+    import { createPoint, createLabel, createSize } from "utils/factory";
+    import { removeOverlay } from "utils/removeOverlay";
 
     const props = {
         position: {
@@ -34,10 +35,22 @@
         enableDragging: {
             required: false,
             twoway: false,
-            type: false,
+            type: Boolean,
             default: false
         },
-        cid: String,
+        enableClicking: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        enableMassClear: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        cid: String, // FIXME: delete this?
         contextMenu: Array
     };
 
@@ -63,6 +76,7 @@
             return {
                 componentType: "marker",
                 $overlay: undefined,
+                $label: undefined,
                 testText: new Array(10000).join("x"),
             }
         },
@@ -76,10 +90,10 @@
         watch: {
             "position": {
                 handler:  function ( val ) {
-                    if ( this.mapComponentObj ) {
-                        this.mapComponentObj.setPosition( new BMap.Point( val.lng, val.lat ) );
+                    if ( this.$overlay ) {
+                        this.$overlay.updatePosition( createPoint( val ) );
                     } else {
-                        console.log( "[vue-baidu-map] this.mapComponentObj is not existing!")
+                        _log( "this.mapComponentObj is not existing!" );
                     }
                 },
                 deep: true
@@ -123,37 +137,59 @@
             },
             "label": {
                 handler: function ( val ) {
-                    if ( this.mapComponentObj ) {
-                        if ( this.label &&
-                            this.label.text &&
-                            this.label.offset &&
-                            typeof this.label.offset.x !== "undefined" &&
-                            typeof this.label.offset.y !== "undefined" &&
-                            !isNaN( this.label.offset.x ) &&
-                            !isNaN( this.label.offset.y
-                        ) ) {
-                            this.labelObj = new BMap.Label( this.label.text, { offset: new BMap.Size( this.label.offset.x, this.label.offset.y )});
-                            this.mapComponentObj.setLabel ( this.labelObj );
-                            console.log( "set marker label" );
+                    if ( this.$overlay ) {
+                        if ( this.$label ) {
+                            this.$label.setContent( val.text );
+                            this.$label.setOffset( createSize( val.offset ) );
+                        } else {
+                            this.$overlay.setLabel( this.$label = createLabel(val) );
                         }
                     }
                 },
                 deep: true
+            },
+            "enableDragging": {
+                handler ( val ) {
+                    val ? this.$overlay.enableDragging() : this.$overlay.disableDarging();
+                },
+                deep: false
             }
         },
         methods: {
-            addOverlay: function () {
-                this.$overlay = new BMap.Marker( createPoint( this.position ) );
-                this.$parent.$overlay.addOverlay( this.$overlay );
+            addOverlay () {
+                let { $overlay, position, label, enableMassClear, enableDragging, enableClicking, updatePosition} = this;
+                this.$overlay = $overlay = new BMap.Marker( createPoint( position ), {
+                    enableMassClear: enableMassClear,
+                    enableDragging: enableDragging,
+                    enableClicking: enableClicking,
+                } );
+                label && $overlay && $overlay.setLabel( this.$label = createLabel( label ) );
+                this.$parent.$overlay.addOverlay( $overlay );
+                this.$overlay.addEventListener( "dragging", updatePosition );
             },
 
             removeOverlay () {
-                if ( this.$overlay && this.$parent.$overlay ) {
-                    this.$parent.$overlay.removeOverlay( this.$overlay );
-                    console.log( this.$overlay );
-                    this.$overlay = null;   // FIXME：此处 marker 不能完全被清空
+                let { $overlay, $label, updatePosition } = this;
+                if ( $overlay && this.$parent.$overlay ) {
+                    $overlay.removeEventListener( "dragging", updatePosition );      // 移除注册的事件监听器
+                    removeOverlay.call( this, this.$parent.$overlay, '$label' );
+                    removeOverlay.call( this, this.$parent.$overlay, '$overlay' );
+                    // FIXME：此处 $marker 和 $label 不能完全被清除，百度地图存在极小的内存泄露（ $label 无法被删除 ）
+                    // 所以使用自定义 removeOverlay 方法代替，减少内存泄露
+                    // this.$parent.$overlay.removeOverlay( $label );
+                    // this.$parent.$overlay.removeOverlay( $overlay );
+                    // this.$label = null;
+                    // this.$overlay = null;
                 }
             },
+
+            /**
+             * marker 被拖动时更新 props.position
+             */
+            updatePosition ( e ) {
+                this.position.lat = e.point.lat;
+                this.position.lng = e.point.lng;
+            }
         }
     }
 </script>
