@@ -77,7 +77,7 @@
                 componentType: "marker",
                 $overlay: undefined,
                 $label: undefined,
-                testText: new Array(10000).join("x"),
+                testText: new Array(10000).join("xx"),
             }
         },
         ready () {
@@ -91,7 +91,7 @@
             "position": {
                 handler:  function ( val ) {
                     if ( this.$overlay ) {
-                        this.$overlay.updatePosition( createPoint( val ) );
+                        this.$overlay.setPosition( createPoint( val ) );
                     } else {
                         _log( "this.mapComponentObj is not existing!" );
                     }
@@ -136,7 +136,7 @@
                 deep: false
             },
             "label": {
-                handler: function ( val ) {
+                handler ( val ) {
                     if ( this.$overlay ) {
                         if ( this.$label ) {
                             this.$label.setContent( val.text );

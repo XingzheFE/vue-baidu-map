@@ -206,13 +206,13 @@
                             lng: 130*Math.random(),
                             lat: 30*Math.random()
                         },
-                        label: {
-                            text: "==&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
-                            offset: {
-                                x: 18,
-                                y: -2
-                            }
-                        },
+                        // label: {
+                        //     text: "==&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                        //     offset: {
+                        //         x: 18,
+                        //         y: -2
+                        //     }
+                        // },
                         infoWindowId: 123,
                         cid: Math.random().toString()
                     });
