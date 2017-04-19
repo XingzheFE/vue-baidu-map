@@ -31,7 +31,7 @@
             <!-- 定位信息 end -->
             <b-marker
                 v-for="item in markerConfigList"
-                :config="item.config"
+                :icon="item.config"
                 :position.sync="item.position"
                 :label="item.label"
                 :bind-info-window="item.infoWindowId"
@@ -52,7 +52,7 @@
             <b-box
                 :position="{
                     x: '-0',
-                    y: '-10'
+                    y: '-20'
                 }"
             >
                 <button @click="changeLabel" type="button" name="button">修改label</button>
@@ -135,7 +135,7 @@
                             label: {
                                 text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
                                 offset: {
-                                    x: 18,
+                                    x: 28,
                                     y: -2
                                 }
                             },
@@ -206,13 +206,13 @@
                             lng: 130*Math.random(),
                             lat: 30*Math.random()
                         },
-                        // label: {
-                        //     text: "==&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
-                        //     offset: {
-                        //         x: 18,
-                        //         y: -2
-                        //     }
-                        // },
+                        label: {
+                            text: "==&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                            offset: {
+                                x: 28,
+                                y: -2
+                            }
+                        },
                         infoWindowId: 123,
                         cid: Math.random().toString()
                     });
@@ -225,7 +225,7 @@
                     item.label =  {
                         text: "&nbsp;" + ( Math.random() ).toString() + "&nbsp;",
                         offset: {
-                            x: 18,
+                            x: 28,
                             y: -2
                         }
                     };
