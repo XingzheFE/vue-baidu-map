@@ -6,14 +6,13 @@
     </div>
 </template>
 <script>
-    import componentsMixin from "../mixin/overlaysMixin.js";
+    /**
+     * FIXME: infowindow 在其他组件前会导致其他组件不渲染
+     */
+    import { createPoint, createSize } from "utils/factory";
+
 
     const props = {
-        id: {
-            required: true,
-            type: Number,
-            twoway: false
-        },
         size: {
             required: false,
             type: Object,
@@ -22,58 +21,92 @@
         visible: {
             required: false,
             type: Boolean,
-            twoway: false
+            twoway: false,
+            default: false
         },
         position: {
             required: false,
             type: Object,
             twoway: false
-        }
-    };
-    export default {
-        mixins: [ componentsMixin ],
-        props: props,
-        data: function () {
-            return {
-                componentType: "infoWindow",
-                componentObj: undefined                // map components object
+        },
+        offset: {
+            required: false,
+            type: Object,
+            twoway: false,
+            default () {
+                return {
+                    x: 0,
+                    y: 0
+                }
             }
         },
-        ready: function() {
+        enableAutoPan: {
+            required: false,
+            type: Boolean,
+            twoway: false,
+            default: false
         },
-        detached: function () {
-
+        enableCloseOnClick: {
+            required: false,
+            type: Boolean,
+            twoway: false,
+            default: false,             // 只能通过 visible 控制
         },
-        destroyed: function () {
+        enableMessage: {
+            required: false,
+            type: Boolean,
+            twoway: false,
+            default: false
+        },
+        message: String,
+        title: String,
+    };
+    export default {
+        props,
+        data () {
+            return {
+                componentType: "infoWindow",
+                $overlay: undefined
+            }
+        },
+        ready () {
+            let { $map } = this.$parent;
+            $map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
+        },
+        destroyed () {
+            this.removeOverlay();
         },
         watch: {
-            "visible": function ( val ) {
-                if ( val && this.position && this.position.lat && this.position.lng ) {
-                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );
+            visible (val) {
+                let { position, $overlay } = this;
+                let { $map } = this.$parent;
+                if (val && position) {
+                    $map.openInfoWindow($overlay, createPoint(position));
                 } else {
-                    this.mapObj.closeInfoWindow();
+                    $map.closeInfoWindow();
                 }
             }
         },
         methods: {
-            // required !
-            "createComponent": function () {
-                this.createInfoWindow();
-                this.$dispatch( "register-infowindow", this );
+            addOverlay () {
+                let { $overlay, visible, size, offset, title, enableAutoPan, enableCloseOnClick, enableMessage } = this;
+                let { $map } = this.$parent;
+                this.$overlay = $overlay = new BMap.InfoWindow(this.$els.window, {
+                    width: size.width,
+                    height: size.height,
+                    offset: createSize(offset),
+                    title: title,
+                    enableAutoPan: enableAutoPan,
+                    enableCloseOnClick: false,                                  // NOTICE: visible 参数控制
+                    enableMessage: enableMessage
+                });
+                visible && $map && $map.openInfoWindow($overlay, createPoint(position));
             },
-            "createInfoWindow": function () {
-                this.componentObj = new BMap.InfoWindow( this.$els.window );
-                if ( this.size && this.size.width && this.size.height ) {
-                    this.componentObj.setWidth( this.size.width );
-                    this.componentObj.setHeight( this.size.height );
-                }
-                if ( this.visible && this.position && this.position.lat && this.position.lng ) {
-                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );
-                }
-            },
-            "removeMarker": function () {
 
-            }
+            removeOverlay () {
+                let { $map } = this.$parent;
+                $map.removeOverlay(this.$overlay);
+            },
         }
     }
 </script>

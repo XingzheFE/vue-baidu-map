@@ -119,13 +119,13 @@
             return {
                 componentType: "bmap",
                 mapTypeName: "卫星图像",
-                mapObj: undefined,
+                $overlay: undefined,
                 mapHooks: [],                               // 地图创建完成后调用其存放的函数
                 isFullscreen: false,                        // 默认不启用全屏地图
                 infoWindowList: {}                          // infoWindow 组件列表
             }
         },
-        ready: function () {
+        ready () {
             let _this = this;
             _this.LOADING = new Loading( "#baidu-map-box" );
             _this.LOADING.show();
@@ -137,18 +137,14 @@
             } else {
                 _this.createMap();
             }
-            this.$emit('ready');
         },
-        detached: function () {
-            // this.removeMap();
-        },
-        destroyed: function () {
-            // this.removeMap();
+        beforeDestroy (){
+            this.removeMap();
         },
         watch: {
             "contextMenu": {
                 handler: function ( val ) {
-                    bindContextMenu( this, this.mapObj );
+                    bindContextMenu( this, this.$overlay );
                 },
                 deep: true
             }
@@ -156,35 +152,37 @@
         methods: {
             createMap: function () {
                 let _this = this;
-                window.map = this.$overlay = new BMap.Map( _this.$els.map );
+                this.$map = this.$overlay = new BMap.Map( _this.$els.map );
                 init.call( _this );
                 bindContextMenu.call( _this );
+                _this.$emit('ready');
             },
             removeMap: function () {
-                if ( this.mapObj ) {
+                if ( this.$overlay ) {
                     if ( process.env.NODE_ENV === "development" )
                         _log( "[vue-baidu-map] delete map!");
-                    delete window.BMap;
+                    // delete window.BMap; FIXME
                 }
+                // FIXME: remove $map $overlay
             },
-            setMapHooks: function ( fn ) {
-                this.mapHooks.push( fn );
-            },
-            runMapHooks: function () {
-                this.mapHooks.map( ( item ) => {
-                    try{
-                        item();
-                    } catch ( exp ) {
-                        _log( exp );
-                    }
-                })
-            }
+            // setMapHooks: function ( fn ) {
+            //     this.mapHooks.push( fn );
+            // },
+            // runMapHooks: function () {
+            //     this.mapHooks.map( ( item ) => {
+            //         try{
+            //             item();
+            //         } catch ( exp ) {
+            //             _log( exp );
+            //         }
+            //     })
+            // }
         },
         components: {},
         events: {
             // 子组件派发事件，询问是否可以注册 vue-baidu-map 地图组件
             "vue-baidu-map-register-component": function ( component ) {
-                if ( this.mapObj && checkMap() ) {
+                if ( this.$overlay && checkMap() ) {
                     component.$emit( "vue-baidu-map-ready", this );
                 } else {
                     //TODO
@@ -192,12 +190,12 @@
             },
             // 根据提供的地理区域或坐标设置地图视野，调整后的视野会保证包含提供的地理区域或坐标
             "vue-baidu-map-set-viewport": function ( points, viewportOptions ) {
-                if ( this.mapObj && checkMap() ) {
+                if ( this.$overlay && checkMap() ) {
                     let pointsArr = points.map( function ( item, index, arr ) {
                         return new BMap.Point( item.lng, item.lat );
                     });
                     setTimeout( () => {
-                        this.mapObj.setViewport( pointsArr, viewportOptions );
+                        this.$overlay.setViewport( pointsArr, viewportOptions );
                     }, 50);
                 } else {
                     this.setMapHooks( () => {
@@ -205,7 +203,7 @@
                             return new BMap.Point( item.lng, item.lat );
                         });
                         setTimeout( () => {
-                            this.mapObj.setViewport( pointsArr, viewportOptions );
+                            this.$overlay.setViewport( pointsArr, viewportOptions );
                         }, 50);
                     })
                 }

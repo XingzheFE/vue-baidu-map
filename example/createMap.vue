@@ -12,29 +12,27 @@
             @b-rightclick="mapRightClickCallback"
         >
             <!-- 定位信息 start -->
-            <!-- <b-infowindow
-                :id="124"
-                :visible.sync="location.visible"
-                :size="{
-                    width: 220,
-                    height: 60
-                }"
-                :position.sync="location.position"
-            >
-                <p>{{{ location.address }}}</p>
-            </b-infowindow> -->
             <!-- <b-marker
                 :position.sync="location.position"
                 :bind-info-window="124"
                 :visible.sync="location.visible"
             ></b-marker> -->
             <!-- 定位信息 end -->
+            <b-infowindow
+                :visible="location.visible"
+                :size="{
+                    width: 220,
+                    height: 60
+                }"
+                :position.sync="location.position"
+            >
+                <p>infoWindow<p>
+            </b-infowindow>
             <b-marker
                 v-for="item in markerConfigList"
                 :icon="item.config"
                 :position.sync="item.position"
                 :label="item.label"
-                :bind-info-window="item.infoWindowId"
                 :enable-dragging="true"
                 :cid="item.cid"
                 :context-menu="markerContextMenu"
@@ -57,12 +55,20 @@
             >
                 <button @click="changeLabel" type="button" name="button">修改label</button>
             </b-box>
+            <b-box
+                :position="{
+                    x: '-0',
+                    y: '-40'
+                }"
+            >
+                <button @click="toggleInfoWindow" type="button" name="button">toggleInfoWindow</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, controllerBox } from "../lib/index.js";
+    import { load, map, mapMarker, controllerBox, infoWindow } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -196,6 +202,9 @@
             // }
         },
         methods: {
+            toggleInfoWindow () {
+                this.location.visible = !this.location.visible;
+            },
             addMarkers (){
                 let _this = this;
                 let count = 500;
@@ -295,7 +304,7 @@
             "b-box": controllerBox,
             // "b-poltmarker": mapMarker,
             // "b-polyline": mapPolyline,
-            // "b-infowindow": mapInfoWindow,
+            "b-infowindow": infoWindow,
             // "b-zoom": zoomController,
             // "b-type": toggleTypeController,
             // "b-search": localSearchController,
@@ -323,7 +332,7 @@
         }
     }
     #app {
-        height: 70%;
-        width: 100%;
+        height: 300px;
+        width: 500px;
     }
 </style>

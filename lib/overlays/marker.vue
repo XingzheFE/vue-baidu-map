@@ -26,12 +26,12 @@
             twoway: false,
             type: Number
         },
-        bindInfoWindow: {
-            required: false,
-            twoway: false,
-            type: Number,
-            // default: undefined
-        },
+        // bindInfoWindow: {
+        //     required: false,
+        //     twoway: false,
+        //     type: Number,
+        //     // default: undefined
+        // },
         enableDragging: {
             required: false,
             twoway: false,
@@ -87,8 +87,8 @@
             }
         },
         ready () {
-            let map = this.$parent.$overlay;
-            map && window.BMap ? this.addOverlay() : this.$parent.on("ready", this.addOverlay);
+            let map = this.$parent.$map;
+            map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
         },
         beforeDestroy (){
             this.removeOverlay();
