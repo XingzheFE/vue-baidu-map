@@ -1,5 +1,5 @@
 <script>
-    import bindEvent from '../utils/bindEvent.js';
+    import bindEvent from 'utils/bindEvent.js';
 
     const props = {
         points: {
@@ -37,12 +37,9 @@
                 pointsArr: []               // BMap.Points object
             }
         },
-//        detached: function () {
-//            this.removeOverlay();
-//        },
-       beforeDestroy: function () {
-           this.removeOverlay();
-       },
+        beforeDestroy: function () {
+            this.removeOverlay();
+        },
         watch: {
             "points": {
                 handler:  function ( val ) {

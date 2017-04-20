@@ -26,12 +26,6 @@
             twoway: false,
             type: Number
         },
-        // bindInfoWindow: {
-        //     required: false,
-        //     twoway: false,
-        //     type: Number,
-        //     // default: undefined
-        // },
         enableDragging: {
             required: false,
             twoway: false,
@@ -84,6 +78,7 @@
                 componentType: "marker",
                 $overlay: undefined,
                 $label: undefined,
+                $contextMenu: undefined,
             }
         },
         ready () {
@@ -167,7 +162,7 @@
         },
         methods: {
             addOverlay () {
-                let { $overlay, position, label, icon, zIndex, enableMassClear, enableDragging, enableClicking, raiseOnDrag, updatePosition, rotation } = this;
+                let { $overlay, position, label, contextMenu, icon, zIndex, enableMassClear, enableDragging, enableClicking, raiseOnDrag, updatePosition, rotation } = this;
                 this.$overlay = $overlay = new BMap.Marker(createPoint(position), {
                     enableMassClear: enableMassClear,
                     enableDragging: enableDragging,
@@ -177,6 +172,8 @@
                     icon: createIcon(icon),
                 });
                 label && $overlay.setLabel(this.$label = createLabel(label));
+                eventList && bindEvent.call(this, eventList);
+                contextMenu && bindContextMenu.call(this, contextMenu);
                 !isNaN(zIndex) && $overlay.setZIndex(zIndex);
                 this.$parent.$overlay.addOverlay($overlay);
                 this.$overlay.addEventListener("dragging", updatePosition);
@@ -186,6 +183,7 @@
                 let { $overlay, $label, updatePosition } = this;
                 if ($overlay && this.$parent.$overlay) {
                     $overlay.removeEventListener("dragging", updatePosition);      // 移除注册的事件监听器
+                    $overlay.removeContextMenu( )
                     removeOverlay.call(this, this.$parent.$overlay, '$label');
                     removeOverlay.call(this, this.$parent.$overlay, '$overlay');
                     // FIXME：此处 $marker 和 $label 不能完全被清除，百度地图存在极小的内存泄露（ $label 无法被删除 ）

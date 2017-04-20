@@ -21,7 +21,8 @@
                 }"
                 :position.sync="location.position"
             >
-                <p>{{{ location.address }}}</p>
+                <!-- <p>{{{ location.address }}}</p> -->
+                <p>hahah</p>
             </b-infowindow>
             <b-marker
                 :position.sync="location.position"

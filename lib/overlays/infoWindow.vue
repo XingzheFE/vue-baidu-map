@@ -1,16 +1,23 @@
 <template>
     <div class="component-section">
-        <div v-el:window class="infowindow-box">
-            <slot></slot>
-        </div>
+        <slot></slot>
     </div>
 </template>
 <script>
     /**
-     * FIXME: infowindow 在其他组件前会导致其他组件不渲染
+     * FIXME: infowindow 中有内存泄露( fixed 2017-4-20 )
      */
     import { createPoint, createSize } from "utils/factory";
+    import { removeOverlay } from "utils/removeOverlay";
+    import bindEvent from "utils/bindEvent";
 
+    const eventList = [
+        "close",
+        "open",
+        "maximize",
+        "restore",
+        "clickclose"
+    ];
 
     const props = {
         size: {
@@ -44,13 +51,13 @@
             required: false,
             type: Boolean,
             twoway: false,
-            default: false
+            default: true
         },
         enableCloseOnClick: {
             required: false,
             type: Boolean,
             twoway: false,
-            default: false,             // 只能通过 visible 控制
+            default: true,
         },
         enableMessage: {
             required: false,
@@ -73,7 +80,7 @@
             let { $map } = this.$parent;
             $map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
         },
-        destroyed () {
+        beforeDestroy () {
             this.removeOverlay();
         },
         watch: {
@@ -89,23 +96,28 @@
         },
         methods: {
             addOverlay () {
-                let { $overlay, visible, size, offset, title, enableAutoPan, enableCloseOnClick, enableMessage } = this;
+                let { $overlay, visible, size, offset, title, enableAutoPan, enableCloseOnClick, enableMessage, updateStatus } = this;
                 let { $map } = this.$parent;
-                this.$overlay = $overlay = new BMap.InfoWindow(this.$els.window, {
+                let $content = this.$el;
+                this.$overlay = $overlay = new BMap.InfoWindow(new Array(1000).join("x"), {
                     width: size.width,
                     height: size.height,
                     offset: createSize(offset),
                     title: title,
                     enableAutoPan: enableAutoPan,
-                    enableCloseOnClick: false,                                  // NOTICE: visible 参数控制
+                    enableCloseOnClick: enableCloseOnClick,                                  // NOTICE: visible 参数控制
                     enableMessage: enableMessage
                 });
-                visible && $map && $map.openInfoWindow($overlay, createPoint(position));
+                bindEvent.call(this, eventList);
+                visible && $map.openInfoWindow($overlay, createPoint(position));
             },
 
             removeOverlay () {
-                let { $map } = this.$parent;
-                $map.removeOverlay(this.$overlay);
+                let $container = this.$parent.$overlay;
+                let { $overlay } = this;
+                $overlay.content = null;// FIXME 无法被移除
+                removeOverlay.call(this, this.$parent.$overlay, '$overlay');
+                console.log( $overlay );
             },
         }
     }
@@ -116,6 +128,6 @@
         width: auto;
         height: auto;
         overflow: hidden;
-        display: none;
+        /*display: none;*/
     }
 </style>

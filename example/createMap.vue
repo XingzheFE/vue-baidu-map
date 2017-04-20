@@ -19,16 +19,24 @@
             ></b-marker> -->
             <!-- 定位信息 end -->
             <b-infowindow
+                v-for="item in markerConfigList"
                 :visible="location.visible"
                 :size="{
                     width: 220,
                     height: 60
                 }"
+                :offset="{
+                    x: 0,
+                    y: -10
+                }"
                 :position.sync="location.position"
+                @b-open="location.visible = true"
+                @b-close="location.visible = false"
             >
-                <p>infoWindow<p>
+                <h2>嘻嘻嘻 =,=</h2>
+                <p>{{{ location.address }}}</p>
             </b-infowindow>
-            <b-marker
+            <!-- <b-marker
                 v-for="item in markerConfigList"
                 :icon="item.config"
                 :position.sync="item.position"
@@ -38,7 +46,7 @@
                 :context-menu="markerContextMenu"
                 @b-click="markerClickCallback"
                 @b-dragend="markerDragendCallback"
-            ></b-marker>
+            ></b-marker> -->
             <b-box
                 :position="{
                     x: '-0',
@@ -165,35 +173,39 @@
             ];
 
             // // marker 右键菜单
-            // this.markerContextMenu = [
-            //     {
-            //         text: "删除途经点",
-            //         callback: function ( e, ee, marker ) {
-            //             // this 指向marker对象
-            //             let $marker = _this.getVueComponent( marker );
-            //             let index = _this.getMarkerIndex( $marker );
-            //             if ( index !== -1 ) {
-            //                 if ( index ===  0 ) {
-            //                     // 删除第一个途经点
-            //                     _this.markerConfigList.shift();
-            //                     _this.polylineConfigList.shift();
-            //                 } else if ( index === _this.markerConfigList.length - 1 ) {
-            //                     // 删除最后一个途经点
-            //                     _this.markerConfigList.pop();
-            //                     _this.polylineConfigList.pop();
-            //                 } else {
-            //                     // 删除中间点并设置新的路径
-            //                     _this.markerConfigList.splice( index, 1 );
-            //                 }
-            //                 if ( _this.markerConfigList.length === 0 ) {
-            //                     _this.mapContextMenu[0].text = "创建起点";
-            //                 }
-            //             } else {
-            //                 alert( "删除失败，不存在该标记点" )
-            //             }
-            //         }
-            //     }
-            // ];
+            this.markerContextMenu = [
+                {
+                    text: "删除途经点",
+                    callback: function ( e, ee, marker ) {
+                        // this 指向marker对象
+                        console.log( e );
+                        console.log( ee );
+                        console.log( marker );
+
+                        // let $marker = _this.getVueComponent( marker );
+                        // let index = _this.getMarkerIndex( $marker );
+                        // if ( index !== -1 ) {
+                        //     if ( index ===  0 ) {
+                        //         // 删除第一个途经点
+                        //         _this.markerConfigList.shift();
+                        //         _this.polylineConfigList.shift();
+                        //     } else if ( index === _this.markerConfigList.length - 1 ) {
+                        //         // 删除最后一个途经点
+                        //         _this.markerConfigList.pop();
+                        //         _this.polylineConfigList.pop();
+                        //     } else {
+                        //         // 删除中间点并设置新的路径
+                        //         _this.markerConfigList.splice( index, 1 );
+                        //     }
+                        //     if ( _this.markerConfigList.length === 0 ) {
+                        //         _this.mapContextMenu[0].text = "创建起点";
+                        //     }
+                        // } else {
+                        //     alert( "删除失败，不存在该标记点" )
+                        // }
+                    }
+                }
+            ];
             //
             // this.location.succeedCallback = function( res ) {
             //     _this.location.position = res.point;
@@ -246,10 +258,13 @@
             },
             /** marker 左键点击事件 */
             markerClickCallback: function ( e, $marker ) {
-                let index =  this.getMarkerIndex( $marker );
-                let infowindow = this.$map.$data.infoWindowList[$marker.bindInfoWindow].componentObj;
+                // let index =  this.getMarkerIndex( $marker );
+                // let infowindow = this.$map.$data.infoWindowList[$marker.bindInfoWindow].componentObj;
                 console.log(e);
                 console.log($marker);
+                this.location.position.lng = e.point.lng;
+                this.location.position.lat = e.point.lat;
+                this.location.visible = true;
             },
 
             /** marker 拖动结束事件 */
@@ -257,9 +272,9 @@
                 let _this = this;
                 let index = _this.getMarkerIndex( $marker );
                 /** NOTICE: don't make a new position , maybe we do not need this */
-                _this.markerConfigList[index].position.lat = e.point.lat;
-                _this.markerConfigList[index].position.lng = e.point.lng;
-                _this.polylineConfigList[index-1].points.splice(1, 1, e.point);
+                // _this.markerConfigList[index].position.lat = e.point.lat;
+                // _this.markerConfigList[index].position.lng = e.point.lng;
+                // _this.polylineConfigList[index-1].points.splice(1, 1, e.point);
             },
 
             /** 获取 marker 在 markerArr 中的索引值 */
@@ -332,7 +347,7 @@
         }
     }
     #app {
-        height: 300px;
-        width: 500px;
+        height: 90%;
+        width: 90%;
     }
 </style>
