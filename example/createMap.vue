@@ -11,13 +11,7 @@
             :enable-scroll-wheel-zoom="true"
             @b-rightclick="mapRightClickCallback"
         >
-            <!-- 定位信息 start -->
-            <!-- <b-marker
-                :position.sync="location.position"
-                :bind-info-window="124"
-                :visible.sync="location.visible"
-            ></b-marker> -->
-            <!-- 定位信息 end -->
+
             <b-infowindow
                 v-for="item in markerConfigList"
                 :visible="location.visible"
@@ -36,17 +30,27 @@
                 <h2>嘻嘻嘻 =,=</h2>
                 <p>{{{ location.address }}}</p>
             </b-infowindow>
-            <!-- <b-marker
+            <b-marker
                 v-for="item in markerConfigList"
                 :icon="item.config"
                 :position.sync="item.position"
                 :label="item.label"
                 :enable-dragging="true"
-                :cid="item.cid"
                 :context-menu="markerContextMenu"
                 @b-click="markerClickCallback"
                 @b-dragend="markerDragendCallback"
-            ></b-marker> -->
+            ></b-marker>
+            <b-polyline
+                v-for="item in polylineConfigList"
+                :points="item.points"
+                :enable-editing="false"
+                :style="{
+                    strokeColor: '#32b1fb',
+                    strokeWeight: 4,
+                    strokeOpacity: 1
+                }"
+                @b-lineupdate="lineUpdate"
+            ></b-polyline>
             <b-box
                 :position="{
                     x: '-0',
@@ -71,12 +75,20 @@
             >
                 <button @click="toggleInfoWindow" type="button" name="button">toggleInfoWindow</button>
             </b-box>
+            <b-box
+                :position="{
+                    x: '-0',
+                    y: '-60'
+                }"
+            >
+                <button @click="addLine" type="button" name="button">添加Lines</button>
+            </b-box>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, controllerBox, infoWindow } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -140,6 +152,7 @@
                 {
                     text: "创建我的第一个marker",
                     callback: function ( e ) {
+                        let len = _this.markerConfigList.length;
                         let point = {
                             config: poltMarkerConfig,
                             position: {
@@ -147,7 +160,7 @@
                                 lat: e.lat
                             },
                             label: {
-                                text: "&nbsp;" + ( _this.markerConfigList.length + 1 ).toString() + "&nbsp;",
+                                text: "&nbsp;" + ( len + 1 ).toString() + "&nbsp;",
                                 offset: {
                                     x: 28,
                                     y: -2
@@ -157,7 +170,14 @@
                             cid: Math.random().toString()
                         };
                         _this.markerConfigList.push( point );
-                        console.log( JSON.stringify( _this.markerConfigList ) );
+                        len = _this.markerConfigList.length;
+                        if ( len > 1 ) {
+                            let prev = _this.markerConfigList[len-2].position;
+                            let next = _this.markerConfigList[len-1].position;
+                            _this.polylineConfigList.push({
+                                points: [prev, next],
+                            });
+                        }
                         _this.mapContextMenu[0].text = "创建途经点";
                     }
                 },
@@ -214,9 +234,35 @@
             // }
         },
         methods: {
+            lineUpdate (a,b,c) {
+                // console.log(a);
+                // console.log(b);
+                // console.log(c);
+            },
+
             toggleInfoWindow () {
                 this.location.visible = !this.location.visible;
             },
+
+            addLine () {
+                let _this = this;
+                let count = 500;
+                while ( count > 0 ) {
+                    let prev = {
+                        lng: 130*Math.random(),
+                        lat: 30*Math.random()
+                    };
+                    let next = {
+                        lng: 130*Math.random(),
+                        lat: 30*Math.random()
+                    };
+                    this.polylineConfigList.push({
+                        points: [prev, next],
+                    });
+                    count--;
+                }
+            },
+
             addMarkers (){
                 let _this = this;
                 let count = 500;
@@ -318,7 +364,7 @@
             "b-marker": mapMarker,
             "b-box": controllerBox,
             // "b-poltmarker": mapMarker,
-            // "b-polyline": mapPolyline,
+            "b-polyline": mapPolyline,
             "b-infowindow": infoWindow,
             // "b-zoom": zoomController,
             // "b-type": toggleTypeController,

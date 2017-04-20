@@ -6,6 +6,12 @@
     import { removeOverlay } from "utils/removeOverlay";
 
     const props = {
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true,
+        },
         position: {
             required: true,
             twoway: false,
@@ -158,11 +164,17 @@
                     }
                 },
                 deep: false
-            }
+            },
+            "contextMenu": {
+                handler (val) {
+
+                },
+                deep: true
+            },
         },
         methods: {
             addOverlay () {
-                let { $overlay, position, label, contextMenu, icon, zIndex, enableMassClear, enableDragging, enableClicking, raiseOnDrag, updatePosition, rotation } = this;
+                let { $overlay, visible, position, label, contextMenu, icon, zIndex, enableMassClear, enableDragging, enableClicking, raiseOnDrag, updatePosition, rotation } = this;
                 this.$overlay = $overlay = new BMap.Marker(createPoint(position), {
                     enableMassClear: enableMassClear,
                     enableDragging: enableDragging,
@@ -177,6 +189,7 @@
                 !isNaN(zIndex) && $overlay.setZIndex(zIndex);
                 this.$parent.$overlay.addOverlay($overlay);
                 this.$overlay.addEventListener("dragging", updatePosition);
+                visible ? $overlay.show() : $overlay.hide();            // FIXME: 是否有用
             },
 
             removeOverlay () {

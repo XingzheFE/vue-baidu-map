@@ -1,23 +1,48 @@
 <script>
-    import bindEvent from 'utils/bindEvent.js';
+    import bindEvent from 'utils/bindEvent';
+    import { removeOverlay } from "utils/removeOverlay";
+    import { createPoint } from "utils/factory";
 
     const props = {
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true,
+        },
         points: {
             required: true,
             twoway: false,
             type: Array
         },
-        config: {
-            required: true,
+        style: {
+            required: false,
             twoway: false,
-            type: Object
+            type: Object,
+            default () {
+                return {};
+            }
+        },
+        enableMassClear: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        enableEditing: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: false
+        },
+        enableClicking: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
         }
     };
-    const LINE_CONF = {
-        strokeColor: "#32b1fb",
-        strokeWeight: 4,
-        strokeOpacity: 1
-    };
+
     const eventList = [
         "click",
         "dblclick",
@@ -28,96 +53,94 @@
         "remove",
         "lineupdate"
     ];
+
     export default {
-        mixins: [componentsMixin],
-        props: props,
-        data: function () {
+        props,
+        data () {
             return {
                 componentType: "polyline",
-                pointsArr: []               // BMap.Points object
+                // testText: new Array(10000).join("x"),
             }
+        },
+        ready () {
+            let map = this.$parent.$map;
+            map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
         },
         beforeDestroy: function () {
             this.removeOverlay();
         },
         watch: {
             "points": {
-                handler:  function ( val ) {
-                    // TODO: 可能数据变化时 map 对象并未被创建
-                    if ( this.mapComponentObj ) {
-                        this.pointsArr = this.points.map( function ( item ) {
-                            item = new BMap.Point( item.lng, item.lat );
-                            return item;
+                handler (val) {
+                    if (this.$overlay) {
+                        let line = val.map((item, index, arr) => {
+                            return createPoint(item);
                         });
-                        this.mapComponentObj.setPath( this.pointsArr );
-                    } else {
-                        console.log( "[vue-baidu-map] this.mapComponentObj is not existing!")
+                        this.$overlay.setPath(line);
                     }
                 },
                 deep: true
             },
-            "config": {
-                handler: function ( val ) {
-                    if ( val.strokeColor ) this.mapComponentObj.setStrokeColor( val.strokeColor );
-                    if ( val.strokeWeight ) this.mapComponentObj.setStrokeWeight( val.strokeWeight );
-                    if ( val.strokeOpacity ) this.mapComponentObj.setStrokeOpacity( val.strokeOpacity );
+            "style": {
+                handler (val) {
+                    if (this.$overlay) {
+                        if (val.strokeStyle) this.$overlay.setStrokeStyle(val.strokeStyle);
+                        if (val.strokeColor) this.$overlay.setStrokeColor(val.strokeColor);
+                        if (val.strokeWeight) this.$overlay.setStrokeWeight(val.strokeWeight);
+                        if (val.strokeOpacity) this.$overlay.setStrokeOpacity(val.strokeOpacity);
+                    }
                 },
                 deep: true
             },
             "visible": {
-                handler: function ( val ) {
-                    if ( val === true &&
-                            this.mapComponentObj &&
-                            !this.mapComponentObj.isVisible()
-                    ) {
-                        this.mapComponentObj.show();
-                    } else if ( val === false &&
-                            this.mapComponentObj &&
-                            this.mapComponentObj.isVisible()
-                    ) {
-                        this.mapComponentObj.hide();
+                handler (val) {
+                    if (this.$overlay) {
+                        val ? this.$overlay.show() : this.$overlay.hide();
                     }
                 },
                 deep: false
-            }
+            },
+            "enableMassClear": {
+                handler (val) {
+                    if (this.$overlay) {
+                        val ? this.$overlay.enableMassClear() : this.$overlay.disableMassClear();
+                    }
+                },
+                deep: false
+            },
+            "enableEditing": {
+                handler (val) {
+                    if (this.$overlay) {
+                        val ? this.$overlay.enableEditing() : this.$overlay.disableEditing();
+                    }
+                },
+                deep: false
+            },
         },
         methods: {
-            createComponent: function () {
-                let _this = this;
-                if ( this.points === undefined ||
-                     !this.points instanceof Array
-                ) {
-                    console.error("[vue-baidu-map] Polyline.points 必须是一维数组！");
-                    return;
-                }
-//                FIXME: do we need this?
-//                if ( this.points.length === 0) {
-//                    console.warn("[vue-baidu-map] Polyline.points 是空数组！");
-//                }
-                this.pointsArr = this.points.map( function ( item ) {
-                    if ( item.lng && item.lat ) {
-                        item = new BMap.Point( item.lng, item.lat );
-                        return item;
-                    } else {
-                        throw new Error( "[vue-baidu-map] Polyline.points coordinate error！" )
-                    }
+            addOverlay () {
+                let { $overlay, visible, points, style, enableMassClear, enableEditing, enableClicking } = this;
+                let line = points.map((item, index, arr) => {
+                    return createPoint(item);
                 });
-                let config = this.config || LINE_CONF;
-                this.mapComponentObj = new BMap.Polyline( this.pointsArr, config );
-                bindEvent( this, this.mapComponentObj, eventList );
-                this.mapObj.addOverlay( this.mapComponentObj );
-                // _this.mapObj.zoomTo( 1 );
-                // console.log( this );
+                // console.log(line);
+                this.$overlay = $overlay = new BMap.Polyline(line, {
+                    strokeColor: style.strokeColor,
+                    strokeWeight: style.strokeWeight,
+                    strokeOpacity: style.strokeOpacity,
+                    strokeStyle: style.strokeStyle,
+                    enableMassClear: enableMassClear,
+                    enableEditing: enableEditing,
+                    enableClicking: enableClicking,
+                });
+                this.$parent.$overlay.addOverlay($overlay);
+                eventList && bindEvent.call(this, eventList);
+                visible ? $overlay.show() : $overlay.hide();
             },
-            deleteComponent: function () {
-                this.removeOverlay();
-            },
-            removeOverlay: function () {
-                if ( this.mapObj && this.mapComponentObj ) {
-                    this.mapObj.removeOverlay( this.mapComponentObj );
-                } else {
-                    console.error( "[vue-baidu-map] remove polyline failed!" );
-                }
+
+            removeOverlay () {
+                let { $overlay } = this;
+                removeOverlay.call(this, this.$parent.$map, '$overlay');
             }
         }
 

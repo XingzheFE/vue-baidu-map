@@ -145,7 +145,7 @@
         watch: {
             "contextMenu": {
                 handler: function (val) {
-                    bindContextMenu(this, this.$overlay);
+                    bindContextMenu.call(this);
                 },
                 deep: true
             }
