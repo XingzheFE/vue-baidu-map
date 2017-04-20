@@ -35,7 +35,7 @@
             }
         },
         ready () {
-            this.styleObj = getControllerPosition( this.position );
+            this.styleObj = getControllerPosition(this.position);
         },
     }
 </script>

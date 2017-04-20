@@ -5,9 +5,44 @@
     </div>
 </template>
 <script>
-export default {
+    import getControllerPosition from "utils/getControllerPosition";
 
-}
+    const props = {
+        position: {
+            required: true,
+            twoway: false,
+            type: Object
+        },
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        callback: {
+            required: false,
+            twoway: false,
+            type: Function
+        }
+    };
+
+    export default {
+        props,
+        data () {
+            return {
+                styleObj: {},
+            }
+        },
+        ready () {
+            this.styleObj = getControllerPosition(this.position);
+        },
+        methods: {
+            toggleFullscreen () {
+                let parentStatus = this.$parent.status;
+                parentStatus.isFullscreen = !parentStatus.isFullscreen;
+            }
+        },
+    }
 </script>
 <style lang="css" scoped>
     * {
@@ -21,7 +56,6 @@ export default {
         overflow: hidden;
         width: 28px;
         height: 28px;
-        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/
         box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;
     }
     .fullscreen {
@@ -31,7 +65,6 @@ export default {
         padding: 0;
         font-size: 0.6rem;
         outline: none;
-        /*border: 1px solid #cdcdcd;*/
         border: none;
         background-color: #ffffff;
         color: #4d4d4d;

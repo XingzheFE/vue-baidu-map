@@ -1,5 +1,5 @@
 <template>
-    <div id="baidu-map-box" v-bind:class="{ 'map-fullscreen': isFullscreen }">
+    <div id="baidu-map-box" v-bind:class="{ 'map-fullscreen': status.isFullscreen }">
         <div v-el:map class="vue-baidu-map"></div>
         <slot></slot>
     </div>
@@ -51,12 +51,6 @@
             twoway: false,
             type: Function
         },
-        returnMap: {               // 是否通知父组件map创建完成并返回该组件
-            required: false,
-            twoway: false,
-            type: Boolean,
-            default: false
-        },
         contextMenu: {
             required: false,
             type: Array,
@@ -74,6 +68,12 @@
             type: Boolean,
             twoway: false,
             default:false
+        },
+        enableHighAccuracy: {
+            required: false,
+            type: Boolean,
+            twoway: false,
+            default: false,
         }
     };
 
@@ -123,7 +123,9 @@
                 $map: undefined,                            // 同下
                 $overlay: undefined,
                 $contextMenu: undefined,
-                isFullscreen: false,                        // 默认不启用全屏地图
+                status: {
+                    isFullscreen: false,                        // 默认不启用全屏地图
+                }
             }
         },
         ready () {
@@ -148,6 +150,15 @@
                     bindContextMenu.call(this);
                 },
                 deep: true
+            },
+            "enableScrollWheelZoom": {
+                handler (val) {
+                    let { $map } = this;
+                    if ($map) {
+                        val ? $map.enableScrollWheelZoom() : $map.disableScrollWheelZoom();
+                    }
+                },
+                deep: false
             }
         },
         methods: {
@@ -163,6 +174,7 @@
                 let { $overlay } = this;
                 if ($overlay) {
                     $overlay.clearoverlays();
+                    this.$overlay = this.$map = null;
                     if (process.env.NODE_ENV === "development")
                         _log("[vue-baidu-map] delete map!");
                     // delete window.BMap; FIXME

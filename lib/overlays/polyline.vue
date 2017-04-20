@@ -59,7 +59,6 @@
         data () {
             return {
                 componentType: "polyline",
-                // testText: new Array(10000).join("x"),
             }
         },
         ready () {

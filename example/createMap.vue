@@ -5,7 +5,7 @@
             :zoom="mapConfig.zoom"
             :return-map="true"
             :context-menu="mapContextMenu"
-            :location="false"
+            :location="true"
             :locate-succeed="location.succeedCallback"
             :locate-failed="location.failedCallback"
             :enable-scroll-wheel-zoom="true"
@@ -51,6 +51,14 @@
                 }"
                 @b-lineupdate="lineUpdate"
             ></b-polyline>
+
+            <!-- controller-section -->
+            <b-fullscreen
+                :position="{
+                    x: '-10',
+                    y: '10'
+                }"
+            ></b-fullscreen>
             <b-box
                 :position="{
                     x: '-0',
@@ -88,7 +96,7 @@
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -369,7 +377,7 @@
             // "b-zoom": zoomController,
             // "b-type": toggleTypeController,
             // "b-search": localSearchController,
-            // "b-fullscreen": fullScreenController,
+            "b-fullscreen": fullScreenController,
             // "b-locate": locateController,
         }
     }
@@ -393,6 +401,8 @@
         }
     }
     #app {
+        margin-left: 50px;
+        margin-top: 50px;
         height: 90%;
         width: 90%;
     }
