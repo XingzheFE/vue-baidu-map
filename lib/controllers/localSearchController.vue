@@ -5,9 +5,85 @@
     </div>
 </template>
 <script>
-export default {
+    import getControllerPosition from "utils/getControllerPosition";
 
-}
+    const props = {
+        position: {
+            required: true,
+            twoway: false,
+            type: Object
+        },
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+    };
+
+    export default {
+        props,
+        data: function () {
+            return {
+                markerList: [],
+                styleObj: {},
+                $search: undefined,
+                keywords: '',
+            }
+        },
+        ready () {
+            let $map = this.$parent.$map;
+            this.styleObj = getControllerPosition(this.position);
+            $map ? this.addController() : this.$parent.$on("ready", this.addController);
+        },
+        beforeDestroy () {
+            this.removeController();
+        },
+        methods: {
+            search () {
+                let _this = this;
+                let { $search, keywords, markerList } = this;
+                if ($search && keywords) {
+                    $search.search(keywords);
+                    $search.setMarkersSetCallback(function(pois){
+                        _this.markerList = _this.markerList.concat(pois);
+                        console.log(_this.markerList.length);
+                    });
+                }
+            },
+
+            addController () {
+                let $map =  this.$parent.$map;
+                let { $search } = this;
+                this.$search = $search = new BMap.LocalSearch($map, {
+                    renderOptions:{ map: $map }
+                });
+                $search.disableFirstResultSelection();
+            },
+
+            removeController () {
+                this.$search = null;
+            }
+
+        },
+        watch: {
+            "keywords": {
+                handler () {
+                    let { keywords, markerList } = this;
+                    console.log(markerList.length);
+                    let { $map } = this.$parent;
+                    if (keywords.length === 0) {
+                        markerList.map(item => {
+                            $map.removeOverlay(item.marker);
+                            console.log( "remove marker" );
+                        });
+                        this.markerList.splice(0, markerList.length);
+                    }
+                },
+                deep: false
+            }
+        }
+    }
 </script>
 <style lang="css" scoped>
     * {

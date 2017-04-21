@@ -88,8 +88,8 @@
             }
         },
         ready () {
-            let map = this.$parent.$map;
-            map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
+            let $map = this.$parent.$map;
+            $map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
         },
         beforeDestroy (){
             this.removeOverlay();

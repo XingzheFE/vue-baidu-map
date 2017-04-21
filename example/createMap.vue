@@ -5,16 +5,22 @@
             :zoom="mapConfig.zoom"
             :return-map="true"
             :context-menu="mapContextMenu"
-            :location="true"
+            :location="false"
             :locate-succeed="location.succeedCallback"
             :locate-failed="location.failedCallback"
             :enable-scroll-wheel-zoom="true"
+            :enable-high-accuracy="false"
             @b-rightclick="mapRightClickCallback"
         >
-
+            <b-search
+                :position="{
+                    x: '10',
+                    y: '10'
+                }"
+            ></b-search>
             <b-infowindow
                 v-for="item in markerConfigList"
-                :visible="location.visible"
+                :visible="true"
                 :size="{
                     width: 220,
                     height: 60
@@ -96,7 +102,7 @@
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -376,7 +382,7 @@
             "b-infowindow": infoWindow,
             // "b-zoom": zoomController,
             // "b-type": toggleTypeController,
-            // "b-search": localSearchController,
+            "b-search": localSearchController,
             "b-fullscreen": fullScreenController,
             // "b-locate": locateController,
         }
