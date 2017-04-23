@@ -97,12 +97,19 @@
             >
                 <button @click="addLine" type="button" name="button">添加Lines</button>
             </b-box>
+            <b-locate
+                :position="{
+                    x: '-10',
+                    y: '40'
+                }"
+                :enable-high-accuracy="true"
+            ></b-locate>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController, locateController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -384,7 +391,7 @@
             // "b-type": toggleTypeController,
             "b-search": localSearchController,
             "b-fullscreen": fullScreenController,
-            // "b-locate": locateController,
+            "b-locate": locateController,
         }
     }
 </script>

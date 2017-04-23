@@ -4,8 +4,98 @@
     </div>
 </template>
 <script>
-    export default {
+    import getControllerPosition from "utils/getControllerPosition";
+    import _log from "utils/log.js";
 
+    const props = {
+        position: {
+            required: true,
+            twoway: false,
+            type: Object
+        },
+        enableHighAccuracy: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+        locateSucceed: {
+            required: false,
+            twoway: false,
+            type: Function
+        },
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true,
+        },
+        locateFailed: {
+            required: false,
+            twoway: false,
+            type: Function
+        }
+    };
+
+    export default {
+        props,
+        data () {
+            return {
+                styleObj: {},
+                isLocating: false,                  // 是否在定位中
+                $geoLocation: undefined,
+            }
+        },
+        ready () {
+            let $map = this.$parent.$map;
+            this.styleObj = getControllerPosition(this.position);
+            $map ? this.addController() : this.$parent.$on("ready", this.addController);
+        },
+        beforeDestroy () {
+            this.removeController();
+        },
+        methods: {
+            addController () {
+                let $map = this.$parent.$map;
+                let $geoLocation = this.$geoLocation = new BMap.Geolocation();
+            },
+
+            removeController () {
+                this.$geoLocation = null;
+            },
+
+            locate () {
+                let _this = this;
+                let { $parent, isLocating, $geoLocation, enableHighAccuracy } = this;
+                let $map = $parent.$map;
+                if (isLocating || !$geoLocation) {
+                    _log("定位中...")
+                    return;
+                };
+                this.isLocating = true;
+                $parent.LOADING.show();
+                $geoLocation.getCurrentPosition( function( r ){
+                    if( this.getStatus() == BMAP_STATUS_SUCCESS ){
+                        $parent.currentLocation = {
+                            lng: r.point.lng,
+                            lat: r.point.lat
+                        };
+                        $map.centerAndZoom( r.point, 13 );
+                        if ( _this.locateSucceed ) {
+                            _this.locateSucceed( r );
+                        }
+                    } else {
+                        alert( "定位失败" );
+                        _log( 'locate failed' + this.getStatus() );
+                        if ( _this.locateFailed ) {
+                            _this.locateFailed();
+                        }
+                    }
+                    $parent.LOADING.hide();
+                    _this.isLocating = false;
+                },{ enableHighAccuracy: enableHighAccuracy });
+            }
+        },
     }
 </script>
 <style lang="css" scoped>
