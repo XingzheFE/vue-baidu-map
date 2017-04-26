@@ -6,15 +6,12 @@
 </template>
 
 <script>
+    import init from "./../utils/init";
     import checkMap from "./../utils/checkMap";
-    import init from "./../utils/init.js";
-
     import bindEvent from '../utils/bindEvent';
     import bindContextMenu from '../utils/bindContextMenu';
-
     import Loading from "utils/loadingAnimation";
     import "style/loadingAnimation.css";
-
     import _log from "utils/log.js";
     import { createPoint, createLabel, createIcon } from "utils/factory";
 
@@ -162,7 +159,7 @@
             }
         },
         methods: {
-            createMap: function () {
+            createMap () {
                 let { contextMenu } = this;
                 this.$map = this.$overlay = new BMap.Map(this.$els.map);
                 init.call(this);
@@ -170,7 +167,7 @@
                 eventList && bindEvent.call(this, eventList);
                 this.$emit('ready');
             },
-            removeMap: function () {
+            removeMap () {
                 let { $overlay } = this;
                 if ($overlay) {
                     $overlay.clearoverlays();
@@ -181,53 +178,15 @@
                 }
                 // FIXME: remove $map $overlay
             },
-            // setMapHooks: function (fn) {
-            //     this.mapHooks.push(fn);
-            // },
-            // runMapHooks: function () {
-            //     this.mapHooks.map((item) => {
-            //         try{
-            //             item();
-            //         } catch (exp) {
-            //             _log(exp);
-            //         }
-            //     })
-            // }
-        },
-        events: {
-            // // 子组件派发事件，询问是否可以注册 vue-baidu-map 地图组件
-            // "vue-baidu-map-register-component": function (component) {
-            //     if (this.$overlay && checkMap()) {
-            //         component.$emit("vue-baidu-map-ready", this);
-            //     } else {
-            //         //TODO
-            //     }
-            // },
-            // 根据提供的地理区域或坐标设置地图视野，调整后的视野会保证包含提供的地理区域或坐标
-            "vue-baidu-map-set-viewport": function (points, viewportOptions) {
+            setViewport (points, viewportOptions) {
                 if (this.$overlay && checkMap()) {
                     let pointsArr = points.map(function (item, index, arr) {
-                        return new BMap.Point(item.lng, item.lat);
+                        return createPoint(item);
                     });
-                    setTimeout(() => {
-                        this.$overlay.setViewport(pointsArr, viewportOptions);
-                    }, 50);
-                } else {
-                    this.setMapHooks(() => {
-                        let pointsArr = points.map(function (item, index, arr) {
-                            return new BMap.Point(item.lng, item.lat);
-                        });
-                        setTimeout(() => {
-                            this.$overlay.setViewport(pointsArr, viewportOptions);
-                        }, 50);
-                    })
+                    this.$overlay.setViewport(pointsArr, viewportOptions);
                 }
             },
-            // 注册 infowindow
-            "register-infowindow": function ($infowindow) {
-                this.infoWindowList[$infowindow.id] = $infowindow;
-            }
-        }
+        },
     }
 </script>
 

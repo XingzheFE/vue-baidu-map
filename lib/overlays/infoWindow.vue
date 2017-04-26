@@ -87,6 +87,7 @@
             visible (val) {
                 let { position, $overlay } = this;
                 let { $map } = this.$parent;
+                console.log("infoWindow visible change");
                 if (val && position) {
                     $map.openInfoWindow($overlay, createPoint(position));
                 } else {
@@ -96,10 +97,10 @@
         },
         methods: {
             addOverlay () {
-                let { $overlay, visible, size, offset, title, enableAutoPan, enableCloseOnClick, enableMessage, updateStatus } = this;
+                let { $overlay, visible, size, position, offset, title, enableAutoPan, enableCloseOnClick, enableMessage, updateStatus } = this;
                 let { $map } = this.$parent;
                 let $content = this.$el;
-                this.$overlay = $overlay = new BMap.InfoWindow(new Array(1000).join("x"), {
+                this.$overlay = $overlay = new BMap.InfoWindow($content, {
                     width: size.width,
                     height: size.height,
                     offset: createSize(offset),

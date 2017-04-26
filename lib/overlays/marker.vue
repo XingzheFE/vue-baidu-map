@@ -193,10 +193,10 @@
             },
 
             removeOverlay () {
-                let { $overlay, $label, updatePosition } = this;
+                let { $overlay, $label, $contextMenu, updatePosition } = this;
                 if ($overlay && this.$parent.$overlay) {
                     $overlay.removeEventListener("dragging", updatePosition);      // 移除注册的事件监听器
-                    $overlay.removeContextMenu( )
+                    $contextMenu && $overlay.removeContextMenu($contextMenu);
                     removeOverlay.call(this, this.$parent.$overlay, '$label');
                     removeOverlay.call(this, this.$parent.$overlay, '$overlay');
                     // FIXME：此处 $marker 和 $label 不能完全被清除，百度地图存在极小的内存泄露（ $label 无法被删除 ）

@@ -1,4 +1,5 @@
 # vue-baidu-map
+
 ## install
 
 ```bash

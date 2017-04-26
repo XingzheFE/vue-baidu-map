@@ -1,13 +1,53 @@
 <template>
-    <div v-show="visible" class="controller-section" :style="styleObj" >
+    <div v-show="true" class="controller-section" :style="styleObj" >
         <button @click="zoomIn" id="zoom-in">+</button>
         <button @click="zoomOut" id="zoom-out">-</button>
     </div>
 </template>
 <script>
-export default {
+    import getControllerPosition from "utils/getControllerPosition";
 
-}
+    const props = {
+        position: {
+            required: true,
+            twoway: false,
+            type: Object
+        },
+        visible: {
+            required: false,
+            twoway: false,
+            type: Boolean,
+            default: true
+        },
+    };
+    export default {
+        props,
+        data: function () {
+            return {
+                styleObj: {},
+            }
+        },
+        ready () {
+            console.log("zoom ready");
+            this.styleObj = getControllerPosition(this.position);
+        },
+        methods: {
+            zoomIn () {
+                let _this = this;
+                let { $map } = this.$parent;
+                if ( $map ) {
+                    $map.zoomTo($map.getZoom() + 1);
+                }
+            },
+            zoomOut () {
+                let _this = this;
+                let { $map } = this.$parent;
+                if ( $map ) {
+                    $map.zoomTo($map.getZoom() - 1);
+                }
+            }
+        },
+    }
 </script>
 <style lang="css" scoped>
     .controller-section {

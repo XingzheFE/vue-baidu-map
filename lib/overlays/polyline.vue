@@ -142,6 +142,5 @@
                 removeOverlay.call(this, this.$parent.$map, '$overlay');
             }
         }
-
     }
 </script>

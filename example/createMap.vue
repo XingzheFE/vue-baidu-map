@@ -19,8 +19,7 @@
                 }"
             ></b-search>
             <b-infowindow
-                v-for="item in markerConfigList"
-                :visible="true"
+                :visible="location.visible"
                 :size="{
                     width: 220,
                     height: 60
@@ -42,7 +41,6 @@
                 :position.sync="item.position"
                 :label="item.label"
                 :enable-dragging="true"
-                :context-menu="markerContextMenu"
                 @b-click="markerClickCallback"
                 @b-dragend="markerDragendCallback"
             ></b-marker>
@@ -104,12 +102,18 @@
                 }"
                 :enable-high-accuracy="true"
             ></b-locate>
+            <b-zoom
+                :position="{
+                    x: '-10',
+                    y: '70'
+                }"
+            ></b-zoom>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController, locateController } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController, locateController, zoomController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -387,7 +391,7 @@
             // "b-poltmarker": mapMarker,
             "b-polyline": mapPolyline,
             "b-infowindow": infoWindow,
-            // "b-zoom": zoomController,
+            "b-zoom": zoomController,
             // "b-type": toggleTypeController,
             "b-search": localSearchController,
             "b-fullscreen": fullScreenController,
