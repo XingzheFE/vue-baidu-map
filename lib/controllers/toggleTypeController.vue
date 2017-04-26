@@ -7,8 +7,45 @@
     </div>
 </template>
 <script>
-export default {
+import getControllerPosition from "utils/getControllerPosition";
 
+const props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+};
+
+export default {
+    props,
+    data () {
+        return {
+            mapTypeName: "卫星图像",
+            styleObj: {}
+        }
+    },
+    ready () {
+        this.styleObj = getControllerPosition(this.position);
+    },
+    methods: {
+        changeMapType () {
+            let { $map } = this.$parent;
+            if ( this.mapTypeName === "普通地图" ) {
+                $map.setMapType( BMAP_NORMAL_MAP );
+                this.mapTypeName = "卫星图像";
+            } else {
+                $map.setMapType( BMAP_HYBRID_MAP );
+                this.mapTypeName = "普通地图";
+            }
+        }
+    }
 }
 </script>
 <style lang="css" scoped>

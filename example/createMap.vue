@@ -108,12 +108,18 @@
                     y: '70'
                 }"
             ></b-zoom>
+            <b-type
+                :position="{
+                    x: '-10',
+                    y: '130'
+                }"
+            ></b-type>
         </b-map>
         <!--vue-baidu-map end-->
     </div>
 </template>
 <script>
-    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController, locateController, zoomController } from "../lib/index.js";
+    import { load, map, mapMarker, mapPolyline, controllerBox, infoWindow, fullScreenController, localSearchController, locateController, zoomController, toggleTypeController } from "../lib/index.js";
     import { poltMarkerConfig } from "../lib2/componentConfig/markerConfig";
 
     export default {
@@ -392,7 +398,7 @@
             "b-polyline": mapPolyline,
             "b-infowindow": infoWindow,
             "b-zoom": zoomController,
-            // "b-type": toggleTypeController,
+            "b-type": toggleTypeController,
             "b-search": localSearchController,
             "b-fullscreen": fullScreenController,
             "b-locate": locateController,

@@ -19,6 +19,7 @@
             type: Boolean,
             default: true
         },
+        callback: Function,
     };
 
     export default {
@@ -42,12 +43,18 @@
         methods: {
             search () {
                 let _this = this;
-                let { $search, keywords, markerList } = this;
+                let { $search, keywords, markerList, callback, removerMarker } = this;
+                let $parnet = this.$parent;
                 if ($search && keywords) {
+                    removerMarker();
+                    $parnet.LOADING.show();
+                    setTimeout( ()=> {
+                        $parnet.LOADING.hide();
+                    }, 300);
                     $search.search(keywords);
                     $search.setMarkersSetCallback(function(pois){
                         _this.markerList = _this.markerList.concat(pois);
-                        console.log(_this.markerList.length);
+                        callback && callback(pois);
                     });
                 }
             },
@@ -63,21 +70,24 @@
 
             removeController () {
                 this.$search = null;
-            }
+            },
+
+            removerMarker () {
+                let { keywords, markerList } = this;
+                let { $map } = this.$parent;
+                markerList.map(item => {
+                    $map.removeOverlay(item.marker);
+                });
+                this.markerList.splice(0, markerList.length);
+            },
 
         },
         watch: {
             "keywords": {
                 handler () {
-                    let { keywords, markerList } = this;
-                    console.log(markerList.length);
-                    let { $map } = this.$parent;
+                    let { keywords, removerMarker } = this;
                     if (keywords.length === 0) {
-                        markerList.map(item => {
-                            $map.removeOverlay(item.marker);
-                            console.log( "remove marker" );
-                        });
-                        this.markerList.splice(0, markerList.length);
+                        removerMarker();
                     }
                 },
                 deep: false

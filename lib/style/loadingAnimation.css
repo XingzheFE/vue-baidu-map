@@ -43,14 +43,15 @@
         border-top: 5px solid rgba(255,255,255,0.1);
         border-left: 5px solid #fff;
         border-right: 5px solid #fff;
-        border-bottom: 5px solid rgba(255,255,255,0.1);
+        border-bottom: 5px solid #fff;
+        /*border-bottom: 5px solid rgba(255,255,255,0.1);*/
         transform: rotate(45deg);
     }
     100% {
         border-top: 5px solid rgba(255,255,255,0.1);
         border-left: 5px solid #fff;
         border-right: 5px solid #fff;
-        border-bottom: 5px solid rgba(255,255,255,0.1);
+        border-bottom: 5px solid #fff;
         transform: rotate(405deg);
     }
 }

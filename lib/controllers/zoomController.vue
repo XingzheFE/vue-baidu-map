@@ -28,7 +28,6 @@
             }
         },
         ready () {
-            console.log("zoom ready");
             this.styleObj = getControllerPosition(this.position);
         },
         methods: {
