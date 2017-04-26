@@ -2,6 +2,11 @@
 
 ## install
 
+*NOTICE*  
+> 2.0 is different , `b-map` `b-infowindow` ``
+
+
+
 ```bash
 npm install vue1-baidu-map
 ```
@@ -13,18 +18,17 @@ npm install vue1-baidu-map
 import { load, map, mapMarker, mapPolyline, mapInfoWindow, zoomController, fullScreenController, toggleTypeController, localSearchController, controllerBox } from "vue-baidu-map";
 
 load( { key: "[your key]", version: "2.0" } );
-
 components: {
     "b-map": map,
-    "b-box": controllerBox,
     "b-marker": mapMarker,
-    "b-poltmarker": mapMarker,
+    "b-box": controllerBox,
     "b-polyline": mapPolyline,
-    "b-infowindow": mapInfoWindow,
+    "b-infowindow": infoWindow,
     "b-zoom": zoomController,
     "b-type": toggleTypeController,
     "b-search": localSearchController,
     "b-fullscreen": fullScreenController,
+    "b-locate": locateController,
 }
 ```
 
@@ -35,93 +39,117 @@ components: {
     :return-map="true"
     :context-menu="mapContextMenu"
     :location="true"
+    :enable-scroll-wheel-zoom="true"
+    :enable-high-accuracy="false"
+    :map-ready="mapReady"
+    :locate-succeed="locateSucceed"
+    :locate-failed="locateFailed"
     @b-rightclick="mapRightClickCallback"
 >
-    <!-- marker -->
-    <b-poltmarker
-        :config="chart.poltMarker.config"
-        :position.sync="chart.poltMarker.position"
-        :visible.sync="chart.poltMarker.visible"
-        :z-index="9"
-    ></b-poltmarker>
-
-    <!-- marker -->
+    <b-search
+        :position="{
+            x: '10',
+            y: '10'
+        }"
+    ></b-search>
+    <b-infowindow
+        :visible="location.visible"
+        :size="{
+            width: 220,
+            height: 60
+        }"
+        :offset="{
+            x: 0,
+            y: -10
+        }"
+        :position.sync="location.position"
+        @b-open="location.visible = true"
+        @b-close="location.visible = false"
+    >
+        <h2>嘻嘻嘻 =,=</h2>
+        <p>{{{ location.address }}}</p>
+    </b-infowindow>
     <b-marker
         v-for="item in markerConfigList"
-        :config="item.config"
+        :icon="item.config"
         :position.sync="item.position"
         :label="item.label"
-        :bind-info-window="item.infoWindowId"
-        :enable-dragging="item.enableDragging"
-        :cid="item.cid"
-        :context-menu="markerContextMenu"
+        :enable-dragging="true"
         @b-click="markerClickCallback"
         @b-dragend="markerDragendCallback"
     ></b-marker>
-
-    <!--infowindow content start-->
-    <b-infowindow
-        :id="123"
-        :visible="false"
-    >
-        <div class="infowindow-box">
-            <p>text</p>
-        </div>
-    </b-infowindow>
-    <!--infowindow content end-->
-
-
     <b-polyline
         v-for="item in polylineConfigList"
         :points="item.points"
-        :config="item.config"
-        :cid="item.cid"
-        @b-mousedown="polylineMousedownCallback"
+        :enable-editing="false"
+        :style="{
+            strokeColor: '#32b1fb',
+            strokeWeight: 4,
+            strokeOpacity: 1
+        }"
+        @b-lineupdate="lineUpdate"
     ></b-polyline>
 
-    <!--自定义控件 box -->
-    <b-box-->
-        :position="{
-            x: 0,
-            y: 15
-        }"
-    >
-        <div>
-            text
-        </div>
-    </b-box>
-
-    <!--地图搜索控件 -->    
-    <b-search
-        :position="{
-            x: 20,
-            y: 15
-        }"
-    ></b-search>
-
-    <!--地图风格切换控件（卫星图像、普通图像） -->
-    <b-type
-        :position="{
-            x: -10,
-            y: 15
-        }"
-    ></b-type>
-
-    <!--地图缩放控件 -->    
-    <b-zoom
-        :position="{
-            x: -10,
-            y: 53
-        }"
-    ></b-zoom>
-
-    <!--全屏控件 -->    
+    <!-- controller-section -->
     <b-fullscreen
         :position="{
-            x: -10,
-            y: 119
+            x: '-10',
+            y: '10'
         }"
     ></b-fullscreen>
+    <b-box
+        :position="{
+            x: '-0',
+            y: '-0'
+        }"
+    >
+        <button @click="addMarkers" type="button" name="button">添加五百个随机点</button>
+    </b-box>
+    <b-box
+        :position="{
+            x: '-0',
+            y: '-20'
+        }"
+    >
+        <button @click="changeLabel" type="button" name="button">修改label</button>
+    </b-box>
+    <b-box
+        :position="{
+            x: '-0',
+            y: '-40'
+        }"
+    >
+        <button @click="toggleInfoWindow" type="button" name="button">toggleInfoWindow</button>
+    </b-box>
+    <b-box
+        :position="{
+            x: '-0',
+            y: '-60'
+        }"
+    >
+        <button @click="addLine" type="button" name="button">添加Lines</button>
+    </b-box>
+    <b-locate
+        :position="{
+            x: '-10',
+            y: '40'
+        }"
+        :enable-high-accuracy="true"
+        :locate-succeed="locateSucceed"
+        :locate-failed="locateFailed"
+    ></b-locate>
+    <b-zoom
+        :position="{
+            x: '-10',
+            y: '70'
+        }"
+    ></b-zoom>
+    <b-type
+        :position="{
+            x: '-10',
+            y: '130'
+        }"
+    ></b-type>
 </b-map>
 ```
 [示例|Demo with a lot of features](./example)

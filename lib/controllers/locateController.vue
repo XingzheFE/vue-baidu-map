@@ -19,16 +19,16 @@
             type: Boolean,
             default: true
         },
-        locateSucceed: {
-            required: false,
-            twoway: false,
-            type: Function
-        },
         visible: {
             required: false,
             twoway: false,
             type: Boolean,
             default: true,
+        },
+        locateSucceed: {
+            required: false,
+            twoway: false,
+            type: Function
         },
         locateFailed: {
             required: false,
@@ -66,7 +66,7 @@
 
             locate () {
                 let _this = this;
-                let { $parent, isLocating, $geoLocation, enableHighAccuracy } = this;
+                let { $parent, isLocating, $geoLocation, enableHighAccuracy, locateSucceed, locateFailed } = this;
                 let $map = $parent.$map;
                 if (isLocating || !$geoLocation) {
                     _log("定位中...")
@@ -80,16 +80,13 @@
                             lng: r.point.lng,
                             lat: r.point.lat
                         };
+                        console.log(_this.locateSucceed);
+                        locateSucceed && locateSucceed( r );
                         $map.centerAndZoom( r.point, 13 );
-                        if ( _this.locateSucceed ) {
-                            _this.locateSucceed( r );
-                        }
                     } else {
                         alert( "定位失败" );
                         _log( 'locate failed' + this.getStatus() );
-                        if ( _this.locateFailed ) {
-                            _this.locateFailed();
-                        }
+                        locateFailed && locateFailed();
                     }
                     $parent.LOADING.hide();
                     _this.isLocating = false;

@@ -33,17 +33,7 @@
             type: Boolean,
             default: true
         },
-        locateSucceed: {
-            required: false,
-            twoway: false,
-            type: Function,
-        },
-        locateFailed: {
-            required: false,
-            twoway: false,
-            type: Function,
-        },
-        callback: {                 // 地图组件初始成功后的回调函数
+        mapReady: {                 // 地图组件初始成功后的回调函数
             required: false,
             twoway: false,
             type: Function
@@ -59,6 +49,16 @@
             type: Boolean,
             twoway: false,
             default: false
+        },
+        locateSucceed: {
+            required: false,
+            twoway: false,
+            type: Function,
+        },
+        locateFailed: {
+            required: false,
+            twoway: false,
+            type: Function,
         },
         enableScrollWheelZoom: {
             required: false,
@@ -160,11 +160,12 @@
         },
         methods: {
             createMap () {
-                let { contextMenu } = this;
+                let { contextMenu, mapReady } = this;
                 this.$map = this.$overlay = new BMap.Map(this.$els.map);
                 init.call(this);
                 contextMenu && bindContextMenu.call(this);
                 eventList && bindEvent.call(this, eventList);
+                mapReady && mapReady(this);
                 this.$emit('ready');
             },
             removeMap () {

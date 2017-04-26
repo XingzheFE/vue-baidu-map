@@ -5,11 +5,12 @@
             :zoom="mapConfig.zoom"
             :return-map="true"
             :context-menu="mapContextMenu"
-            :location="false"
-            :locate-succeed="location.succeedCallback"
-            :locate-failed="location.failedCallback"
+            :location="true"
             :enable-scroll-wheel-zoom="true"
             :enable-high-accuracy="false"
+            :map-ready="mapReady"
+            :locate-succeed="locateSucceed"
+            :locate-failed="locateFailed"
             @b-rightclick="mapRightClickCallback"
         >
             <b-search
@@ -101,6 +102,8 @@
                     y: '40'
                 }"
                 :enable-high-accuracy="true"
+                :locate-succeed="locateSucceed"
+                :locate-failed="locateFailed"
             ></b-locate>
             <b-zoom
                 :position="{
@@ -269,6 +272,18 @@
                 // console.log(a);
                 // console.log(b);
                 // console.log(c);
+            },
+
+            mapReady () {
+                console.log("map ready");
+            },
+
+            locateSucceed (e) {
+                alert(e);
+            },
+
+            locateFailed (e) {
+                alert(e);
             },
 
             toggleInfoWindow () {
