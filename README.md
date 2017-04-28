@@ -3,7 +3,7 @@
 ## install
 
 *NOTICE*  
-> 2.0 is different , `b-map` `b-infowindow` ``
+> 2.0 is different , `b-map` `b-infowindow` `b-marker`
 
 
 
