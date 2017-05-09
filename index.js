@@ -1,6 +1,6 @@
 /*!
  * This file is created by xingzheFE
- * Tue Mar 07 2017 12:10:49 GMT+0800 (CST)
+ * Wed May 10 2017 00:13:54 GMT+0800 (CST)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -77,7 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 135);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -372,7 +372,7 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(12)(function(){
+module.exports = !__webpack_require__(15)(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
 
@@ -389,7 +389,7 @@ module.exports = function(it, key){
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject       = __webpack_require__(10)
+var anObject       = __webpack_require__(13)
   , IE8_DOM_DEFINE = __webpack_require__(38)
   , toPrimitive    = __webpack_require__(31)
   , dP             = Object.defineProperty;
@@ -411,7 +411,7 @@ exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProp
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(82)
+var IObject = __webpack_require__(84)
   , defined = __webpack_require__(21);
 module.exports = function(it){
   return IObject(defined(it));
@@ -428,87 +428,56 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _checkMap = __webpack_require__(20);
+exports.default = function (position) {
+    var styleObj = {};
+    if (position && position.x !== undefined && position.y !== undefined && !isNaN(position.x) && !isNaN(position.y)) {
+        if (position.x >= 0 && position.x.toString().indexOf("-") <= -1) {
+            styleObj.left = position.x + "px";
+        } else {
+            styleObj.right = Math.abs(position.x) + "px";
+        }
+        if (position.y >= 0 && position.y.toString().indexOf("-") <= -1) {
+            styleObj.top = position.y + "px";
+        } else {
+            styleObj.bottom = Math.abs(position.y) + "px";
+        }
+    } else {
+        (0, _log3.default)(new Error("controller position error or not existing"));
+    }
+    return styleObj;
+};
 
-var _checkMap2 = _interopRequireDefault(_checkMap);
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var props = {
-    position: {
-        required: true,
-        twoway: false,
-        type: Object
-    },
-    visible: {
-        required: false,
-        twoway: false,
-        type: Boolean,
-        default: true
-    },
-    callback: {
-        required: false,
-        twoway: false,
-        type: Function
-    }
-};
-
-exports.default = {
-    props: props,
-    data: function data() {
-        return {
-            controllerObj: undefined,
-            styleObj: {},
-            $map: '',
-            mapObj: '' };
-    },
-    created: function created() {
-        if ((0, _checkMap2.default)()) {
-            this.$dispatch("vue-baidu-map-register-component", this);
-        } else {}
-    },
-    computed: {
-        "styleObj": function styleObj() {
-            var styleObj = {};
-            if (this.position && this.position.x !== undefined && this.position.y !== undefined && !isNaN(this.position.x) && !isNaN(this.position.y)) {
-                if (this.position.x >= 0 && this.position.x.toString().indexOf("-") <= -1) {
-                    styleObj.left = this.position.x + "px";
-                } else {
-                    styleObj.right = Math.abs(this.position.x) + "px";
-                }
-                if (this.position.y >= 0 && this.position.y.toString().indexOf("-") <= -1) {
-                    styleObj.top = this.position.y + "px";
-                } else {
-                    styleObj.bottom = Math.abs(this.position.y) + "px";
-                }
-            } else {
-                console.error("[vue-baidu-map] controller position error or not existing");
-            }
-            return styleObj;
-        }
-    },
-    methods: {
-        "createComponent": function createComponent() {}
-    },
-    events: {
-        "vue-baidu-map-ready": function vueBaiduMapReady($map) {
-            this.$map = $map;
-            this.mapObj = this.$map.$data.mapObj;
-            if (this.mapObj) {
-                this.createComponent();
-            } else {
-                console.warn("mapObj 不存在");
-            }
-        }
-    }
-};
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = _log;
+function _log(info) {
+    if (typeof info === 'string') {
+        console.log('[vue-baidu-map] ' + info);
+    } else if (info instanceof Error) {
+        console.error('[vue-baidu-map] ' + info.message);
+    }
+}
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var dP         = __webpack_require__(5)
-  , createDesc = __webpack_require__(15);
+  , createDesc = __webpack_require__(18);
 module.exports = __webpack_require__(3) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -517,11 +486,11 @@ module.exports = __webpack_require__(3) ? function(object, key, value){
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var store      = __webpack_require__(29)('wks')
-  , uid        = __webpack_require__(16)
+  , uid        = __webpack_require__(19)
   , Symbol     = __webpack_require__(2).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
@@ -533,24 +502,91 @@ var $exports = module.exports = function(name){
 $exports.store = store;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(13);
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.createIcon = createIcon;
+exports.createLabel = createLabel;
+exports.createPoint = createPoint;
+exports.createSize = createSize;
+exports.checkIconConfig = checkIconConfig;
+function createIcon(conf) {
+    var iconOption = {};
+    if (!conf) return;
+    if (conf.imageSize) iconOption.imageSize = createSize(conf.imageSize);
+    if (conf.size && conf.imageSize) iconOption.imageOffset = createSize({
+        x: (conf.size.x - conf.imageSize.x) / 2,
+        y: (conf.size.y - conf.imageSize.y) / 2
+    });
+    if (conf.anchor) iconOption.anchor = createSize(conf.anchor);
+    return new BMap.Icon(conf.img, createSize(conf.size), iconOption);
+}
+
+function createLabel(config) {
+    return new BMap.Label(config.text, { offset: createSize(config.offset) });
+}
+
+function createPoint(point) {
+    return new BMap.Point(point.lng, point.lat);
+}
+
+function createSize(config) {
+    return new BMap.Size(config.x, config.y);
+}
+
+function checkIconConfig(conf) {
+    if (conf && (conf.img && conf.imageSize && conf.imageSize instanceof Object && !isNaN(conf.imageSize.x) && !isNaN(conf.imageSize.y) && conf.size && conf.size instanceof Object && !isNaN(conf.size.x) && !isNaN(conf.size.y) || conf.anchor && conf.anchor instanceof Object && !isNaN(conf.anchor.x) && !isNaN(conf.anchor.y))) {
+        return true;
+    }
+    return false;
+}
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function (eventList) {
+    var _this = this;
+
+    eventList.map(function (item, index) {
+        _this.$overlay.addEventListener(item, function (e) {
+            _this.$emit("b-" + item, e, _this);
+        });
+    });
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(16);
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
 /***/ (function(module, exports) {
 
 var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
-/* 12 */
+/* 15 */
 /***/ (function(module, exports) {
 
 module.exports = function(exec){
@@ -562,7 +598,7 @@ module.exports = function(exec){
 };
 
 /***/ }),
-/* 13 */
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -570,7 +606,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
@@ -582,7 +618,7 @@ module.exports = Object.keys || function keys(O){
 };
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -595,7 +631,7 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports) {
 
 var id = 0
@@ -603,176 +639,6 @@ var id = 0
 module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _checkMap = __webpack_require__(20);
-
-var _checkMap2 = _interopRequireDefault(_checkMap);
-
-var _bindContextMenu = __webpack_require__(18);
-
-var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var PROPS = {
-    visible: {
-        required: false,
-        type: Boolean,
-        twoway: false,
-        default: true
-    },
-
-    contextMenu: {
-        required: false,
-        type: Array,
-        twoway: false,
-        default: undefined
-    },
-
-    cid: {
-        required: false,
-        type: String,
-        twoway: false
-    }
-};
-
-exports.default = {
-    props: PROPS,
-    data: function data() {
-        return {
-            componentType: "without declare",
-            created: false,
-            mapComponentObj: undefined,
-            mapContextMenu: undefined };
-    },
-    created: function created() {
-        if ((0, _checkMap2.default)()) {
-            this.$dispatch("vue-baidu-map-register-component", this);
-        } else {}
-    },
-    ready: function ready() {},
-    detached: function detached() {
-        this.beforeDeleteComponent();
-    },
-    destroyed: function destroyed() {
-        this.beforeDeleteComponent();
-    },
-    watch: {
-        "contextMenu": {
-            handler: function handler(val) {
-                (0, _bindContextMenu2.default)(this, this.mapComponentObj);
-            },
-            deep: true
-        }
-    },
-    methods: {
-        beforeCreateComponent: function beforeCreateComponent() {
-            this.created = true;
-            this.createComponent();
-        },
-        createComponent: function createComponent() {},
-        beforeDeleteComponent: function beforeDeleteComponent() {
-            this.created = false;
-
-            if (this.mapComponentObj) {
-                this.deleteComponent();
-            }
-        },
-        deleteComponent: function deleteComponent() {}
-    },
-    events: {
-        "vue-baidu-map-ready": function vueBaiduMapReady($map) {
-            this.$map = $map;
-            this.mapObj = this.$map.$data.mapObj;
-            if (this.mapObj) {
-                this.beforeCreateComponent();
-            } else {
-                console.error("[vue-baidu-map] mapObj 不存在");
-            }
-        }
-    }
-};
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function ($component, componentObj) {
-    if ($component && $component.contextMenu && $component.contextMenu instanceof Array && $component.$data.mapObj) {
-        if ($component.$data.mapContextMenu && $component.$data.mapContextMenu instanceof BMap.ContextMenu) {
-            if (process.env.NODE_ENV === "development") console.log("修改contextMenu text");
-            $component.contextMenu.map(function (item, index, arr) {
-                var menuItem = $component.$data.mapContextMenu.getItem(index);
-                var text = item.text;
-                if (item.text && menuItem) {
-                    menuItem.setText(text);
-                }
-            });
-        } else {
-            if (process.env.NODE_ENV === "development") console.log("创建contextMenu");
-
-            var contextMenu = $component.contextMenu;
-            var menu = new BMap.ContextMenu();
-            var map = $component.$data.mapObj;
-
-            if ($component.$data.mapContextMenu) {
-                componentObj.removeContextMenu($component.$data.mapContextMenu);
-            }
-
-            for (var i = 0; i < contextMenu.length; i++) {
-                menu.addItem(new BMap.MenuItem(contextMenu[i].text, contextMenu[i].callback));
-            }
-
-            componentObj.addContextMenu(menu);
-            $component.$data.mapContextMenu = menu;
-        }
-    } else {
-        if (process.env.NODE_ENV === "development") console.warn("[vue-baidu-map] contextMenu is not exist!");
-    }
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function ($component, componentObj, eventList) {
-    if (eventList && eventList instanceof Array) {
-        eventList.map(function (item, index, arr) {
-            componentObj.addEventListener(item, function (e) {
-                $component.$emit("b-" + item, e, $component);
-            });
-        });
-    } else {
-        if (process.env.NODE_ENV === "development") console.error("[vue-baidu-map] param eventList must be an Array!");
-    }
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
 /* 20 */
@@ -784,28 +650,16 @@ exports.default = function ($component, componentObj, eventList) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _typeof2 = __webpack_require__(35);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var checkMap = function checkMap(mapObj) {
-    var result = false;
-    if (window.BMap !== undefined && window.BMap.Map && window.BMap.Map instanceof Function && window.BMap.Size && window.BMap.Size instanceof Function && BMap.Point && BMap.Point instanceof Function && BMap.Polyline && BMap.Polyline instanceof Function && BMap.Marker && BMap.Marker instanceof Function) {
-        if (mapObj !== undefined) {
-            if ((typeof mapObj === "undefined" ? "undefined" : (0, _typeof3.default)(mapObj)) === "object" && mapObj instanceof window.BMap.Map) {
-                result = true;
-            }
-        } else {
-            result = true;
+exports.removeOverlay = removeOverlay;
+function removeOverlay(map, key) {
+    map.removeOverlay(this[key]);
+    for (var i in this[key]) {
+        if (this[key].hasOwnProperty(i) && this[key][i]) {
+            this[key][i] = null;
         }
-    } else {}
-    return result;
-};
-
-exports.default = checkMap;
+    }
+    this[key] = null;
+}
 
 /***/ }),
 /* 21 */
@@ -831,9 +685,9 @@ module.exports = (
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(2)
-  , core      = __webpack_require__(11)
-  , ctx       = __webpack_require__(79)
-  , hide      = __webpack_require__(8)
+  , core      = __webpack_require__(14)
+  , ctx       = __webpack_require__(81)
+  , hide      = __webpack_require__(9)
   , PROTOTYPE = 'prototype';
 
 var $export = function(type, name, source){
@@ -916,7 +770,7 @@ exports.f = {}.propertyIsEnumerable;
 
 var def = __webpack_require__(5).f
   , has = __webpack_require__(4)
-  , TAG = __webpack_require__(9)('toStringTag');
+  , TAG = __webpack_require__(10)('toStringTag');
 
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
@@ -927,7 +781,7 @@ module.exports = function(it, tag, stat){
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(29)('keys')
-  , uid    = __webpack_require__(16);
+  , uid    = __webpack_require__(19);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
@@ -959,7 +813,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(13);
+var isObject = __webpack_require__(16);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function(it, S){
@@ -976,7 +830,7 @@ module.exports = function(it, S){
 /***/ (function(module, exports, __webpack_require__) {
 
 var global         = __webpack_require__(2)
-  , core           = __webpack_require__(11)
+  , core           = __webpack_require__(14)
   , LIBRARY        = __webpack_require__(25)
   , wksExt         = __webpack_require__(33)
   , defineProperty = __webpack_require__(5).f;
@@ -989,10 +843,286 @@ module.exports = function(name){
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(9);
+exports.f = __webpack_require__(10);
 
 /***/ }),
 /* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+exports.default = function () {
+    var _this = this;
+
+    if (this && this.contextMenu && this.contextMenu instanceof Array && this.$overlay) {
+        if (this.$contextMenu && this.$contextMenu instanceof BMap.ContextMenu) {
+            this.contextMenu.map(function (item, index, arr) {
+                var menuItem = _this.$contextMenu.getItem(index);
+                var text = item.text;
+                if (item.text && menuItem) {
+                    menuItem.setText(text);
+                }
+            });
+        } else {
+            var contextMenu = this.contextMenu;
+            var menu = new BMap.ContextMenu();
+
+            if (this.$contextMenu) {
+                this.$overlay.removeContextMenu(this.$contextMenu);
+            }
+
+            for (var i = 0; i < contextMenu.length; i++) {
+                menu.addItem(new BMap.MenuItem(contextMenu[i].text, contextMenu[i].callback));
+            }
+
+            this.$overlay.addContextMenu(menu);
+            this.$contextMenu = menu;
+        }
+    } else {
+        if (process.env.NODE_ENV === "development") console.warn("[vue-baidu-map] contextMenu is not exist!");
+    }
+};
+
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _iterator = __webpack_require__(72);
+
+var _iterator2 = _interopRequireDefault(_iterator);
+
+var _symbol = __webpack_require__(71);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+} : function (obj) {
+  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+};
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function(it){
+  return toString.call(it).slice(8, -1);
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(16)
+  , document = __webpack_require__(2).document
+  // in old IE typeof document.createElement is 'object'
+  , is = isObject(document) && isObject(document.createElement);
+module.exports = function(it){
+  return is ? document.createElement(it) : {};
+};
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(3) && !__webpack_require__(15)(function(){
+  return Object.defineProperty(__webpack_require__(37)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+});
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY        = __webpack_require__(25)
+  , $export        = __webpack_require__(23)
+  , redefine       = __webpack_require__(44)
+  , hide           = __webpack_require__(9)
+  , has            = __webpack_require__(4)
+  , Iterators      = __webpack_require__(24)
+  , $iterCreate    = __webpack_require__(86)
+  , setToStringTag = __webpack_require__(27)
+  , getPrototypeOf = __webpack_require__(93)
+  , ITERATOR       = __webpack_require__(10)('iterator')
+  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
+  , FF_ITERATOR    = '@@iterator'
+  , KEYS           = 'keys'
+  , VALUES         = 'values';
+
+var returnThis = function(){ return this; };
+
+module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function(kind){
+    if(!BUGGY && kind in proto)return proto[kind];
+    switch(kind){
+      case KEYS: return function keys(){ return new Constructor(this, kind); };
+      case VALUES: return function values(){ return new Constructor(this, kind); };
+    } return function entries(){ return new Constructor(this, kind); };
+  };
+  var TAG        = NAME + ' Iterator'
+    , DEF_VALUES = DEFAULT == VALUES
+    , VALUES_BUG = false
+    , proto      = Base.prototype
+    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+    , $default   = $native || getMethod(DEFAULT)
+    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
+    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
+    , methods, key, IteratorPrototype;
+  // Fix native
+  if($anyNative){
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base));
+    if(IteratorPrototype !== Object.prototype){
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if(!LIBRARY && !has(IteratorPrototype, ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if(DEF_VALUES && $native && $native.name !== VALUES){
+    VALUES_BUG = true;
+    $default = function values(){ return $native.call(this); };
+  }
+  // Define iterator
+  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG]  = returnThis;
+  if(DEFAULT){
+    methods = {
+      values:  DEF_VALUES ? $default : getMethod(VALUES),
+      keys:    IS_SET     ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if(FORCED)for(key in methods){
+      if(!(key in proto))redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+var anObject    = __webpack_require__(13)
+  , dPs         = __webpack_require__(90)
+  , enumBugKeys = __webpack_require__(22)
+  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
+  , Empty       = function(){ /* empty */ }
+  , PROTOTYPE   = 'prototype';
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function(){
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = __webpack_require__(37)('iframe')
+    , i      = enumBugKeys.length
+    , lt     = '<'
+    , gt     = '>'
+    , iframeDocument;
+  iframe.style.display = 'none';
+  __webpack_require__(83).appendChild(iframe);
+  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+  // createDict = iframe.contentWindow.Object;
+  // html.removeChild(iframe);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
+  return createDict();
+};
+
+module.exports = Object.create || function create(O, Properties){
+  var result;
+  if(O !== null){
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty;
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : dPs(result, Properties);
+};
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
+var $keys      = __webpack_require__(43)
+  , hiddenKeys = __webpack_require__(22).concat('length', 'prototype');
+
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
+  return $keys(O, hiddenKeys);
+};
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has          = __webpack_require__(4)
+  , toIObject    = __webpack_require__(6)
+  , arrayIndexOf = __webpack_require__(80)(false)
+  , IE_PROTO     = __webpack_require__(28)('IE_PROTO');
+
+module.exports = function(object, names){
+  var O      = toIObject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(9);
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1178,233 +1308,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-
-var _iterator = __webpack_require__(70);
-
-var _iterator2 = _interopRequireDefault(_iterator);
-
-var _symbol = __webpack_require__(69);
-
-var _symbol2 = _interopRequireDefault(_symbol);
-
-var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
-  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
-} : function (obj) {
-  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
-};
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function(it){
-  return toString.call(it).slice(8, -1);
-};
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(13)
-  , document = __webpack_require__(2).document
-  // in old IE typeof document.createElement is 'object'
-  , is = isObject(document) && isObject(document.createElement);
-module.exports = function(it){
-  return is ? document.createElement(it) : {};
-};
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = !__webpack_require__(3) && !__webpack_require__(12)(function(){
-  return Object.defineProperty(__webpack_require__(37)('div'), 'a', {get: function(){ return 7; }}).a != 7;
-});
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var LIBRARY        = __webpack_require__(25)
-  , $export        = __webpack_require__(23)
-  , redefine       = __webpack_require__(44)
-  , hide           = __webpack_require__(8)
-  , has            = __webpack_require__(4)
-  , Iterators      = __webpack_require__(24)
-  , $iterCreate    = __webpack_require__(84)
-  , setToStringTag = __webpack_require__(27)
-  , getPrototypeOf = __webpack_require__(91)
-  , ITERATOR       = __webpack_require__(9)('iterator')
-  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
-  , FF_ITERATOR    = '@@iterator'
-  , KEYS           = 'keys'
-  , VALUES         = 'values';
-
-var returnThis = function(){ return this; };
-
-module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
-  $iterCreate(Constructor, NAME, next);
-  var getMethod = function(kind){
-    if(!BUGGY && kind in proto)return proto[kind];
-    switch(kind){
-      case KEYS: return function keys(){ return new Constructor(this, kind); };
-      case VALUES: return function values(){ return new Constructor(this, kind); };
-    } return function entries(){ return new Constructor(this, kind); };
-  };
-  var TAG        = NAME + ' Iterator'
-    , DEF_VALUES = DEFAULT == VALUES
-    , VALUES_BUG = false
-    , proto      = Base.prototype
-    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
-    , $default   = $native || getMethod(DEFAULT)
-    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
-    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
-    , methods, key, IteratorPrototype;
-  // Fix native
-  if($anyNative){
-    IteratorPrototype = getPrototypeOf($anyNative.call(new Base));
-    if(IteratorPrototype !== Object.prototype){
-      // Set @@toStringTag to native iterators
-      setToStringTag(IteratorPrototype, TAG, true);
-      // fix for some old engines
-      if(!LIBRARY && !has(IteratorPrototype, ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
-    }
-  }
-  // fix Array#{values, @@iterator}.name in V8 / FF
-  if(DEF_VALUES && $native && $native.name !== VALUES){
-    VALUES_BUG = true;
-    $default = function values(){ return $native.call(this); };
-  }
-  // Define iterator
-  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
-    hide(proto, ITERATOR, $default);
-  }
-  // Plug for library
-  Iterators[NAME] = $default;
-  Iterators[TAG]  = returnThis;
-  if(DEFAULT){
-    methods = {
-      values:  DEF_VALUES ? $default : getMethod(VALUES),
-      keys:    IS_SET     ? $default : getMethod(KEYS),
-      entries: $entries
-    };
-    if(FORCED)for(key in methods){
-      if(!(key in proto))redefine(proto, key, methods[key]);
-    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
-  }
-  return methods;
-};
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject    = __webpack_require__(10)
-  , dPs         = __webpack_require__(88)
-  , enumBugKeys = __webpack_require__(22)
-  , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
-  , Empty       = function(){ /* empty */ }
-  , PROTOTYPE   = 'prototype';
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function(){
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(37)('iframe')
-    , i      = enumBugKeys.length
-    , lt     = '<'
-    , gt     = '>'
-    , iframeDocument;
-  iframe.style.display = 'none';
-  __webpack_require__(81).appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-  // createDict = iframe.contentWindow.Object;
-  // html.removeChild(iframe);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
-  return createDict();
-};
-
-module.exports = Object.create || function create(O, Properties){
-  var result;
-  if(O !== null){
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty;
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : dPs(result, Properties);
-};
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys      = __webpack_require__(43)
-  , hiddenKeys = __webpack_require__(22).concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
-  return $keys(O, hiddenKeys);
-};
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var has          = __webpack_require__(4)
-  , toIObject    = __webpack_require__(6)
-  , arrayIndexOf = __webpack_require__(78)(false)
-  , IE_PROTO     = __webpack_require__(28)('IE_PROTO');
-
-module.exports = function(object, names){
-  var O      = toIObject(object)
-    , i      = 0
-    , result = []
-    , key;
-  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while(names.length > i)if(has(O, key = names[i++])){
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(8);
-
-/***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1455,15 +1359,15 @@ function load(config) {
 exports.default = load;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
 __webpack_require__(129)
-__vue_script__ = __webpack_require__(58)
+__vue_script__ = __webpack_require__(60)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/controllerBox.vue: named exports in *.vue files are ignored.")}
+  console.warn("[vue-loader] lib/controllers/controllerBox.vue: named exports in *.vue files are ignored.")}
 __vue_template__ = __webpack_require__(120)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -1480,41 +1384,7 @@ if (false) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
-  var id = "_v-7d483a73/controllerBox.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__webpack_require__(132)
-__vue_script__ = __webpack_require__(59)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/fullScreenController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(123)
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-cc44eeba/fullScreenController.vue"
+  var id = "_v-27e221ec/controllerBox.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -1528,11 +1398,11 @@ if (false) {(function () {  module.hot.accept()
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(125)
-__vue_script__ = __webpack_require__(60)
+__webpack_require__(134)
+__vue_script__ = __webpack_require__(61)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/localSearchController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(116)
+  console.warn("[vue-loader] lib/controllers/fullScreenController.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(125)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
@@ -1548,7 +1418,7 @@ if (false) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
-  var id = "_v-21cc72d3/localSearchController.vue"
+  var id = "_v-8c9467a8/fullScreenController.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -1562,211 +1432,10 @@ if (false) {(function () {  module.hot.accept()
 
 var __vue_script__, __vue_template__
 var __vue_styles__ = {}
-__webpack_require__(126)
-__vue_script__ = __webpack_require__(61)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/locateController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(117)
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-4325644c/locateController.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__webpack_require__(131)
-__webpack_require__(124)
+__webpack_require__(128)
 __vue_script__ = __webpack_require__(62)
 if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/map.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(122)
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-c1365880/map.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__webpack_require__(130)
-__vue_script__ = __webpack_require__(63)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/mapInfoWindow.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(121)
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-7ed6711e/mapInfoWindow.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__vue_script__ = __webpack_require__(64)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/mapMarker.vue: named exports in *.vue files are ignored.")}
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-17a7191a/mapMarker.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__vue_script__ = __webpack_require__(65)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/mapPolyline.vue: named exports in *.vue files are ignored.")}
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-61cfbcc0/mapPolyline.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__webpack_require__(127)
-__vue_script__ = __webpack_require__(66)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/toggleTypeController.vue: named exports in *.vue files are ignored.")}
-__vue_template__ = __webpack_require__(118)
-module.exports = __vue_script__ || {}
-if (module.exports.__esModule) module.exports = module.exports.default
-var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
-if (__vue_template__) {
-__vue_options__.template = __vue_template__
-}
-if (!__vue_options__.computed) __vue_options__.computed = {}
-Object.keys(__vue_styles__).forEach(function (key) {
-var module = __vue_styles__[key]
-__vue_options__.computed[key] = function () { return module }
-})
-if (false) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  var id = "_v-67e4af94/toggleTypeController.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, __vue_template__)
-  }
-})()}
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_script__, __vue_template__
-var __vue_styles__ = {}
-__webpack_require__(128)
-__vue_script__ = __webpack_require__(67)
-if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
-  console.warn("[vue-loader] lib/components/zoomController.vue: named exports in *.vue files are ignored.")}
+  console.warn("[vue-loader] lib/controllers/localSearchController.vue: named exports in *.vue files are ignored.")}
 __vue_template__ = __webpack_require__(119)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -1783,7 +1452,210 @@ if (false) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
-  var id = "_v-7a9ac99b/zoomController.vue"
+  var id = "_v-0606bf2c/localSearchController.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(127)
+__vue_script__ = __webpack_require__(63)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/controllers/locateController.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(118)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-03febde3/locateController.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(130)
+__vue_script__ = __webpack_require__(64)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/controllers/toggleTypeController.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(121)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-28342882/toggleTypeController.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(131)
+__vue_script__ = __webpack_require__(65)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/controllers/zoomController.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(122)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-36aab038/zoomController.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(133)
+__vue_script__ = __webpack_require__(66)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/overlays/infoWindow.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(124)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-56ed0ac6/infoWindow.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__webpack_require__(132)
+__webpack_require__(126)
+__vue_script__ = __webpack_require__(67)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/overlays/map.vue: named exports in *.vue files are ignored.")}
+__vue_template__ = __webpack_require__(123)
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-445b31e6/map.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__vue_script__ = __webpack_require__(68)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/overlays/marker.vue: named exports in *.vue files are ignored.")}
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-15be8bce/marker.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -1795,6 +1667,38 @@ if (false) {(function () {  module.hot.accept()
 /* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var __vue_script__, __vue_template__
+var __vue_styles__ = {}
+__vue_script__ = __webpack_require__(69)
+if (Object.keys(__vue_script__).some(function (key) { return key !== "default" && key !== "__esModule" })) {
+  console.warn("[vue-loader] lib/overlays/polyline.vue: named exports in *.vue files are ignored.")}
+module.exports = __vue_script__ || {}
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue_options__ = typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports
+if (__vue_template__) {
+__vue_options__.template = __vue_template__
+}
+if (!__vue_options__.computed) __vue_options__.computed = {}
+Object.keys(__vue_styles__).forEach(function (key) {
+var module = __vue_styles__[key]
+__vue_options__.computed[key] = function () { return module }
+})
+if (false) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  var id = "_v-34ad7edf/polyline.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, __vue_template__)
+  }
+})()}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -1802,20 +1706,59 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof2 = __webpack_require__(35);
 
-function init(_this, map) {
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var checkMap = function checkMap(mapObj) {
+    var result = false;
+    if (window.BMap !== undefined && window.BMap.Map && window.BMap.Map instanceof Function && window.BMap.Size && window.BMap.Size instanceof Function && BMap.Point && BMap.Point instanceof Function && BMap.Polyline && BMap.Polyline instanceof Function && BMap.Marker && BMap.Marker instanceof Function) {
+        if (mapObj !== undefined) {
+            if ((typeof mapObj === "undefined" ? "undefined" : (0, _typeof3.default)(mapObj)) === "object" && mapObj instanceof window.BMap.Map) {
+                result = true;
+            }
+        } else {
+            result = true;
+        }
+    } else {}
+    return result;
+};
+
+exports.default = checkMap;
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
+
+var _factory = __webpack_require__(11);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function init() {
+    var _this = this;
+    var map = _this.$map;
     var center = _this.center || { lat: 36.043862, lng: 103.898987 };
     var zoom = _this.zoom || 5;
 
     var style = _this.style || undefined;
     if (!(BMap && BMap.Map)) {
-        throw new Error("[vue-baidu-map] 地图初始化失败！BMap不存在");
+        (0, _log3.default)(new Error("地图初始化失败！BMap不存在"));
     }
     if (typeof center !== "string") {
-        center = new BMap.Point(center.lng, center.lat);
-    }
-    if (_this.returnMap) {
-        _this.$dispatch("bmap-ready", _this);
+        center = (0, _factory.createPoint)(center);
     }
     if (_this.location) {
         var geolocation = new BMap.Geolocation();
@@ -1830,29 +1773,28 @@ function init(_this, map) {
                     _this.locateSucceed(r);
                 }
                 setTimeout(function () {
-                    _this.LOAD.hide();
+                    _this.LOADING.hide();
                 }, 500);
             } else {
                 alert("定位失败");
-                console.log('[vue-baidu-map] locate failed' + this.getStatus());
+                (0, _log3.default)('locate failed' + this.getStatus());
                 if (_this.locateFailed) {
                     _this.locateFailed();
                 }
             }
-        }, { enableHighAccuracy: true });
+        }, { enableHighAccuracy: _this.enableHighAccuracy });
     } else {
         setTimeout(function () {
-            _this.LOAD.hide();
+            _this.LOADING.hide();
         }, 1000);
     }
 
     if (_this.enableScrollWheelZoom) {
-        console.log("enable-scroll-wheel-zoom");
+        (0, _log3.default)("enable-scroll-wheel-zoom");
         map.enableScrollWheelZoom();
     } else {
-        console.log("disable-scroll-wheel-zoom");
+        (0, _log3.default)("disable-scroll-wheel-zoom");
     }
-    map.setMinZoom(5);
     map.setMapStyle(style);
     map.centerAndZoom(center, zoom);
     map.enableAutoResize();
@@ -1860,13 +1802,8 @@ function init(_this, map) {
 
 exports.default = init;
 
-
-var STYLE_JSON = {
-    styleJson: []
-};
-
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1876,11 +1813,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _classCallCheck2 = __webpack_require__(71);
+var _classCallCheck2 = __webpack_require__(73);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(72);
+var _createClass2 = __webpack_require__(74);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -1900,7 +1837,7 @@ var Loading = function () {
         }
         var element = document.createElement("div");
         element.setAttribute("class", "loading-animation-1-0-1");
-        element.innerHTML = "<div class=\"circle\"></div><h3>&nbsp;&nbsp;Loading...</h3>";
+        element.innerHTML = "<div class=\"circle\"></div>";
         this.el = element;
         if (box) {
             box.appendChild(this.el);
@@ -1945,69 +1882,6 @@ var Loading = function () {
 exports.default = Loading;
 
 /***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _controllerMixin = __webpack_require__(7);
-
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_controllerMixin2.default]
-};
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _controllerMixin = __webpack_require__(7);
-
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_controllerMixin2.default],
-    props: {},
-    ready: function ready() {},
-    methods: {
-        toggleFullscreen: function toggleFullscreen() {
-            this.$parent.$data.isFullscreen = !this.$parent.$data.isFullscreen;
-
-            if (this.callback) {
-                this.callback(this.$parent.$data.isFullscreen);
-            }
-        }
-    },
-    computed: {
-        isFullscreen: function isFullscreen() {
-            return this.$parent.$data.isFullscreen;
-        }
-    },
-    events: {
-        "resize": function resize() {
-            this.mapObj.enableAutoResize();
-        }
-    }
-};
-
-/***/ }),
 /* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2018,46 +1892,40 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(7);
+var _getControllerPosition = __webpack_require__(7);
 
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    callback: {
+        required: false,
+        twoway: false,
+        type: Function
+    }
+};
+
 exports.default = {
-    mixins: [_controllerMixin2.default],
+    props: props,
     data: function data() {
         return {
-            keywords: "",
-            markerList: []
+            styleObj: {}
         };
     },
-    methods: {
-        search: function search() {
-            var _this = this;
-            if (_this.keywords) {
-                var local = new BMap.LocalSearch(_this.mapObj, {
-                    renderOptions: { map: _this.mapObj }
-                });
-                local.disableFirstResultSelection();
-                local.search(_this.keywords);
-                local.setMarkersSetCallback(function (pois) {
-                    _this.markerList = _this.markerList.concat(pois);
-                });
-            }
-        }
-    },
-    watch: {
-        "keywords": {
-            handler: function handler() {
-                var _this = this;
-                if (this.keywords.length === 0) {
-                    _this.markerList.map(function (item) {
-                        _this.mapObj.removeOverlay(item.marker);
-                    });
-                }
-            }
-        }
+    ready: function ready() {
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
     }
 };
 
@@ -2072,53 +1940,46 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _controllerMixin = __webpack_require__(7);
+var _getControllerPosition = __webpack_require__(7);
 
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    callback: {
+        required: false,
+        twoway: false,
+        type: Function
+    }
+};
+
 exports.default = {
-    mixins: [_controllerMixin2.default],
+    props: props,
     data: function data() {
         return {
-            isLocating: false
+            styleObj: {}
         };
+    },
+    ready: function ready() {
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
     },
 
     methods: {
-        locate: function locate() {
-            var _this = this;
-            if (_this.mapObj && window.BMap && BMap.Geolocation) {
-                var geolocation = new BMap.Geolocation();
-                _this.$map.LOAD.show();
-                _this.isLocating = true;
-
-                geolocation.getCurrentPosition(function (r) {
-                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                        _this.$map.currentLocation = {
-                            lng: r.point.lng,
-                            lat: r.point.lat
-                        };
-                        _this.mapObj.centerAndZoom(r.point, 13);
-                        if (_this.$map.locateSucceed) {
-                            _this.$map.locateSucceed(r);
-                        }
-                        setTimeout(function () {
-                            _this.$map.LOAD.hide();
-                        }, 500);
-                    } else {
-                        alert("定位失败");
-                        console.log('[vue-baidu-map] locate failed' + this.getStatus());
-                        if (_this.$map.locateFailed) {
-                            _this.$map.locateFailed();
-                        }
-                    }
-                    setTimeout(function () {
-                        _this.isLocating = false;
-                    }, 2000);
-                }, { enableHighAccuracy: true });
-            }
+        toggleFullscreen: function toggleFullscreen() {
+            var parentStatus = this.$parent.status;
+            parentStatus.isFullscreen = !parentStatus.isFullscreen;
         }
     }
 };
@@ -2128,33 +1989,526 @@ exports.default = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getControllerPosition = __webpack_require__(7);
+
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    callback: Function
+};
+
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            markerList: [],
+            styleObj: {},
+            $search: undefined,
+            keywords: ''
+        };
+    },
+    ready: function ready() {
+        var $map = this.$parent.$map;
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
+        $map ? this.addController() : this.$parent.$on("ready", this.addController);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.removeController();
+    },
+
+    methods: {
+        search: function search() {
+            var _this = this;
+            var $search = this.$search,
+                keywords = this.keywords,
+                markerList = this.markerList,
+                callback = this.callback,
+                removerMarker = this.removerMarker;
+
+            var $parnet = this.$parent;
+            if ($search && keywords) {
+                removerMarker();
+                $parnet.LOADING.show();
+                setTimeout(function () {
+                    $parnet.LOADING.hide();
+                }, 300);
+                $search.search(keywords);
+                $search.setMarkersSetCallback(function (pois) {
+                    _this.markerList = _this.markerList.concat(pois);
+                    callback && callback(pois);
+                });
+            }
+        },
+        addController: function addController() {
+            var $map = this.$parent.$map;
+            var $search = this.$search;
+
+            this.$search = $search = new BMap.LocalSearch($map, {
+                renderOptions: { map: $map }
+            });
+            $search.disableFirstResultSelection();
+        },
+        removeController: function removeController() {
+            this.$search = null;
+        },
+        removerMarker: function removerMarker() {
+            var keywords = this.keywords,
+                markerList = this.markerList;
+            var $map = this.$parent.$map;
+
+            markerList.map(function (item) {
+                $map.removeOverlay(item.marker);
+            });
+            this.markerList.splice(0, markerList.length);
+        }
+    },
+    watch: {
+        "keywords": {
+            handler: function handler() {
+                var keywords = this.keywords,
+                    removerMarker = this.removerMarker;
+
+                if (keywords.length === 0) {
+                    removerMarker();
+                }
+            },
+
+            deep: false
+        }
+    }
+};
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getControllerPosition = __webpack_require__(7);
+
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
+
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    enableHighAccuracy: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    locateSucceed: {
+        required: false,
+        twoway: false,
+        type: Function
+    },
+    locateFailed: {
+        required: false,
+        twoway: false,
+        type: Function
+    }
+};
+
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            styleObj: {},
+            isLocating: false,
+            $geoLocation: undefined
+        };
+    },
+    ready: function ready() {
+        var $map = this.$parent.$map;
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
+        $map ? this.addController() : this.$parent.$on("ready", this.addController);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.removeController();
+    },
+
+    methods: {
+        addController: function addController() {
+            var $map = this.$parent.$map;
+            var $geoLocation = this.$geoLocation = new BMap.Geolocation();
+        },
+        removeController: function removeController() {
+            this.$geoLocation = null;
+        },
+        locate: function locate() {
+            var _this = this;
+            var $parent = this.$parent,
+                isLocating = this.isLocating,
+                $geoLocation = this.$geoLocation,
+                enableHighAccuracy = this.enableHighAccuracy,
+                locateSucceed = this.locateSucceed,
+                locateFailed = this.locateFailed;
+
+            var $map = $parent.$map;
+            if (isLocating || !$geoLocation) {
+                (0, _log3.default)("定位中...");
+                return;
+            };
+            this.isLocating = true;
+            $parent.LOADING.show();
+            $geoLocation.getCurrentPosition(function (r) {
+                if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                    $parent.currentLocation = {
+                        lng: r.point.lng,
+                        lat: r.point.lat
+                    };
+                    console.log(_this.locateSucceed);
+                    locateSucceed && locateSucceed(r);
+                    $map.centerAndZoom(r.point, 13);
+                } else {
+                    alert("定位失败");
+                    (0, _log3.default)('locate failed' + this.getStatus());
+                    locateFailed && locateFailed();
+                }
+                $parent.LOADING.hide();
+                _this.isLocating = false;
+            }, { enableHighAccuracy: enableHighAccuracy });
+        }
+    }
+};
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getControllerPosition = __webpack_require__(7);
+
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    }
+};
+
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            mapTypeName: "卫星图像",
+            styleObj: {}
+        };
+    },
+    ready: function ready() {
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
+    },
+
+    methods: {
+        changeMapType: function changeMapType() {
+            var $map = this.$parent.$map;
+
+            if (this.mapTypeName === "普通地图") {
+                $map.setMapType(BMAP_NORMAL_MAP);
+                this.mapTypeName = "卫星图像";
+            } else {
+                $map.setMapType(BMAP_HYBRID_MAP);
+                this.mapTypeName = "普通地图";
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getControllerPosition = __webpack_require__(7);
+
+var _getControllerPosition2 = _interopRequireDefault(_getControllerPosition);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var props = {
+    position: {
+        required: true,
+        twoway: false,
+        type: Object
+    },
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    }
+};
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            styleObj: {}
+        };
+    },
+    ready: function ready() {
+        this.styleObj = (0, _getControllerPosition2.default)(this.position);
+    },
+
+    methods: {
+        zoomIn: function zoomIn() {
+            var _this = this;
+            var $map = this.$parent.$map;
+
+            if ($map) {
+                $map.zoomTo($map.getZoom() + 1);
+            }
+        },
+        zoomOut: function zoomOut() {
+            var _this = this;
+            var $map = this.$parent.$map;
+
+            if ($map) {
+                $map.zoomTo($map.getZoom() - 1);
+            }
+        }
+    }
+};
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _factory = __webpack_require__(11);
+
+var _removeOverlay2 = __webpack_require__(20);
+
+var _bindEvent = __webpack_require__(12);
+
+var _bindEvent2 = _interopRequireDefault(_bindEvent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var eventList = ["close", "open", "maximize", "restore", "clickclose"];
+
+var props = {
+    size: {
+        required: false,
+        type: Object,
+        twoway: false
+    },
+    visible: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: false
+    },
+    position: {
+        required: false,
+        type: Object,
+        twoway: false
+    },
+    offset: {
+        required: false,
+        type: Object,
+        twoway: false,
+        default: function _default() {
+            return {
+                x: 0,
+                y: 0
+            };
+        }
+    },
+    enableAutoPan: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: true
+    },
+    enableCloseOnClick: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: true
+    },
+    enableMessage: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: false
+    },
+    message: String,
+    title: String
+};
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            componentType: "infoWindow",
+            $overlay: undefined
+        };
+    },
+    ready: function ready() {
+        var $map = this.$parent.$map;
+
+        $map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.removeOverlay();
+    },
+
+    watch: {
+        visible: function visible(val) {
+            var position = this.position,
+                $overlay = this.$overlay;
+            var $map = this.$parent.$map;
+
+            console.log("infoWindow visible change");
+            if (val && position) {
+                $map.openInfoWindow($overlay, (0, _factory.createPoint)(position));
+            } else {
+                $map.closeInfoWindow();
+            }
+        }
+    },
+    methods: {
+        addOverlay: function addOverlay() {
+            var $overlay = this.$overlay,
+                visible = this.visible,
+                size = this.size,
+                position = this.position,
+                offset = this.offset,
+                title = this.title,
+                enableAutoPan = this.enableAutoPan,
+                enableCloseOnClick = this.enableCloseOnClick,
+                enableMessage = this.enableMessage,
+                updateStatus = this.updateStatus;
+            var $map = this.$parent.$map;
+
+            var $content = this.$el;
+            this.$overlay = $overlay = new BMap.InfoWindow($content, {
+                width: size.width,
+                height: size.height,
+                offset: (0, _factory.createSize)(offset),
+                title: title,
+                enableAutoPan: enableAutoPan,
+                enableCloseOnClick: enableCloseOnClick,
+                enableMessage: enableMessage
+            });
+            _bindEvent2.default.call(this, eventList);
+            visible && $map.openInfoWindow($overlay, (0, _factory.createPoint)(position));
+        },
+        removeOverlay: function removeOverlay() {
+            var $container = this.$parent.$overlay;
+            var $overlay = this.$overlay;
+
+            $overlay.content = null;
+            _removeOverlay2.removeOverlay.call(this, this.$parent.$overlay, '$overlay');
+            console.log($overlay);
+        }
+    }
+};
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _checkMap = __webpack_require__(20);
-
-var _checkMap2 = _interopRequireDefault(_checkMap);
-
-var _init = __webpack_require__(56);
+var _init = __webpack_require__(58);
 
 var _init2 = _interopRequireDefault(_init);
 
-var _bindEvent = __webpack_require__(19);
+var _checkMap = __webpack_require__(57);
+
+var _checkMap2 = _interopRequireDefault(_checkMap);
+
+var _bindEvent = __webpack_require__(12);
 
 var _bindEvent2 = _interopRequireDefault(_bindEvent);
 
-var _bindContextMenu = __webpack_require__(18);
+var _bindContextMenu = __webpack_require__(34);
 
 var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
 
-var _loadingAnimation = __webpack_require__(57);
+var _loadingAnimation = __webpack_require__(59);
 
 var _loadingAnimation2 = _interopRequireDefault(_loadingAnimation);
 
-__webpack_require__(115);
+__webpack_require__(117);
+
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
+
+var _factory = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2175,26 +2529,10 @@ var props = {
         type: Boolean,
         default: true
     },
-    locateSucceed: {
+    mapReady: {
         required: false,
         twoway: false,
         type: Function
-    },
-    locateFailed: {
-        required: false,
-        twoway: false,
-        type: Function
-    },
-    callback: {
-        required: false,
-        twoway: false,
-        type: Function
-    },
-    returnMap: {
-        required: false,
-        twoway: false,
-        type: Boolean,
-        default: false
     },
     contextMenu: {
         required: false,
@@ -2208,7 +2546,23 @@ var props = {
         twoway: false,
         default: false
     },
+    locateSucceed: {
+        required: false,
+        twoway: false,
+        type: Function
+    },
+    locateFailed: {
+        required: false,
+        twoway: false,
+        type: Function
+    },
     enableScrollWheelZoom: {
+        required: false,
+        type: Boolean,
+        twoway: false,
+        default: false
+    },
+    enableHighAccuracy: {
         required: false,
         type: Boolean,
         twoway: false,
@@ -2224,108 +2578,84 @@ exports.default = {
         return {
             componentType: "bmap",
             mapTypeName: "卫星图像",
-            mapObj: undefined,
-            mapHooks: [],
-            isFullscreen: false,
-            infoWindowList: {} };
+            $map: undefined,
+            $overlay: undefined,
+            $contextMenu: undefined,
+            status: {
+                isFullscreen: false }
+        };
     },
     ready: function ready() {
         var _this = this;
-        _this.LOAD = new _loadingAnimation2.default("#baidu-map-box");
-        _this.LOAD.show();
+        _this.LOADING = new _loadingAnimation2.default("#baidu-map-box");
+        _this.LOADING.show();
         if (!(0, _checkMap2.default)()) {
             window['vue_baidu_map_initialize_callback_fn'] = function () {
                 _this.createMap();
+                window['vue_baidu_map_initialize_callback_fn'] = null;
             };
         } else {
             _this.createMap();
         }
     },
-    detached: function detached() {},
-    destroyed: function destroyed() {},
+    beforeDestroy: function beforeDestroy() {
+        this.removeMap();
+    },
+
     watch: {
         "contextMenu": {
             handler: function handler(val) {
-                (0, _bindContextMenu2.default)(this, this.mapObj);
+                _bindContextMenu2.default.call(this);
             },
             deep: true
+        },
+        "enableScrollWheelZoom": {
+            handler: function handler(val) {
+                var $map = this.$map;
+
+                if ($map) {
+                    val ? $map.enableScrollWheelZoom() : $map.disableScrollWheelZoom();
+                }
+            },
+
+            deep: false
         }
     },
     methods: {
         createMap: function createMap() {
-            var _this = this;
-            _this.mapObj = new BMap.Map(_this.$els.map);
-            if (process.env.NODE_ENV === "development") console.log("[vue-baidu-map] create map!");
-            (0, _init2.default)(_this, _this.mapObj);
-            _this.runMapHooks();
-            _this.$broadcast("vue-baidu-map-ready", _this);
-            _this.runMapHooks();
-            if (_this.callback) {
-                _this.callback(_this.mapObj);
-            }
-            (0, _bindEvent2.default)(this, this.mapObj, eventList);
-            (0, _bindContextMenu2.default)(this, this.mapObj);
-        },
-        deleteMap: function deleteMap() {
-            if (this.mapObj) {
-                if (process.env.NODE_ENV === "development") console.log("[vue-baidu-map] delete map!");
-                delete window.BMap;
-            }
-        },
-        setMapHooks: function setMapHooks(fn) {
-            this.mapHooks.push(fn);
-        },
-        runMapHooks: function runMapHooks() {
-            this.mapHooks.map(function (item) {
-                try {
-                    item();
-                } catch (exp) {
-                    console.log(exp);
-                }
-            });
-        }
-    },
-    components: {},
-    events: {
-        "vue-baidu-map-register-component": function vueBaiduMapRegisterComponent(component) {
-            if (this.mapObj && (0, _checkMap2.default)()) {
-                component.$emit("vue-baidu-map-ready", this);
-            } else {}
-        },
+            var contextMenu = this.contextMenu,
+                mapReady = this.mapReady;
 
-        "vue-baidu-map-set-viewport": function vueBaiduMapSetViewport(points, viewportOptions) {
-            var _this2 = this;
+            this.$map = this.$overlay = new BMap.Map(this.$els.map);
+            _init2.default.call(this);
+            contextMenu && _bindContextMenu2.default.call(this);
+            eventList && _bindEvent2.default.call(this, eventList);
+            mapReady && mapReady(this);
+            this.$emit('ready');
+        },
+        removeMap: function removeMap() {
+            var $overlay = this.$overlay;
 
-            if (this.mapObj && (0, _checkMap2.default)()) {
-                (function () {
-                    var pointsArr = points.map(function (item, index, arr) {
-                        return new BMap.Point(item.lng, item.lat);
-                    });
-                    setTimeout(function () {
-                        _this2.mapObj.setViewport(pointsArr, viewportOptions);
-                    }, 50);
-                })();
-            } else {
-                this.setMapHooks(function () {
-                    var pointsArr = points.map(function (item, index, arr) {
-                        return new BMap.Point(item.lng, item.lat);
-                    });
-                    setTimeout(function () {
-                        _this2.mapObj.setViewport(pointsArr, viewportOptions);
-                    }, 50);
+            if ($overlay) {
+                $overlay.clearoverlays();
+                this.$overlay = this.$map = null;
+                if (process.env.NODE_ENV === "development") (0, _log3.default)("[vue-baidu-map] delete map!");
+            }
+        },
+        setViewport: function setViewport(points, viewportOptions) {
+            if (this.$overlay && (0, _checkMap2.default)()) {
+                var pointsArr = points.map(function (item, index, arr) {
+                    return (0, _factory.createPoint)(item);
                 });
+                this.$overlay.setViewport(pointsArr, viewportOptions);
             }
-        },
-
-        "register-infowindow": function registerInfowindow($infowindow) {
-            this.infoWindowList[$infowindow.id] = $infowindow;
         }
     }
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
 
 /***/ }),
-/* 63 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2335,105 +2665,37 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _overlaysMixin = __webpack_require__(17);
-
-var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var props = {
-    id: {
-        required: true,
-        type: Number,
-        twoway: false
-    },
-    size: {
-        required: false,
-        type: Object,
-        twoway: false
-    },
-    visible: {
-        required: false,
-        type: Boolean,
-        twoway: false
-    },
-    position: {
-        required: false,
-        type: Object,
-        twoway: false
-    }
-};
-exports.default = {
-    mixins: [_overlaysMixin2.default],
-    props: props,
-    data: function data() {
-        return {
-            componentType: "infoWindow",
-            componentObj: undefined };
-    },
-    ready: function ready() {},
-    detached: function detached() {},
-    destroyed: function destroyed() {},
-    watch: {
-        "visible": function visible(val) {
-            if (val && this.position && this.position.lat && this.position.lng) {
-                this.mapObj.openInfoWindow(this.componentObj, new BMap.Point(this.position.lng, this.position.lat));
-            } else {
-                this.mapObj.closeInfoWindow();
-            }
-        }
-    },
-    methods: {
-        "createComponent": function createComponent() {
-            this.createInfoWindow();
-            this.$dispatch("register-infowindow", this);
-        },
-        "createInfoWindow": function createInfoWindow() {
-            this.componentObj = new BMap.InfoWindow(this.$els.window);
-            if (this.size && this.size.width && this.size.height) {
-                this.componentObj.setWidth(this.size.width);
-                this.componentObj.setHeight(this.size.height);
-            }
-            if (this.visible && this.position && this.position.lat && this.position.lng) {
-                this.mapObj.openInfoWindow(this.componentObj, new BMap.Point(this.position.lng, this.position.lat));
-            }
-        },
-        "removeMarker": function removeMarker() {}
-    }
-};
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _overlaysMixin = __webpack_require__(17);
-
-var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
-
-var _bindEvent = __webpack_require__(19);
+var _bindEvent = __webpack_require__(12);
 
 var _bindEvent2 = _interopRequireDefault(_bindEvent);
 
-var _bindContextMenu = __webpack_require__(18);
+var _bindContextMenu = __webpack_require__(34);
 
 var _bindContextMenu2 = _interopRequireDefault(_bindContextMenu);
+
+var _log2 = __webpack_require__(8);
+
+var _log3 = _interopRequireDefault(_log2);
+
+var _factory = __webpack_require__(11);
+
+var _removeOverlay2 = __webpack_require__(20);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var props = {
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
     position: {
         required: true,
         twoway: false,
         type: Object
     },
-    config: {
+    icon: {
         required: false,
         twoway: false,
         type: Object
@@ -2448,385 +2710,357 @@ var props = {
         twoway: false,
         type: Number
     },
-    bindInfoWindow: {
-        required: false,
-        twoway: false,
-        type: Number,
-        default: undefined
-    },
     enableDragging: {
         required: false,
         twoway: false,
-        type: false,
+        type: Boolean,
         default: false
-    }
+    },
+    enableClicking: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    enableMassClear: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    raiseOnDrag: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: false
+    },
+    rotation: Number,
+    cid: String,
+    contextMenu: Array
 };
 
 var eventList = ["click", "dblclick", "mousedown", "mouseup", "mouseout", "mouseover", "remove", "infowindowclose", "infowindowopen", "rightclick", "dragstart", "dragging", "dragend"];
 
 exports.default = {
-    mixins: [_overlaysMixin2.default],
     props: props,
     data: function data() {
         return {
             componentType: "marker",
-            componentObj: undefined,
-            labelObj: undefined };
+            $overlay: undefined,
+            $label: undefined,
+            $contextMenu: undefined
+        };
     },
-    ready: function ready() {},
+    ready: function ready() {
+        var $map = this.$parent.$map;
+        $map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
+    },
+    beforeDestroy: function beforeDestroy() {
+        this.removeOverlay();
+    },
+
     watch: {
         "position": {
             handler: function handler(val) {
-                if (this.mapComponentObj) {
-                    this.mapComponentObj.setPosition(new BMap.Point(val.lng, val.lat));
-                } else {
-                    console.log("[vue-baidu-map] this.mapComponentObj is not existing!");
+                if (this.$overlay) {
+                    this.$overlay.setPosition((0, _factory.createPoint)(val));
                 }
             },
+
             deep: true
         },
-        "config": {
+        "icon": {
             handler: function handler(val) {
-                if (this.mapComponentObj) {
-                    var conf = this.config;
-                    var iconOption = {};
-                    if (!this.checkIconConfig(conf)) return;
-                    if (conf.imageSize) iconOption.imageSize = new BMap.Size(conf.imageSize.x, conf.imageSize.y);
-                    if (conf.size && conf.imageSize) iconOption.imageOffset = new BMap.Size((conf.size.x - conf.imageSize.x) / 2, (conf.size.y - conf.imageSize.y) / 2);
-                    if (conf.anchor) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
-
-                    var size = new BMap.Size(conf.size.x, conf.size.y);
-                    var icon = new BMap.Icon(conf.img, size, iconOption);
-
-                    this.mapComponentObj.setIcon(icon);
-                } else {
-                    console.log("[vue-baidu-map] this.mapComponentObj is not existing!");
+                if (this.$overlay) {
+                    this.$overlay.setIcon((0, _factory.createIcon)(val));
                 }
             },
+
             deep: true
         },
+
         "visible": {
             handler: function handler(val) {
-                if (val === true && this.mapComponentObj && !this.mapComponentObj.isVisible()) {
-                    this.mapComponentObj.show();
-                } else if (val === false && this.mapComponentObj && this.mapComponentObj.isVisible()) {
-                    this.mapComponentObj.hide();
+                if (this.$overlay) {
+                    val ? this.$overlay.show() : this.$overlay.hide();
                 }
             },
+
             deep: false
         },
         "label": {
             handler: function handler(val) {
-                if (this.mapComponentObj) {
-                    if (this.label && this.label.text && this.label.offset && typeof this.label.offset.x !== "undefined" && typeof this.label.offset.y !== "undefined" && !isNaN(this.label.offset.x) && !isNaN(this.label.offset.y)) {
-                        this.labelObj = new BMap.Label(this.label.text, { offset: new BMap.Size(this.label.offset.x, this.label.offset.y) });
-                        this.mapComponentObj.setLabel(this.labelObj);
-                        console.log("set marker label");
-                    }
-                }
-            },
-            deep: true
-        }
-    },
-    methods: {
-        createComponent: function createComponent() {
-            this.drawMarker();
-        },
-        deleteComponent: function deleteComponent() {
-            this.removeMarker();
-        },
-
-        drawMarker: function drawMarker() {
-            var _this2 = this;
-
-            var _this = this;
-            var zIndex = undefined;
-            if (!this.position) {
-                console.warn("[vue-baidu-map] marker.position undefined!");
-                return;
-            }
-            if (!this.position.lng || !this.position.lat) {
-                this.position.lng = this.position.lat = 0;
-            }
-            if (this.zIndex && !isNaN(this.zIndex)) {
-                zIndex = this.zIndex;
-            }
-
-            var pointObj = new BMap.Point(this.position.lng, this.position.lat);
-            var conf = this.config;
-            if (this.checkIconConfig(conf)) {
-                var iconOption = {};
-
-                if (conf.imageSize) iconOption.imageSize = new BMap.Size(conf.imageSize.x, conf.imageSize.y);
-                if (conf.imageSize) iconOption.imageOffset = new BMap.Size((conf.size.x - conf.imageSize.x) / 2, (conf.size.y - conf.imageSize.y) / 2);
-                if (conf.anchor) iconOption.anchor = new BMap.Size(conf.anchor.x, conf.anchor.y);
-
-                var size = new BMap.Size(conf.size.x, conf.size.y);
-                var icon = new BMap.Icon(conf.img, size, iconOption);
-                this.mapComponentObj = new BMap.Marker(pointObj, { icon: icon || iconOrigin });
-            } else {
-                this.mapComponentObj = new BMap.Marker(pointObj);
-            }
-            this.mapObj.addOverlay(this.mapComponentObj);
-
-            if (zIndex !== undefined) this.mapComponentObj.setZIndex(zIndex);
-            if (!this.visible) this.mapComponentObj.hide();
-            if (this.enableDragging) this.mapComponentObj.enableDragging();
-            if (this.label && this.label.text && this.label.offset && typeof this.label.offset.x !== "undefined" && typeof this.label.offset.y !== "undefined" && !isNaN(this.label.offset.x) && !isNaN(this.label.offset.y)) {
-                this.labelObj = new BMap.Label(this.label.text, { offset: new BMap.Size(this.label.offset.x, this.label.offset.y) });
-                this.mapComponentObj.setLabel(this.labelObj);
-            } else {
-                console.log("can not set marker label");
-            }
-            (0, _bindEvent2.default)(this, this.mapComponentObj, eventList);
-            (0, _bindContextMenu2.default)(this, this.mapComponentObj);
-
-            if (this.bindInfoWindow) {
-                this.mapComponentObj.addEventListener("click", function () {
-                    if (_this2.$map.$data.infoWindowList[_this2.bindInfoWindow] && _this2.componentObj !== _this2.$map.$data.infoWindowList[_this2.bindInfoWindow]) {
-                        _this2.componentObj = _this2.$map.$data.infoWindowList[_this2.bindInfoWindow].componentObj;
+                if (this.$overlay) {
+                    if (this.$label) {
+                        this.$label.setContent(val.text);
+                        this.$label.setOffset((0, _factory.createSize)(val.offset));
                     } else {
-                        console.warn("[vue-baidu-map] this marker did not has infowindow!");
+                        this.$overlay.setLabel(this.$label = (0, _factory.createLabel)(val));
                     }
-                    if (_this2.componentObj) {
-                        _this2.mapObj.openInfoWindow(_this2.componentObj, _this2.mapComponentObj.point);
-                    } else {
-                        console.warn("[vue-baidu-map] this marker did not bind infowindow!");
-                    }
-                });
-            }
-
-            this.mapComponentObj.addEventListener("dragging", function (e) {
-                _this2.position.lat = e.point.lat;
-                _this2.position.lng = e.point.lng;
-            });
-        },
-        removeMarker: function removeMarker() {
-            if (this.mapComponentObj && this.mapObj) {
-                this.mapObj.removeOverlay(this.mapComponentObj);
-            } else {
-                console.error("[vue-baidu-map] remove marker failed!");
-            }
-        },
-        getInfoWindow: function getInfoWindow(id) {
-            if (this.componentObj) {
-                return this.componentObj;
-            } else {
-                return undefined;
-            }
-        },
-        checkIconConfig: function checkIconConfig(conf) {
-            var result = true;
-            if (!conf || !conf.img || !conf.imageSize || !conf.imageSize.x || !conf.imageSize.y || !conf.size || !conf.size.x || !conf.size.y || !conf.anchor || !conf.anchor.x || !conf.anchor.y) {
-                console.warn("[vue-baidu-map] Icon config error");
-                result = false;
-            }
-            return result;
-        }
-    }
-};
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _overlaysMixin = __webpack_require__(17);
-
-var _overlaysMixin2 = _interopRequireDefault(_overlaysMixin);
-
-var _bindEvent = __webpack_require__(19);
-
-var _bindEvent2 = _interopRequireDefault(_bindEvent);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var props = {
-    points: {
-        required: true,
-        twoway: false,
-        type: Array
-    },
-    config: {
-        required: true,
-        twoway: false,
-        type: Object
-    }
-};
-var LINE_CONF = {
-    strokeColor: "#32b1fb",
-    strokeWeight: 4,
-    strokeOpacity: 1
-};
-var eventList = ["click", "dblclick", "mousedown", "mouseup", "mouseout", "mouseover", "remove", "lineupdate"];
-exports.default = {
-    mixins: [_overlaysMixin2.default],
-    props: props,
-    data: function data() {
-        return {
-            componentType: "polyline",
-            pointsArr: [] };
-    },
-
-    watch: {
-        "points": {
-            handler: function handler(val) {
-                if (this.mapComponentObj) {
-                    this.pointsArr = this.points.map(function (item) {
-                        item = new BMap.Point(item.lng, item.lat);
-                        return item;
-                    });
-                    this.mapComponentObj.setPath(this.pointsArr);
-                } else {
-                    console.log("[vue-baidu-map] this.mapComponentObj is not existing!");
                 }
             },
+
             deep: true
         },
-        "config": {
+        "enableDragging": {
             handler: function handler(val) {
-                if (val.strokeColor) this.mapComponentObj.setStrokeColor(val.strokeColor);
-                if (val.strokeWeight) this.mapComponentObj.setStrokeWeight(val.strokeWeight);
-                if (val.strokeOpacity) this.mapComponentObj.setStrokeOpacity(val.strokeOpacity);
-            },
-            deep: true
-        },
-        "visible": {
-            handler: function handler(val) {
-                if (val === true && this.mapComponentObj && !this.mapComponentObj.isVisible()) {
-                    this.mapComponentObj.show();
-                } else if (val === false && this.mapComponentObj && this.mapComponentObj.isVisible()) {
-                    this.mapComponentObj.hide();
+                if (this.$overlay) {
+                    val ? this.$overlay.enableDragging() : this.$overlay.disableDarging();
                 }
             },
+
             deep: false
+        },
+        "enableMassClear": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    val ? this.$overlay.enableMassClear() : this.$overlay.disableMassClear();
+                }
+            },
+
+            deep: false
+        },
+        "rotation": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    !isNaN(val) && this.$overlay.setRotation(val);
+                }
+            },
+
+            deep: false
+        },
+        "zIndex": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    val !== undefined && this.$overlay.setZIndex(val);
+                }
+            },
+
+            deep: false
+        },
+        "contextMenu": {
+            handler: function handler(val) {},
+
+            deep: true
         }
     },
     methods: {
-        createComponent: function createComponent() {
-            var _this = this;
-            if (this.points === undefined || !this.points instanceof Array) {
-                console.error("[vue-baidu-map] Polyline.points 必须是一维数组！");
-                return;
-            }
+        addOverlay: function addOverlay() {
+            var $overlay = this.$overlay,
+                visible = this.visible,
+                position = this.position,
+                label = this.label,
+                contextMenu = this.contextMenu,
+                icon = this.icon,
+                zIndex = this.zIndex,
+                enableMassClear = this.enableMassClear,
+                enableDragging = this.enableDragging,
+                enableClicking = this.enableClicking,
+                raiseOnDrag = this.raiseOnDrag,
+                updatePosition = this.updatePosition,
+                rotation = this.rotation;
 
-            this.pointsArr = this.points.map(function (item) {
-                if (item.lng && item.lat) {
-                    item = new BMap.Point(item.lng, item.lat);
-                    return item;
-                } else {
-                    throw new Error("[vue-baidu-map] Polyline.points coordinate error！");
-                }
+            this.$overlay = $overlay = new BMap.Marker((0, _factory.createPoint)(position), {
+                enableMassClear: enableMassClear,
+                enableDragging: enableDragging,
+                enableClicking: enableClicking,
+                raiseOnDrag: raiseOnDrag,
+                rotation: rotation,
+                icon: (0, _factory.createIcon)(icon)
             });
-            var config = this.config || LINE_CONF;
-            this.mapComponentObj = new BMap.Polyline(this.pointsArr, config);
-            (0, _bindEvent2.default)(this, this.mapComponentObj, eventList);
-            this.mapObj.addOverlay(this.mapComponentObj);
-        },
-        deleteComponent: function deleteComponent() {
-            this.removeOverlay();
+            label && $overlay.setLabel(this.$label = (0, _factory.createLabel)(label));
+            eventList && _bindEvent2.default.call(this, eventList);
+            contextMenu && _bindContextMenu2.default.call(this, contextMenu);
+            !isNaN(zIndex) && $overlay.setZIndex(zIndex);
+            this.$parent.$overlay.addOverlay($overlay);
+            this.$overlay.addEventListener("dragging", updatePosition);
+            visible ? $overlay.show() : $overlay.hide();
         },
         removeOverlay: function removeOverlay() {
-            if (this.mapObj && this.mapComponentObj) {
-                this.mapObj.removeOverlay(this.mapComponentObj);
-            } else {
-                console.error("[vue-baidu-map] remove polyline failed!");
-            }
-        }
-    }
+            var $overlay = this.$overlay,
+                $label = this.$label,
+                $contextMenu = this.$contextMenu,
+                updatePosition = this.updatePosition;
 
-};
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _controllerMixin = __webpack_require__(7);
-
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_controllerMixin2.default],
-    data: function data() {
-        return {
-            mapTypeName: "卫星图像"
-        };
-    },
-    methods: {
-        changeMapType: function changeMapType() {
-            if (this.mapTypeName === "普通地图") {
-                this.mapObj.setMapType(BMAP_NORMAL_MAP);
-                this.mapTypeName = "卫星图像";
-            } else {
-                this.mapObj.setMapType(BMAP_HYBRID_MAP);
-                this.mapTypeName = "普通地图";
-            }
-        }
-    }
-};
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _controllerMixin = __webpack_require__(7);
-
-var _controllerMixin2 = _interopRequireDefault(_controllerMixin);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-    mixins: [_controllerMixin2.default],
-    methods: {
-        zoomIn: function zoomIn() {
-            var _this = this;
-            if (_this.mapObj) {
-                _this.mapObj.zoomTo(_this.mapObj.getZoom() + 1);
+            if ($overlay && this.$parent.$overlay) {
+                $overlay.removeEventListener("dragging", updatePosition);
+                $contextMenu && $overlay.removeContextMenu($contextMenu);
+                _removeOverlay2.removeOverlay.call(this, this.$parent.$overlay, '$label');
+                _removeOverlay2.removeOverlay.call(this, this.$parent.$overlay, '$overlay');
             }
         },
-
-        zoomOut: function zoomOut() {
-            var _this = this;
-            if (_this.mapObj) {
-                _this.mapObj.zoomTo(_this.mapObj.getZoom() - 1);
-            }
+        updatePosition: function updatePosition(e) {
+            this.position.lat = e.point.lat;
+            this.position.lng = e.point.lng;
         }
     }
 };
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(73), __esModule: true };
 
 /***/ }),
 /* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(74), __esModule: true };
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _bindEvent = __webpack_require__(12);
+
+var _bindEvent2 = _interopRequireDefault(_bindEvent);
+
+var _removeOverlay2 = __webpack_require__(20);
+
+var _factory = __webpack_require__(11);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var props = {
+    visible: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    points: {
+        required: true,
+        twoway: false,
+        type: Array
+    },
+    style: {
+        required: false,
+        twoway: false,
+        type: Object,
+        default: function _default() {
+            return {};
+        }
+    },
+    enableMassClear: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    },
+    enableEditing: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: false
+    },
+    enableClicking: {
+        required: false,
+        twoway: false,
+        type: Boolean,
+        default: true
+    }
+};
+
+var eventList = ["click", "dblclick", "mousedown", "mouseup", "mouseout", "mouseover", "remove", "lineupdate"];
+
+exports.default = {
+    props: props,
+    data: function data() {
+        return {
+            componentType: "polyline"
+        };
+    },
+    ready: function ready() {
+        var map = this.$parent.$map;
+        map ? this.addOverlay() : this.$parent.$on("ready", this.addOverlay);
+    },
+
+    beforeDestroy: function beforeDestroy() {
+        this.removeOverlay();
+    },
+    watch: {
+        "points": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    var line = val.map(function (item, index, arr) {
+                        return (0, _factory.createPoint)(item);
+                    });
+                    this.$overlay.setPath(line);
+                }
+            },
+
+            deep: true
+        },
+        "style": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    if (val.strokeStyle) this.$overlay.setStrokeStyle(val.strokeStyle);
+                    if (val.strokeColor) this.$overlay.setStrokeColor(val.strokeColor);
+                    if (val.strokeWeight) this.$overlay.setStrokeWeight(val.strokeWeight);
+                    if (val.strokeOpacity) this.$overlay.setStrokeOpacity(val.strokeOpacity);
+                }
+            },
+
+            deep: true
+        },
+        "visible": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    val ? this.$overlay.show() : this.$overlay.hide();
+                }
+            },
+
+            deep: false
+        },
+        "enableMassClear": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    val ? this.$overlay.enableMassClear() : this.$overlay.disableMassClear();
+                }
+            },
+
+            deep: false
+        },
+        "enableEditing": {
+            handler: function handler(val) {
+                if (this.$overlay) {
+                    val ? this.$overlay.enableEditing() : this.$overlay.disableEditing();
+                }
+            },
+
+            deep: false
+        }
+    },
+    methods: {
+        addOverlay: function addOverlay() {
+            var $overlay = this.$overlay,
+                visible = this.visible,
+                points = this.points,
+                style = this.style,
+                enableMassClear = this.enableMassClear,
+                enableEditing = this.enableEditing,
+                enableClicking = this.enableClicking;
+
+            var line = points.map(function (item, index, arr) {
+                return (0, _factory.createPoint)(item);
+            });
+
+            this.$overlay = $overlay = new BMap.Polyline(line, {
+                strokeColor: style.strokeColor,
+                strokeWeight: style.strokeWeight,
+                strokeOpacity: style.strokeOpacity,
+                strokeStyle: style.strokeStyle,
+                enableMassClear: enableMassClear,
+                enableEditing: enableEditing,
+                enableClicking: enableClicking
+            });
+            this.$parent.$overlay.addOverlay($overlay);
+            eventList && _bindEvent2.default.call(this, eventList);
+            visible ? $overlay.show() : $overlay.hide();
+        },
+        removeOverlay: function removeOverlay() {
+            var $overlay = this.$overlay;
+
+            _removeOverlay2.removeOverlay.call(this, this.$parent.$map, '$overlay');
+        }
+    }
+};
 
 /***/ }),
 /* 70 */
@@ -2836,6 +3070,18 @@ module.exports = { "default": __webpack_require__(75), __esModule: true };
 
 /***/ }),
 /* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(76), __esModule: true };
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(77), __esModule: true };
+
+/***/ }),
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2850,7 +3096,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2858,7 +3104,7 @@ exports.default = function (instance, Constructor) {
 
 exports.__esModule = true;
 
-var _defineProperty = __webpack_require__(68);
+var _defineProperty = __webpack_require__(70);
 
 var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -2883,35 +3129,35 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(97);
-var $Object = __webpack_require__(11).Object;
+__webpack_require__(99);
+var $Object = __webpack_require__(14).Object;
 module.exports = function defineProperty(it, key, desc){
   return $Object.defineProperty(it, key, desc);
 };
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(100);
-__webpack_require__(98);
-__webpack_require__(101);
 __webpack_require__(102);
-module.exports = __webpack_require__(11).Symbol;
+__webpack_require__(100);
+__webpack_require__(103);
+__webpack_require__(104);
+module.exports = __webpack_require__(14).Symbol;
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(99);
-__webpack_require__(103);
+__webpack_require__(101);
+__webpack_require__(105);
 module.exports = __webpack_require__(33).f('iterator');
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = function(it){
@@ -2920,20 +3166,20 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(6)
-  , toLength  = __webpack_require__(94)
-  , toIndex   = __webpack_require__(93);
+  , toLength  = __webpack_require__(96)
+  , toIndex   = __webpack_require__(95);
 module.exports = function(IS_INCLUDES){
   return function($this, el, fromIndex){
     var O      = toIObject($this)
@@ -2952,11 +3198,11 @@ module.exports = function(IS_INCLUDES){
 };
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(76);
+var aFunction = __webpack_require__(78);
 module.exports = function(fn, that, length){
   aFunction(fn);
   if(that === undefined)return fn;
@@ -2977,11 +3223,11 @@ module.exports = function(fn, that, length){
 };
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
-var getKeys = __webpack_require__(14)
+var getKeys = __webpack_require__(17)
   , gOPS    = __webpack_require__(42)
   , pIE     = __webpack_require__(26);
 module.exports = function(it){
@@ -2997,13 +3243,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(2).document && document.documentElement;
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
@@ -3013,7 +3259,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 };
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -3023,18 +3269,18 @@ module.exports = Array.isArray || function isArray(arg){
 };
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create         = __webpack_require__(40)
-  , descriptor     = __webpack_require__(15)
+  , descriptor     = __webpack_require__(18)
   , setToStringTag = __webpack_require__(27)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(8)(IteratorPrototype, __webpack_require__(9)('iterator'), function(){ return this; });
+__webpack_require__(9)(IteratorPrototype, __webpack_require__(10)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -3042,7 +3288,7 @@ module.exports = function(Constructor, NAME, next){
 };
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = function(done, value){
@@ -3050,10 +3296,10 @@ module.exports = function(done, value){
 };
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getKeys   = __webpack_require__(14)
+var getKeys   = __webpack_require__(17)
   , toIObject = __webpack_require__(6);
 module.exports = function(object, el){
   var O      = toIObject(object)
@@ -3065,18 +3311,18 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var META     = __webpack_require__(16)('meta')
-  , isObject = __webpack_require__(13)
+var META     = __webpack_require__(19)('meta')
+  , isObject = __webpack_require__(16)
   , has      = __webpack_require__(4)
   , setDesc  = __webpack_require__(5).f
   , id       = 0;
 var isExtensible = Object.isExtensible || function(){
   return true;
 };
-var FREEZE = !__webpack_require__(12)(function(){
+var FREEZE = !__webpack_require__(15)(function(){
   return isExtensible(Object.preventExtensions({}));
 });
 var setMeta = function(it){
@@ -3123,12 +3369,12 @@ var meta = module.exports = {
 };
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP       = __webpack_require__(5)
-  , anObject = __webpack_require__(10)
-  , getKeys  = __webpack_require__(14);
+  , anObject = __webpack_require__(13)
+  , getKeys  = __webpack_require__(17);
 
 module.exports = __webpack_require__(3) ? Object.defineProperties : function defineProperties(O, Properties){
   anObject(O);
@@ -3141,11 +3387,11 @@ module.exports = __webpack_require__(3) ? Object.defineProperties : function def
 };
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE            = __webpack_require__(26)
-  , createDesc     = __webpack_require__(15)
+  , createDesc     = __webpack_require__(18)
   , toIObject      = __webpack_require__(6)
   , toPrimitive    = __webpack_require__(31)
   , has            = __webpack_require__(4)
@@ -3162,7 +3408,7 @@ exports.f = __webpack_require__(3) ? gOPD : function getOwnPropertyDescriptor(O,
 };
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -3187,12 +3433,12 @@ module.exports.f = function getOwnPropertyNames(it){
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(4)
-  , toObject    = __webpack_require__(95)
+  , toObject    = __webpack_require__(97)
   , IE_PROTO    = __webpack_require__(28)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
@@ -3205,7 +3451,7 @@ module.exports = Object.getPrototypeOf || function(O){
 };
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(30)
@@ -3227,7 +3473,7 @@ module.exports = function(TO_STRING){
 };
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(30)
@@ -3239,7 +3485,7 @@ module.exports = function(index, length){
 };
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -3250,7 +3496,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
@@ -3260,13 +3506,13 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(77)
-  , step             = __webpack_require__(85)
+var addToUnscopables = __webpack_require__(79)
+  , step             = __webpack_require__(87)
   , Iterators        = __webpack_require__(24)
   , toIObject        = __webpack_require__(6);
 
@@ -3300,7 +3546,7 @@ addToUnscopables('values');
 addToUnscopables('entries');
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(23);
@@ -3308,18 +3554,18 @@ var $export = __webpack_require__(23);
 $export($export.S + $export.F * !__webpack_require__(3), 'Object', {defineProperty: __webpack_require__(5).f});
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at  = __webpack_require__(92)(true);
+var $at  = __webpack_require__(94)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(39)(String, 'String', function(iterated){
@@ -3337,7 +3583,7 @@ __webpack_require__(39)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3348,26 +3594,26 @@ var global         = __webpack_require__(2)
   , DESCRIPTORS    = __webpack_require__(3)
   , $export        = __webpack_require__(23)
   , redefine       = __webpack_require__(44)
-  , META           = __webpack_require__(87).KEY
-  , $fails         = __webpack_require__(12)
+  , META           = __webpack_require__(89).KEY
+  , $fails         = __webpack_require__(15)
   , shared         = __webpack_require__(29)
   , setToStringTag = __webpack_require__(27)
-  , uid            = __webpack_require__(16)
-  , wks            = __webpack_require__(9)
+  , uid            = __webpack_require__(19)
+  , wks            = __webpack_require__(10)
   , wksExt         = __webpack_require__(33)
   , wksDefine      = __webpack_require__(32)
-  , keyOf          = __webpack_require__(86)
-  , enumKeys       = __webpack_require__(80)
-  , isArray        = __webpack_require__(83)
-  , anObject       = __webpack_require__(10)
+  , keyOf          = __webpack_require__(88)
+  , enumKeys       = __webpack_require__(82)
+  , isArray        = __webpack_require__(85)
+  , anObject       = __webpack_require__(13)
   , toIObject      = __webpack_require__(6)
   , toPrimitive    = __webpack_require__(31)
-  , createDesc     = __webpack_require__(15)
+  , createDesc     = __webpack_require__(18)
   , _create        = __webpack_require__(40)
-  , gOPNExt        = __webpack_require__(90)
-  , $GOPD          = __webpack_require__(89)
+  , gOPNExt        = __webpack_require__(92)
+  , $GOPD          = __webpack_require__(91)
   , $DP            = __webpack_require__(5)
-  , $keys          = __webpack_require__(14)
+  , $keys          = __webpack_require__(17)
   , gOPD           = $GOPD.f
   , dP             = $DP.f
   , gOPN           = gOPNExt.f
@@ -3569,7 +3815,7 @@ $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function(){
 });
 
 // 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(8)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(9)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 // 19.4.3.5 Symbol.prototype[@@toStringTag]
 setToStringTag($Symbol, 'Symbol');
 // 20.2.1.9 Math[@@toStringTag]
@@ -3578,26 +3824,26 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('asyncIterator');
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(32)('observable');
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(96);
+__webpack_require__(98);
 var global        = __webpack_require__(2)
-  , hide          = __webpack_require__(8)
+  , hide          = __webpack_require__(9)
   , Iterators     = __webpack_require__(24)
-  , TO_STRING_TAG = __webpack_require__(9)('toStringTag');
+  , TO_STRING_TAG = __webpack_require__(10)('toStringTag');
 
 for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
   var NAME       = collections[i]
@@ -3608,34 +3854,6 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 }
 
 /***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "/** Loading animation */\n.loading-animation-1-0-1 * {\n    box-sizing: border-box;\n    color: #fff;\n}\n.loading-animation-1-0-1 {\n    display: none;\n    z-index: 999;\n    pointer-events: none;\n    box-sizing: border-box;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    width: 100px;\n    height: 100px;\n    padding: 0;\n    background: #3a3c3f;\n    background: rgba( 0,0,0,0.65);\n    border-radius: 3px;\n    text-align: center;\n    transition: all 0.15s ease;\n}\n.loading-animation-1-0-1 .circle {\n    position: relative;\n    width: 45px;\n    height: 45px;\n    margin: 17px auto 5px auto;\n    border: 5px solid #fff;\n    border-radius: 50%;\n    animation: loading-animation-1-0-1 2s infinite ;\n    animation-timing-function: linear;\n}\n.loading-animation-1-0-1 h3 {\n    font-family: sans-serif;\n    font-size: 15px;\n    margin-top: 8px;\n}\n@keyframes loading-animation-1-0-1 {\n    0% {\n        border-top: 5px solid #fff;\n        border-left: 5px solid #fff;\n        border-right: 5px solid #fff;\n        border-bottom: 5px solid rgba(255,255,255,0);\n        transform: rotate(45deg);\n    }\n    50% {\n        border-top: 5px solid #fff;\n        border-left: 5px solid #fff;\n        border-right: 5px solid #fff;\n        border-bottom: 5px solid rgba(255,255,255,0.4);\n    }\n    100% {\n        border-top: 5px solid #fff;\n        border-left: 5px solid #fff;\n        border-right: 5px solid #fff;\n        border-bottom: 5px solid rgba(255,255,255,0);\n        transform: rotate(405deg);\n    }\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\E61D\"; }\n\n.icon-zoomout:before {\n  content: \"\\E61E\"; }\n\n.icon-location:before {\n  content: \"\\E640\"; }\n\n.icon-search:before {\n  content: \"\\E611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA,iBAAiB;AACjB;EACE,wBAAwB;EACxB,qEAAqE;EACrE,QAAQ;EACR,oWAAoW;EACpW,cAAc,EAAE;;AAElB;EACE,mCAAmC;EACnC,gBAAgB;EAChB,mBAAmB;EACnB,oCAAoC;EACpC,mCAAmC,EAAE;;AAEvC;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;;GAEG;AACH,gBAAgB;AAChB,WAAW;AACX;EACE,+DAA+D;EAC/D,wBAAwB,EAAE;EAC1B;IACE,uBAAuB,EAAE;IACzB;MACE,0BAA0B,EAAE","file":"map.vue","sourcesContent":["@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\e61d\"; }\n\n.icon-zoomout:before {\n  content: \"\\e61e\"; }\n\n.icon-location:before {\n  content: \"\\e640\"; }\n\n.icon-search:before {\n  content: \"\\e611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n"],"sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ }),
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3644,7 +3862,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-21cc72d3] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-21cc72d3] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 240px;\n    height: 45px;\n    background: #fff;\n    box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n}\n.search-input[_v-21cc72d3] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 15px;\n    outline: none;\n    border: none;\n    background-color: #ffffff;\n    color: $font-color;\n    font-size: 14px;\n}\n.search-logo[_v-21cc72d3] {\n    display: block;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    width: 45px;\n    height: 45px;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    font-size: 20px;\n    text-align: center !important;\n    color: #4d4d4d;\n    background: transparent;\n}\n", "", {"version":3,"sources":["/./lib/components/localSearchController.vue?c7606738"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgDA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,aAAA;IACA,aAAA;IACA,iBAAA;IACA,kDAAA;CACA;AACA;IACA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,cAAA;IACA,aAAA;IACA,0BAAA;IACA,mBAAA;IACA,gBAAA;CACA;AACA;IACA,eAAA;IACA,mBAAA;IACA,SAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,aAAA;IACA,cAAA;IACA,gBAAA;IACA,gBAAA;IACA,8BAAA;IACA,eAAA;IACA,wBAAA;CACA","file":"localSearchController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\">\n        <button @click=\"search\" class=\"search-logo\"><i class=\"iconfont icon-search\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                keywords: \"\",\n                markerList: []\n            }\n        },\n        methods: {\n            // 在地图上搜索位\n            search: function () {\n                let _this = this;\n                if ( _this.keywords ) {\n                    let local = new BMap.LocalSearch( _this.mapObj, {\n                        renderOptions:{ map: _this.mapObj }\n                    });\n                    local.disableFirstResultSelection();\n                    local.search( _this.keywords );\n                    local.setMarkersSetCallback( function( pois ){\n                        _this.markerList = _this.markerList.concat( pois );\n                    });\n                }\n            },\n        },\n        watch: {\n            \"keywords\": {\n                handler: function () {\n                    let _this = this;\n                    if ( this.keywords.length === 0 ) {\n                        _this.markerList.map( function ( item ) {\n                            _this.mapObj.removeOverlay( item.marker );\n                        });\n                    }\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 240px;\n        height: 45px;\n        background: #fff;\n        box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n    }\n    .search-input {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 15px;\n        outline: none;\n        border: none;\n        background-color: #ffffff;\n        color: $font-color;\n        font-size: 14px;\n    }\n    .search-logo {\n        display: block;\n        position: absolute;\n        right: 0;\n        bottom: 0;\n        width: 45px;\n        height: 45px;\n        border: none;\n        outline: none;\n        cursor: pointer;\n        font-size: 20px;\n        text-align: center !important;\n        color: #4d4d4d;\n        background: transparent;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "/** Loading animation */\n.loading-animation-1-0-1 * {\n    box-sizing: border-box;\n    color: #fff;\n}\n.loading-animation-1-0-1 {\n    display: none;\n    z-index: 999;\n    pointer-events: none;\n    box-sizing: border-box;\n    position: absolute;\n    margin: auto;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    width: 100px;\n    height: 100px;\n    padding: 0;\n    background: #3a3c3f;\n    background: rgba( 0,0,0,0.65);\n    border-radius: 3px;\n    text-align: center;\n    transition: all 0.15s ease;\n}\n.loading-animation-1-0-1 .circle {\n    position: relative;\n    width: 45px;\n    height: 45px;\n    margin: 27.5px auto 27.5px auto;\n    border: 5px solid #fff;\n    border-radius: 50%;\n    animation: loading-animation-1-0-1 2s infinite ;\n    animation-timing-function: linear;\n}\n.loading-animation-1-0-1 h3 {\n    font-family: sans-serif;\n    font-size: 15px;\n    margin-top: 8px;\n}\n@keyframes loading-animation-1-0-1 {\n    0% {\n        border-top: 5px solid rgba(255,255,255,0.1);\n        border-left: 5px solid #fff;\n        border-right: 5px solid #fff;\n        border-bottom: 5px solid #fff;\n        /*border-bottom: 5px solid rgba(255,255,255,0.1);*/\n        transform: rotate(45deg);\n    }\n    100% {\n        border-top: 5px solid rgba(255,255,255,0.1);\n        border-left: 5px solid #fff;\n        border-right: 5px solid #fff;\n        border-bottom: 5px solid #fff;\n        transform: rotate(405deg);\n    }\n}\n", ""]);
 
 // exports
 
@@ -3658,7 +3876,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-4325644c] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px !important;\n    height: 28px !important;\n    color: #4d4d4d;\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.locate-btn[_v-4325644c] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    line-height: 30px;\n    cursor: pointer;\n    color: inherit;\n    border: none;\n    background-color: #fff;\n}\n.location-animation[_v-4325644c] {\n    -webkit-animation: 1.4s location-animation infinite ease-in-out;\n            animation: 1.4s location-animation infinite ease-in-out;\n}\n@-webkit-keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n@keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n", "", {"version":3,"sources":["/./lib/components/locateController.vue?7f1be898"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqDA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;IACA,eAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,eAAA;IACA,aAAA;IACA,uBAAA;CACA;AACA;IACA,gEAAA;YAAA,wDAAA;CACA;AACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA;AAVA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA","file":"locateController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\"><i class=\"iconfont icon-location\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data () {\n            return {\n                isLocating: false\n            }\n        },\n        methods: {\n            locate () {\n                let _this = this;\n                if ( _this.mapObj && window.BMap && BMap.Geolocation ) {\n                    let geolocation = new BMap.Geolocation();\n                    _this.$map.LOAD.show();\n                    _this.isLocating = true;\n                    // _this.mapObj.\n                    geolocation.getCurrentPosition( function( r ){\n                        if( this.getStatus() == BMAP_STATUS_SUCCESS ){\n                            _this.$map.currentLocation = {\n                                lng: r.point.lng,\n                                lat: r.point.lat\n                            };\n                            _this.mapObj.centerAndZoom( r.point, 13 );\n                            if ( _this.$map.locateSucceed ) {\n                                _this.$map.locateSucceed( r );\n                            }\n                            setTimeout( () => {\n                                _this.$map.LOAD.hide();\n                            }, 500);\n                        } else {\n                            alert( \"定位失败\" );\n                            console.log( '[vue-baidu-map] locate failed' + this.getStatus() );\n                            if ( _this.$map.locateFailed ) {\n                                _this.$map.locateFailed();\n                            }\n                        }\n                        setTimeout( () => {\n                            _this.isLocating = false;\n                        }, 2000);\n                    },{ enableHighAccuracy: true });\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px !important;\n        height: 28px !important;\n        color: #4d4d4d;\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .locate-btn {\n        display: block;\n        width: 100%;\n        height: 100%;\n        line-height: 30px;\n        cursor: pointer;\n        color: inherit;\n        border: none;\n        background-color: #fff;\n    }\n    .location-animation {\n        animation: 1.4s location-animation infinite ease-in-out;\n    }\n    @keyframes location-animation {\n        0% {\n            color: #4d4d4d;\n        }\n        50% {\n            color: #288adb;\n        }\n        100% {\n            color: #4d4d4d;\n        }\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\E61D\"; }\n\n.icon-zoomout:before {\n  content: \"\\E61E\"; }\n\n.icon-location:before {\n  content: \"\\E640\"; }\n\n.icon-search:before {\n  content: \"\\E611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n", "", {"version":3,"sources":["/./lib/overlays/map.vue"],"names":[],"mappings":"AAAA,iBAAiB;AACjB;EACE,wBAAwB;EACxB,qEAAqE;EACrE,QAAQ;EACR,oWAAoW;EACpW,cAAc,EAAE;;AAElB;EACE,mCAAmC;EACnC,gBAAgB;EAChB,mBAAmB;EACnB,oCAAoC;EACpC,mCAAmC,EAAE;;AAEvC;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;EACE,iBAAiB,EAAE;;AAErB;;GAEG;AACH,gBAAgB;AAChB,WAAW;AACX;EACE,+DAA+D;EAC/D,wBAAwB,EAAE;EAC1B;IACE,uBAAuB,EAAE;IACzB;MACE,0BAA0B,EAAE","file":"map.vue","sourcesContent":["@charset \"UTF-8\";\n@font-face {\n  font-family: \"iconfont\";\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358\");\n  /* IE9*/\n  src: url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.eot?t=1487219929358#iefix\") format(\"embedded-opentype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.woff?t=1487219929358\") format(\"woff\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.ttf?t=1487219929358\") format(\"truetype\"), url(\"//at.alicdn.com/t/font_vd2vfl6vibe29.svg?t=1487219929358#iconfont\") format(\"svg\");\n  /* iOS 4.1- */ }\n\n.iconfont {\n  font-family: \"iconfont\" !important;\n  font-size: 16px;\n  font-style: normal;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n.icon-zoomin:before {\n  content: \"\\e61d\"; }\n\n.icon-zoomout:before {\n  content: \"\\e61e\"; }\n\n.icon-location:before {\n  content: \"\\e640\"; }\n\n.icon-search:before {\n  content: \"\\e611\"; }\n\n/*\n * Colors\n */\n/* font color */\n/** 右键菜单 */\n.BMap_contextMenu {\n  box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n  border: none !important; }\n  .BMap_contextMenu span {\n    color: #222 !important; }\n    .BMap_contextMenu span:hover {\n      color: #189adb !important; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3672,7 +3890,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-67e4af94] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 64px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#map-type-toggle[_v-67e4af94] {\n    display: block;\n    height: 28px;\n    width: 100%;\n    padding: 0;\n    outline: none;\n    border: none;\n    /*border: 1px solid #cdcdcd;*/\n    overflow: hidden;\n    white-space:nowrap;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    font-size: 13px;\n    cursor: pointer;\n}\n", "", {"version":3,"sources":["/./lib/components/toggleTypeController.vue?6d2b7ec0"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgCA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,aAAA;IACA,YAAA;IACA,WAAA;IACA,cAAA;IACA,aAAA;IACA,8BAAA;IACA,iBAAA;IACA,mBAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;CACA","file":"toggleTypeController.vue","sourcesContent":["<!--notice\n    removeController method is not existing\n-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"changeMapType\" id=\"map-type-toggle\">{{ mapTypeName }}</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        data: function () {\n            return {\n                mapTypeName: \"卫星图像\",\n            }\n        },\n        methods: {\n            changeMapType: function () {\n                if ( this.mapTypeName === \"普通地图\" ) {\n                    this.mapObj.setMapType( BMAP_NORMAL_MAP );\n                    this.mapTypeName = \"卫星图像\";\n                } else {\n                    this.mapObj.setMapType( BMAP_HYBRID_MAP );\n                    this.mapTypeName = \"普通地图\";\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 64px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #map-type-toggle {\n        display: block;\n        height: 28px;\n        width: 100%;\n        padding: 0;\n        outline: none;\n        border: none;\n        /*border: 1px solid #cdcdcd;*/\n        overflow: hidden;\n        white-space:nowrap;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        font-size: 13px;\n        cursor: pointer;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-03febde3] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px !important;\n    height: 28px !important;\n    color: #4d4d4d;\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.locate-btn[_v-03febde3] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    line-height: 30px;\n    cursor: pointer;\n    color: inherit;\n    border: none;\n    background-color: #fff;\n}\n.location-animation[_v-03febde3] {\n    -webkit-animation: 1.4s location-animation infinite ease-in-out;\n            animation: 1.4s location-animation infinite ease-in-out;\n}\n@-webkit-keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n@keyframes location-animation {\n    0% {\n        color: #4d4d4d;\n    }\n    50% {\n        color: #288adb;\n    }\n    100% {\n        color: #4d4d4d;\n    }\n}\n", "", {"version":3,"sources":["/./lib/controllers/locateController.vue?fdfccf34"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAkGA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;IACA,eAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,kBAAA;IACA,gBAAA;IACA,eAAA;IACA,aAAA;IACA,uBAAA;CACA;AACA;IACA,gEAAA;YAAA,wDAAA;CACA;AACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA;AAVA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;IACA;QACA,eAAA;KACA;CACA","file":"locateController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\"><i class=\"iconfont icon-location\"></i></button>\n    </div>\n</template>\n<script>\n    import getControllerPosition from \"utils/getControllerPosition\";\n    import _log from \"utils/log.js\";\n\n    const props = {\n        position: {\n            required: true,\n            twoway: false,\n            type: Object\n        },\n        enableHighAccuracy: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true\n        },\n        visible: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true,\n        },\n        locateSucceed: {\n            required: false,\n            twoway: false,\n            type: Function\n        },\n        locateFailed: {\n            required: false,\n            twoway: false,\n            type: Function\n        }\n    };\n\n    export default {\n        props,\n        data () {\n            return {\n                styleObj: {},\n                isLocating: false,                  // 是否在定位中\n                $geoLocation: undefined,\n            }\n        },\n        ready () {\n            let $map = this.$parent.$map;\n            this.styleObj = getControllerPosition(this.position);\n            $map ? this.addController() : this.$parent.$on(\"ready\", this.addController);\n        },\n        beforeDestroy () {\n            this.removeController();\n        },\n        methods: {\n            addController () {\n                let $map = this.$parent.$map;\n                let $geoLocation = this.$geoLocation = new BMap.Geolocation();\n            },\n\n            removeController () {\n                this.$geoLocation = null;\n            },\n\n            locate () {\n                let _this = this;\n                let { $parent, isLocating, $geoLocation, enableHighAccuracy, locateSucceed, locateFailed } = this;\n                let $map = $parent.$map;\n                if (isLocating || !$geoLocation) {\n                    _log(\"定位中...\")\n                    return;\n                };\n                this.isLocating = true;\n                $parent.LOADING.show();\n                $geoLocation.getCurrentPosition( function( r ){\n                    if( this.getStatus() == BMAP_STATUS_SUCCESS ){\n                        $parent.currentLocation = {\n                            lng: r.point.lng,\n                            lat: r.point.lat\n                        };\n                        console.log(_this.locateSucceed);\n                        locateSucceed && locateSucceed( r );\n                        $map.centerAndZoom( r.point, 13 );\n                    } else {\n                        alert( \"定位失败\" );\n                        _log( 'locate failed' + this.getStatus() );\n                        locateFailed && locateFailed();\n                    }\n                    $parent.LOADING.hide();\n                    _this.isLocating = false;\n                },{ enableHighAccuracy: enableHighAccuracy });\n            }\n        },\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px !important;\n        height: 28px !important;\n        color: #4d4d4d;\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .locate-btn {\n        display: block;\n        width: 100%;\n        height: 100%;\n        line-height: 30px;\n        cursor: pointer;\n        color: inherit;\n        border: none;\n        background-color: #fff;\n    }\n    .location-animation {\n        animation: 1.4s location-animation infinite ease-in-out;\n    }\n    @keyframes location-animation {\n        0% {\n            color: #4d4d4d;\n        }\n        50% {\n            color: #288adb;\n        }\n        100% {\n            color: #4d4d4d;\n        }\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3686,7 +3904,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7a9ac99b] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 56px;\n    background: #fff;\n    /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#zoom-in[_v-7a9ac99b],\n#zoom-out[_v-7a9ac99b] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 28px;\n    height: 28px;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    font-size: 18px;\n    &:hover {\n         color: #189adb;\n     }\n}\n#zoom-in[_v-7a9ac99b] {\n    top: 0;\n    border-bottom: 1px solid rgba(0,0,0,0.15);\n}\n#zoom-out[_v-7a9ac99b] {\n    top: 28px;\n}\n", "", {"version":3,"sources":["/./lib/components/zoomController.vue?abd16a28"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA8BA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,oDAAA;IACA,+DAAA;CACA;AACA;;IAEA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;IACA;SACA,eAAA;MACA;CACA;AACA;IACA,OAAA;IACA,0CAAA;CACA;AACA;IACA,UAAA;CACA","file":"zoomController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"zoomIn\" id=\"zoom-in\">+</button>\n        <button @click=\"zoomOut\" id=\"zoom-out\">-</button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        methods: {\n            // 地图放大\n            zoomIn: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() + 1 );\n                }\n            },\n            // 地图缩小\n            zoomOut: function () {\n                let _this = this;\n                if ( _this.mapObj ) {\n                    _this.mapObj.zoomTo( _this.mapObj.getZoom() - 1 );\n                }\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 56px;\n        background: #fff;\n        /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #zoom-in,\n    #zoom-out {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 28px;\n        height: 28px;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        font-size: 18px;\n        &:hover {\n             color: #189adb;\n         }\n    }\n    #zoom-in {\n        top: 0;\n        border-bottom: 1px solid rgba(0,0,0,0.15);\n    }\n    #zoom-out {\n        top: 28px;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-0606bf2c] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-0606bf2c] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 240px;\n    height: 45px;\n    background: #fff;\n    box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n}\n.search-input[_v-0606bf2c] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 100%;\n    height: 100%;\n    padding: 15px;\n    outline: none;\n    border: none;\n    background-color: #ffffff;\n    color: $font-color;\n    font-size: 14px;\n}\n.search-logo[_v-0606bf2c] {\n    display: block;\n    position: absolute;\n    right: 0;\n    bottom: 0;\n    width: 45px;\n    height: 45px;\n    border: none;\n    outline: none;\n    cursor: pointer;\n    font-size: 20px;\n    text-align: center !important;\n    color: #4d4d4d;\n    background: transparent;\n}\n", "", {"version":3,"sources":["/./lib/controllers/localSearchController.vue?daa8e830"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAkGA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,aAAA;IACA,aAAA;IACA,iBAAA;IACA,kDAAA;CACA;AACA;IACA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,cAAA;IACA,aAAA;IACA,0BAAA;IACA,mBAAA;IACA,gBAAA;CACA;AACA;IACA,eAAA;IACA,mBAAA;IACA,SAAA;IACA,UAAA;IACA,YAAA;IACA,aAAA;IACA,aAAA;IACA,cAAA;IACA,gBAAA;IACA,gBAAA;IACA,8BAAA;IACA,eAAA;IACA,wBAAA;CACA","file":"localSearchController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\">\n        <button @click=\"search\" class=\"search-logo\"><i class=\"iconfont icon-search\"></i></button>\n    </div>\n</template>\n<script>\n    import getControllerPosition from \"utils/getControllerPosition\";\n\n    const props = {\n        position: {\n            required: true,\n            twoway: false,\n            type: Object\n        },\n        visible: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true\n        },\n        callback: Function,\n    };\n\n    export default {\n        props,\n        data: function () {\n            return {\n                markerList: [],\n                styleObj: {},\n                $search: undefined,\n                keywords: '',\n            }\n        },\n        ready () {\n            let $map = this.$parent.$map;\n            this.styleObj = getControllerPosition(this.position);\n            $map ? this.addController() : this.$parent.$on(\"ready\", this.addController);\n        },\n        beforeDestroy () {\n            this.removeController();\n        },\n        methods: {\n            search () {\n                let _this = this;\n                let { $search, keywords, markerList, callback, removerMarker } = this;\n                let $parnet = this.$parent;\n                if ($search && keywords) {\n                    removerMarker();\n                    $parnet.LOADING.show();\n                    setTimeout( ()=> {\n                        $parnet.LOADING.hide();\n                    }, 300);\n                    $search.search(keywords);\n                    $search.setMarkersSetCallback(function(pois){\n                        _this.markerList = _this.markerList.concat(pois);\n                        callback && callback(pois);\n                    });\n                }\n            },\n\n            addController () {\n                let $map =  this.$parent.$map;\n                let { $search } = this;\n                this.$search = $search = new BMap.LocalSearch($map, {\n                    renderOptions:{ map: $map }\n                });\n                $search.disableFirstResultSelection();\n            },\n\n            removeController () {\n                this.$search = null;\n            },\n\n            removerMarker () {\n                let { keywords, markerList } = this;\n                let { $map } = this.$parent;\n                markerList.map(item => {\n                    $map.removeOverlay(item.marker);\n                });\n                this.markerList.splice(0, markerList.length);\n            },\n\n        },\n        watch: {\n            \"keywords\": {\n                handler () {\n                    let { keywords, removerMarker } = this;\n                    if (keywords.length === 0) {\n                        removerMarker();\n                    }\n                },\n                deep: false\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 240px;\n        height: 45px;\n        background: #fff;\n        box-shadow: 0 1px 2.9px 0.1px rgba(0, 0, 0, 0.48);\n    }\n    .search-input {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 15px;\n        outline: none;\n        border: none;\n        background-color: #ffffff;\n        color: $font-color;\n        font-size: 14px;\n    }\n    .search-logo {\n        display: block;\n        position: absolute;\n        right: 0;\n        bottom: 0;\n        width: 45px;\n        height: 45px;\n        border: none;\n        outline: none;\n        cursor: pointer;\n        font-size: 20px;\n        text-align: center !important;\n        color: #4d4d4d;\n        background: transparent;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3700,7 +3918,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-7d483a73] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: auto !important;\n    height: auto !important;\n}\n", "", {"version":3,"sources":["/./lib/components/controllerBox.vue?fbf214a4"],"names":[],"mappings":";;;;;;;;;;;;;;AAcA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;CACA","file":"controllerBox.vue","sourcesContent":["<!--box ：放置自定义控件-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <slot></slot>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: auto !important;\n        height: auto !important;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-27e221ec] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: auto !important;\n    height: auto !important;\n}\n", "", {"version":3,"sources":["/./lib/controllers/controllerBox.vue?6cb51248"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0CA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,uBAAA;IACA,wBAAA;CACA","file":"controllerBox.vue","sourcesContent":["<!--box ：放置自定义控件-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\">\n        <slot></slot>\n    </div>\n</template>\n<script>\n    import getControllerPosition from \"utils/getControllerPosition\";\n\n    const props = {\n        position: {\n            required: true,\n            twoway: false,\n            type: Object\n        },\n        visible: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true\n        },\n        callback: {\n            required: false,\n            twoway: false,\n            type: Function\n        }\n    };\n\n    export default {\n        props,\n        data () {\n            return {\n                styleObj: {},\n                // $controller: undefined,\n            }\n        },\n        ready () {\n            this.styleObj = getControllerPosition(this.position);\n        },\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: auto !important;\n        height: auto !important;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3714,7 +3932,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-7ed6711e] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    display: none;\n}\n", "", {"version":3,"sources":["/./lib/components/mapInfoWindow.vue?7e1a27bd"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAgFA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,cAAA;CACA","file":"mapInfoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <div v-el:window class=\"infowindow-box\">\n            <slot></slot>\n        </div>\n    </div>\n</template>\n<script>\n    import componentsMixin from \"../mixin/overlaysMixin.js\";\n\n    const props = {\n        id: {\n            required: true,\n            type: Number,\n            twoway: false\n        },\n        size: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        visible: {\n            required: false,\n            type: Boolean,\n            twoway: false\n        },\n        position: {\n            required: false,\n            type: Object,\n            twoway: false\n        }\n    };\n    export default {\n        mixins: [ componentsMixin ],\n        props: props,\n        data: function () {\n            return {\n                componentType: \"infoWindow\",\n                componentObj: undefined                // map components object\n            }\n        },\n        ready: function() {\n        },\n        detached: function () {\n\n        },\n        destroyed: function () {\n        },\n        watch: {\n            \"visible\": function ( val ) {\n                if ( val && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                } else {\n                    this.mapObj.closeInfoWindow();\n                }\n            }\n        },\n        methods: {\n            // required !\n            \"createComponent\": function () {\n                this.createInfoWindow();\n                this.$dispatch( \"register-infowindow\", this );\n            },\n            \"createInfoWindow\": function () {\n                this.componentObj = new BMap.InfoWindow( this.$els.window );\n                if ( this.size && this.size.width && this.size.height ) {\n                    this.componentObj.setWidth( this.size.width );\n                    this.componentObj.setHeight( this.size.height );\n                }\n                if ( this.visible && this.position && this.position.lat && this.position.lng ) {\n                    this.mapObj.openInfoWindow( this.componentObj, new BMap.Point( this.position.lng, this.position.lat ) );\n                }\n            },\n            \"removeMarker\": function () {\n\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        display: none;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-28342882] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 64px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#map-type-toggle[_v-28342882] {\n    display: block;\n    height: 28px;\n    width: 100%;\n    padding: 0;\n    outline: none;\n    border: none;\n    /*border: 1px solid #cdcdcd;*/\n    overflow: hidden;\n    white-space:nowrap;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    font-size: 13px;\n    cursor: pointer;\n}\n", "", {"version":3,"sources":["/./lib/controllers/toggleTypeController.vue?2daa853d"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAmDA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,aAAA;IACA,YAAA;IACA,WAAA;IACA,cAAA;IACA,aAAA;IACA,8BAAA;IACA,iBAAA;IACA,mBAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;CACA","file":"toggleTypeController.vue","sourcesContent":["<!--notice\n    removeController method is not existing\n-->\n<template>\n    <div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"changeMapType\" id=\"map-type-toggle\">{{ mapTypeName }}</button>\n    </div>\n</template>\n<script>\nimport getControllerPosition from \"utils/getControllerPosition\";\n\nconst props = {\n    position: {\n        required: true,\n        twoway: false,\n        type: Object\n    },\n    visible: {\n        required: false,\n        twoway: false,\n        type: Boolean,\n        default: true\n    },\n};\n\nexport default {\n    props,\n    data () {\n        return {\n            mapTypeName: \"卫星图像\",\n            styleObj: {}\n        }\n    },\n    ready () {\n        this.styleObj = getControllerPosition(this.position);\n    },\n    methods: {\n        changeMapType () {\n            let { $map } = this.$parent;\n            if ( this.mapTypeName === \"普通地图\" ) {\n                $map.setMapType( BMAP_NORMAL_MAP );\n                this.mapTypeName = \"卫星图像\";\n            } else {\n                $map.setMapType( BMAP_HYBRID_MAP );\n                this.mapTypeName = \"普通地图\";\n            }\n        }\n    }\n}\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 64px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #map-type-toggle {\n        display: block;\n        height: 28px;\n        width: 100%;\n        padding: 0;\n        outline: none;\n        border: none;\n        /*border: 1px solid #cdcdcd;*/\n        overflow: hidden;\n        white-space:nowrap;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        font-size: 13px;\n        cursor: pointer;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3728,7 +3946,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "/*\n * Colors\n */\n/* font color */\n*[_v-c1365880] {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box[_v-c1365880] {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map[_v-c1365880] {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen[_v-c1365880] {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n", "", {"version":3,"sources":["/./lib/components/map.vue"],"names":[],"mappings":"AAAA;;GAEG;AACH,gBAAgB;AAChB;EACE,uBAAuB;EACvB,WAAW;EACX,UAAU,EAAE;;AAEd;EACE,mBAAmB;EACnB,YAAY;EACZ,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,0BAA0B,EAAE;;AAE9B;EACE,2BAA2B;EAC3B,aAAa;EACb,OAAO;EACP,QAAQ;EACR,uBAAuB;EACvB,wBAAwB,EAAE","file":"map.vue","sourcesContent":["/*\n * Colors\n */\n/* font color */\n* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.controller-section[_v-36aab038] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 56px;\n    background: #fff;\n    /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n#zoom-in[_v-36aab038],\n#zoom-out[_v-36aab038] {\n    position: absolute;\n    display: block;\n    left: 0;\n    width: 28px;\n    height: 28px;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    font-size: 18px;\n    &:hover {\n         color: #189adb;\n     }\n}\n#zoom-in[_v-36aab038] {\n    top: 0;\n    border-bottom: 1px solid rgba(0,0,0,0.15);\n}\n#zoom-out[_v-36aab038] {\n    top: 28px;\n}\n", "", {"version":3,"sources":["/./lib/controllers/zoomController.vue?0c92249a"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAmDA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,oDAAA;IACA,+DAAA;CACA;AACA;;IAEA,mBAAA;IACA,eAAA;IACA,QAAA;IACA,YAAA;IACA,aAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,gBAAA;IACA;SACA,eAAA;MACA;CACA;AACA;IACA,OAAA;IACA,0CAAA;CACA;AACA;IACA,UAAA;CACA","file":"zoomController.vue","sourcesContent":["<template>\n    <div v-show=\"true\" class=\"controller-section\" :style=\"styleObj\" >\n        <button @click=\"zoomIn\" id=\"zoom-in\">+</button>\n        <button @click=\"zoomOut\" id=\"zoom-out\">-</button>\n    </div>\n</template>\n<script>\n    import getControllerPosition from \"utils/getControllerPosition\";\n\n    const props = {\n        position: {\n            required: true,\n            twoway: false,\n            type: Object\n        },\n        visible: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true\n        },\n    };\n    export default {\n        props,\n        data: function () {\n            return {\n                styleObj: {},\n            }\n        },\n        ready () {\n            this.styleObj = getControllerPosition(this.position);\n        },\n        methods: {\n            zoomIn () {\n                let _this = this;\n                let { $map } = this.$parent;\n                if ( $map ) {\n                    $map.zoomTo($map.getZoom() + 1);\n                }\n            },\n            zoomOut () {\n                let _this = this;\n                let { $map } = this.$parent;\n                if ( $map ) {\n                    $map.zoomTo($map.getZoom() - 1);\n                }\n            }\n        },\n    }\n</script>\n<style lang=\"css\" scoped>\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 56px;\n        background: #fff;\n        /*box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    #zoom-in,\n    #zoom-out {\n        position: absolute;\n        display: block;\n        left: 0;\n        width: 28px;\n        height: 28px;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        font-size: 18px;\n        &:hover {\n             color: #189adb;\n         }\n    }\n    #zoom-in {\n        top: 0;\n        border-bottom: 1px solid rgba(0,0,0,0.15);\n    }\n    #zoom-out {\n        top: 28px;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -3742,13 +3960,41 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-cc44eeba] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-cc44eeba] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 28px;\n    /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.fullscreen[_v-cc44eeba] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    font-size: 0.6rem;\n    outline: none;\n    /*border: 1px solid #cdcdcd;*/\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    text-align: center;\n}\n", "", {"version":3,"sources":["/./lib/components/fullScreenController.vue?60a9709e"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqCA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,yDAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,WAAA;IACA,kBAAA;IACA,cAAA;IACA,8BAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,mBAAA;CACA","file":"fullScreenController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\">\n        <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomin\"></i></button>\n        <button v-else v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomout\"></i></button>\n    </div>\n</template>\n<script>\n    import controllerMixin from '../mixin/controllerMixin';\n\n    export default {\n        mixins: [controllerMixin],\n        props: {},\n        ready: function () {\n        },\n        methods: {\n            // 地图放大\n            toggleFullscreen: function () {\n                this.$parent.$data.isFullscreen = !this.$parent.$data.isFullscreen;\n//                this.$emit( \"resize\" );\n                if ( this.callback ) {\n                    this.callback( this.$parent.$data.isFullscreen );\n                }\n            }\n        },\n        computed: {\n            isFullscreen: function () {\n                return this.$parent.$data.isFullscreen;\n            }\n        },\n        events: {\n            \"resize\": function () {\n                this.mapObj.enableAutoResize();                   // FIX:\n            }\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 28px;\n        /*box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;*/\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .fullscreen {\n        display: block;\n        width: 100%;\n        height: 100%;\n        padding: 0;\n        font-size: 0.6rem;\n        outline: none;\n        /*border: 1px solid #cdcdcd;*/\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        text-align: center;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "/*\n * Colors\n */\n/* font color */\n*[_v-445b31e6] {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box[_v-445b31e6] {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map[_v-445b31e6] {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen[_v-445b31e6] {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n", "", {"version":3,"sources":["/./lib/overlays/map.vue"],"names":[],"mappings":"AAAA;;GAEG;AACH,gBAAgB;AAChB;EACE,uBAAuB;EACvB,WAAW;EACX,UAAU,EAAE;;AAEd;EACE,mBAAmB;EACnB,YAAY;EACZ,aAAa,EAAE;;AAEjB;EACE,YAAY;EACZ,aAAa;EACb,0BAA0B,EAAE;;AAE9B;EACE,2BAA2B;EAC3B,aAAa;EACb,OAAO;EACP,QAAQ;EACR,uBAAuB;EACvB,wBAAwB,EAAE","file":"map.vue","sourcesContent":["/*\n * Colors\n */\n/* font color */\n* {\n  box-sizing: border-box;\n  padding: 0;\n  margin: 0; }\n\n#baidu-map-box {\n  position: relative;\n  width: 100%;\n  height: 100%; }\n\n.vue-baidu-map {\n  width: 100%;\n  height: 100%;\n  background-color: #ffffff; }\n\n.map-fullscreen {\n  position: fixed !important;\n  z-index: 999;\n  top: 0;\n  left: 0;\n  width: 100% !important;\n  height: 100% !important; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
 
 /***/ }),
 /* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.component-section[_v-56ed0ac6] {\n    z-index: 2;\n    width: auto;\n    height: auto;\n    overflow: hidden;\n    /*display: none;*/\n}\n", "", {"version":3,"sources":["/./lib/overlays/infoWindow.vue?56f18d74"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA8HA;IACA,WAAA;IACA,YAAA;IACA,aAAA;IACA,iBAAA;IACA,kBAAA;CACA","file":"infoWindow.vue","sourcesContent":["<template>\n    <div class=\"component-section\">\n        <slot></slot>\n    </div>\n</template>\n<script>\n    /**\n     * FIXME: infowindow 中有内存泄露( fixed 2017-4-20 )\n     */\n    import { createPoint, createSize } from \"utils/factory\";\n    import { removeOverlay } from \"utils/removeOverlay\";\n    import bindEvent from \"utils/bindEvent\";\n\n    const eventList = [\n        \"close\",\n        \"open\",\n        \"maximize\",\n        \"restore\",\n        \"clickclose\"\n    ];\n\n    const props = {\n        size: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        visible: {\n            required: false,\n            type: Boolean,\n            twoway: false,\n            default: false\n        },\n        position: {\n            required: false,\n            type: Object,\n            twoway: false\n        },\n        offset: {\n            required: false,\n            type: Object,\n            twoway: false,\n            default () {\n                return {\n                    x: 0,\n                    y: 0\n                }\n            }\n        },\n        enableAutoPan: {\n            required: false,\n            type: Boolean,\n            twoway: false,\n            default: true\n        },\n        enableCloseOnClick: {\n            required: false,\n            type: Boolean,\n            twoway: false,\n            default: true,\n        },\n        enableMessage: {\n            required: false,\n            type: Boolean,\n            twoway: false,\n            default: false\n        },\n        message: String,\n        title: String,\n    };\n    export default {\n        props,\n        data () {\n            return {\n                componentType: \"infoWindow\",\n                $overlay: undefined\n            }\n        },\n        ready () {\n            let { $map } = this.$parent;\n            $map ? this.addOverlay() : this.$parent.$on(\"ready\", this.addOverlay);\n        },\n        beforeDestroy () {\n            this.removeOverlay();\n        },\n        watch: {\n            visible (val) {\n                let { position, $overlay } = this;\n                let { $map } = this.$parent;\n                console.log(\"infoWindow visible change\");\n                if (val && position) {\n                    $map.openInfoWindow($overlay, createPoint(position));\n                } else {\n                    $map.closeInfoWindow();\n                }\n            }\n        },\n        methods: {\n            addOverlay () {\n                let { $overlay, visible, size, position, offset, title, enableAutoPan, enableCloseOnClick, enableMessage, updateStatus } = this;\n                let { $map } = this.$parent;\n                let $content = this.$el;\n                this.$overlay = $overlay = new BMap.InfoWindow($content, {\n                    width: size.width,\n                    height: size.height,\n                    offset: createSize(offset),\n                    title: title,\n                    enableAutoPan: enableAutoPan,\n                    enableCloseOnClick: enableCloseOnClick,                                  // NOTICE: visible 参数控制\n                    enableMessage: enableMessage\n                });\n                bindEvent.call(this, eventList);\n                visible && $map.openInfoWindow($overlay, createPoint(position));\n            },\n\n            removeOverlay () {\n                let $container = this.$parent.$overlay;\n                let { $overlay } = this;\n                $overlay.content = null;// FIXME 无法被移除\n                removeOverlay.call(this, this.$parent.$overlay, '$overlay');\n                console.log( $overlay );\n            },\n        }\n    }\n</script>\n<style lang=\"css\" scoped>\n    .component-section {\n        z-index: 2;\n        width: auto;\n        height: auto;\n        overflow: hidden;\n        /*display: none;*/\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)();
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n*[_v-8c9467a8] {\n    box-sizing: border-box;\n    padding: 0;\n    margin:0;\n}\n.controller-section[_v-8c9467a8] {\n    z-index: 2;\n    position: absolute;\n    overflow: hidden;\n    width: 28px;\n    height: 28px;\n    box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n}\n.fullscreen[_v-8c9467a8] {\n    display: block;\n    width: 100%;\n    height: 100%;\n    padding: 0;\n    font-size: 0.6rem;\n    outline: none;\n    border: none;\n    background-color: #ffffff;\n    color: #4d4d4d;\n    cursor: pointer;\n    text-align: center;\n}\n", "", {"version":3,"sources":["/./lib/controllers/fullScreenController.vue?56346ce0"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA+CA;IACA,uBAAA;IACA,WAAA;IACA,SAAA;CACA;AACA;IACA,WAAA;IACA,mBAAA;IACA,iBAAA;IACA,YAAA;IACA,aAAA;IACA,+DAAA;CACA;AACA;IACA,eAAA;IACA,YAAA;IACA,aAAA;IACA,WAAA;IACA,kBAAA;IACA,cAAA;IACA,aAAA;IACA,0BAAA;IACA,eAAA;IACA,gBAAA;IACA,mBAAA;CACA","file":"fullScreenController.vue","sourcesContent":["<template>\n    <div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\">\n        <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomin\"></i></button>\n        <button v-else v-on:click=\"toggleFullscreen\" class=\"fullscreen\"><i class=\"iconfont icon-zoomout\"></i></button>\n    </div>\n</template>\n<script>\n    import getControllerPosition from \"utils/getControllerPosition\";\n\n    const props = {\n        position: {\n            required: true,\n            twoway: false,\n            type: Object\n        },\n        visible: {\n            required: false,\n            twoway: false,\n            type: Boolean,\n            default: true\n        },\n        callback: {\n            required: false,\n            twoway: false,\n            type: Function\n        }\n    };\n\n    export default {\n        props,\n        data () {\n            return {\n                styleObj: {},\n            }\n        },\n        ready () {\n            this.styleObj = getControllerPosition(this.position);\n        },\n        methods: {\n            toggleFullscreen () {\n                let parentStatus = this.$parent.status;\n                parentStatus.isFullscreen = !parentStatus.isFullscreen;\n            }\n        },\n    }\n</script>\n<style lang=\"css\" scoped>\n    * {\n        box-sizing: border-box;\n        padding: 0;\n        margin:0;\n    }\n    .controller-section {\n        z-index: 2;\n        position: absolute;\n        overflow: hidden;\n        width: 28px;\n        height: 28px;\n        box-shadow: rgba(0, 0, 0, 0.468) 0.3px 1px 4px -1px !important;\n    }\n    .fullscreen {\n        display: block;\n        width: 100%;\n        height: 100%;\n        padding: 0;\n        font-size: 0.6rem;\n        outline: none;\n        border: none;\n        background-color: #ffffff;\n        color: #4d4d4d;\n        cursor: pointer;\n        text-align: center;\n    }\n</style>\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 116 */
 /***/ (function(module, exports) {
 
 /*
@@ -4000,16 +4246,16 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(104);
+var content = __webpack_require__(106);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(114)(content, {});
+var update = __webpack_require__(116)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -4026,104 +4272,52 @@ if(false) {
 }
 
 /***/ }),
-/* 116 */
-/***/ (function(module, exports) {
-
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-21cc72d3=\"\">\n    <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\" _v-21cc72d3=\"\">\n    <button @click=\"search\" class=\"search-logo\" _v-21cc72d3=\"\"><i class=\"iconfont icon-search\" _v-21cc72d3=\"\"></i></button>\n</div>\n";
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports) {
-
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-4325644c=\"\">\n    <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\" _v-4325644c=\"\"><i class=\"iconfont icon-location\" _v-4325644c=\"\"></i></button>\n</div>\n";
-
-/***/ }),
 /* 118 */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-67e4af94=\"\">\n    <button @click=\"changeMapType\" id=\"map-type-toggle\" _v-67e4af94=\"\">{{ mapTypeName }}</button>\n</div>\n";
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-03febde3=\"\">\n    <button @click=\"locate\" class=\"locate-btn\" v-bind:class=\"{'location-animation': isLocating }\" _v-03febde3=\"\"><i class=\"iconfont icon-location\" _v-03febde3=\"\"></i></button>\n</div>\n";
 
 /***/ }),
 /* 119 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7a9ac99b=\"\">\n    <button @click=\"zoomIn\" id=\"zoom-in\" _v-7a9ac99b=\"\">+</button>\n    <button @click=\"zoomOut\" id=\"zoom-out\" _v-7a9ac99b=\"\">-</button>\n</div>\n";
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-0606bf2c=\"\">\n    <input v-model=\"keywords\" @keyup.enter.stop.prevent=\"search\" type=\"text\" maxlength=\"20\" class=\"search-input\" placeholder=\"搜索地点\" _v-0606bf2c=\"\">\n    <button @click=\"search\" class=\"search-logo\" _v-0606bf2c=\"\"><i class=\"iconfont icon-search\" _v-0606bf2c=\"\"></i></button>\n</div>\n";
 
 /***/ }),
 /* 120 */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-7d483a73=\"\">\n    <slot _v-7d483a73=\"\"></slot>\n</div>\n";
+module.exports = "\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-27e221ec=\"\">\n    <slot _v-27e221ec=\"\"></slot>\n</div>\n";
 
 /***/ }),
 /* 121 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"component-section\" _v-7ed6711e=\"\">\n    <div v-el:window=\"\" class=\"infowindow-box\" _v-7ed6711e=\"\">\n        <slot _v-7ed6711e=\"\"></slot>\n    </div>\n</div>\n";
+module.exports = "\n\n\n\n<div v-show=\"visible\" class=\"controller-section\" :style=\"styleObj\" _v-28342882=\"\">\n    <button @click=\"changeMapType\" id=\"map-type-toggle\" _v-28342882=\"\">{{ mapTypeName }}</button>\n</div>\n";
 
 /***/ }),
 /* 122 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div id=\"baidu-map-box\" v-bind:class=\"{ 'map-fullscreen': isFullscreen }\" _v-c1365880=\"\">\n    <div v-el:map=\"\" class=\"vue-baidu-map\" _v-c1365880=\"\"></div>\n    <slot _v-c1365880=\"\"></slot>\n</div>\n";
+module.exports = "\n<div v-show=\"true\" class=\"controller-section\" :style=\"styleObj\" _v-36aab038=\"\">\n    <button @click=\"zoomIn\" id=\"zoom-in\" _v-36aab038=\"\">+</button>\n    <button @click=\"zoomOut\" id=\"zoom-out\" _v-36aab038=\"\">-</button>\n</div>\n";
 
 /***/ }),
 /* 123 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\" _v-cc44eeba=\"\">\n    <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomin\" _v-cc44eeba=\"\"></i></button>\n    <button v-else=\"\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-cc44eeba=\"\"><i class=\"iconfont icon-zoomout\" _v-cc44eeba=\"\"></i></button>\n</div>\n";
+module.exports = "\n<div id=\"baidu-map-box\" v-bind:class=\"{ 'map-fullscreen': status.isFullscreen }\" _v-445b31e6=\"\">\n    <div v-el:map=\"\" class=\"vue-baidu-map\" _v-445b31e6=\"\"></div>\n    <slot _v-445b31e6=\"\"></slot>\n</div>\n";
 
 /***/ }),
 /* 124 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(105);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=1!./map.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=1!./map.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
+module.exports = "\n<div class=\"component-section\" _v-56ed0ac6=\"\">\n    <slot _v-56ed0ac6=\"\"></slot>\n</div>\n";
 
 /***/ }),
 /* 125 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(106);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21cc72d3&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./localSearchController.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21cc72d3&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./localSearchController.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
+module.exports = "\n<div v-show=\"visible\" class=\"controller-section\" v-bind:style=\"styleObj\" _v-8c9467a8=\"\">\n    <button v-if=\"!isFullscreen\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-8c9467a8=\"\"><i class=\"iconfont icon-zoomin\" _v-8c9467a8=\"\"></i></button>\n    <button v-else=\"\" v-on:click=\"toggleFullscreen\" class=\"fullscreen\" _v-8c9467a8=\"\"><i class=\"iconfont icon-zoomout\" _v-8c9467a8=\"\"></i></button>\n</div>\n";
 
 /***/ }),
 /* 126 */
@@ -4141,8 +4335,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4325644c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4325644c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=1!./map.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=1!./map.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4167,8 +4361,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-67e4af94&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./toggleTypeController.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-67e4af94&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./toggleTypeController.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-03febde3&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-03febde3&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locateController.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4193,8 +4387,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7a9ac99b&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./zoomController.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7a9ac99b&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./zoomController.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0606bf2c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./localSearchController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0606bf2c&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./localSearchController.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4219,8 +4413,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7d483a73&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./controllerBox.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7d483a73&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./controllerBox.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-27e221ec&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./controllerBox.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-27e221ec&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./controllerBox.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4245,8 +4439,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7ed6711e&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./mapInfoWindow.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-7ed6711e&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./mapInfoWindow.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-28342882&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./toggleTypeController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-28342882&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./toggleTypeController.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4271,8 +4465,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-c1365880&scoped=true!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./map.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-c1365880&scoped=true!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./map.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-36aab038&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./zoomController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-36aab038&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./zoomController.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4297,8 +4491,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-cc44eeba&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./fullScreenController.vue", function() {
-			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-cc44eeba&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./fullScreenController.vue");
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-445b31e6&scoped=true!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./map.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-445b31e6&scoped=true!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./map.vue");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -4311,55 +4505,107 @@ if(false) {
 /* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(114);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-56ed0ac6&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./infoWindow.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-56ed0ac6&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./infoWindow.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(115);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(1)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-8c9467a8&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./fullScreenController.vue", function() {
+			var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-8c9467a8&scoped=true!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./fullScreenController.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.locateController = exports.localSearchController = exports.fullScreenController = exports.toggleTypeController = exports.zoomController = exports.controllerBox = exports.mapInfoWindow = exports.mapPolyline = exports.mapMarker = exports.map = exports.load = undefined;
+exports.toggleTypeController = exports.locateController = exports.zoomController = exports.localSearchController = exports.fullScreenController = exports.controllerBox = exports.infoWindow = exports.mapPolyline = exports.mapMarker = exports.map = exports.load = undefined;
 
-var _load = __webpack_require__(45);
+var _load = __webpack_require__(46);
 
 var _load2 = _interopRequireDefault(_load);
 
-var _map = __webpack_require__(50);
+var _map = __webpack_require__(54);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _mapMarker = __webpack_require__(52);
+var _marker = __webpack_require__(55);
 
-var _mapMarker2 = _interopRequireDefault(_mapMarker);
+var _marker2 = _interopRequireDefault(_marker);
 
-var _mapPolyline = __webpack_require__(53);
+var _polyline = __webpack_require__(56);
 
-var _mapPolyline2 = _interopRequireDefault(_mapPolyline);
+var _polyline2 = _interopRequireDefault(_polyline);
 
-var _mapInfoWindow = __webpack_require__(51);
+var _infoWindow = __webpack_require__(53);
 
-var _mapInfoWindow2 = _interopRequireDefault(_mapInfoWindow);
+var _infoWindow2 = _interopRequireDefault(_infoWindow);
 
-var _controllerBox = __webpack_require__(46);
+var _controllerBox = __webpack_require__(47);
 
 var _controllerBox2 = _interopRequireDefault(_controllerBox);
 
-var _zoomController = __webpack_require__(55);
+var _zoomController = __webpack_require__(52);
 
 var _zoomController2 = _interopRequireDefault(_zoomController);
 
-var _toggleTypeController = __webpack_require__(54);
+var _toggleTypeController = __webpack_require__(51);
 
 var _toggleTypeController2 = _interopRequireDefault(_toggleTypeController);
 
-var _fullScreenController = __webpack_require__(47);
+var _fullScreenController = __webpack_require__(48);
 
 var _fullScreenController2 = _interopRequireDefault(_fullScreenController);
 
-var _localSearchController = __webpack_require__(48);
+var _localSearchController = __webpack_require__(49);
 
 var _localSearchController2 = _interopRequireDefault(_localSearchController);
 
-var _locateController = __webpack_require__(49);
+var _locateController = __webpack_require__(50);
 
 var _locateController2 = _interopRequireDefault(_locateController);
 
@@ -4367,15 +4613,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.load = _load2.default;
 exports.map = _map2.default;
-exports.mapMarker = _mapMarker2.default;
-exports.mapPolyline = _mapPolyline2.default;
-exports.mapInfoWindow = _mapInfoWindow2.default;
+exports.mapMarker = _marker2.default;
+exports.mapPolyline = _polyline2.default;
+exports.infoWindow = _infoWindow2.default;
 exports.controllerBox = _controllerBox2.default;
-exports.zoomController = _zoomController2.default;
-exports.toggleTypeController = _toggleTypeController2.default;
 exports.fullScreenController = _fullScreenController2.default;
 exports.localSearchController = _localSearchController2.default;
+exports.zoomController = _zoomController2.default;
 exports.locateController = _locateController2.default;
+exports.toggleTypeController = _toggleTypeController2.default;
 
 /***/ })
 /******/ ]);
