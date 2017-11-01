@@ -1,5 +1,5 @@
 # vue-baidu-map
-
+if you wanna create map easily，try [plain-js](https://github.com/XingzheFE/plain)
 ## install
 
 *NOTICE*  
